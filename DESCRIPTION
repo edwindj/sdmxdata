@@ -14,5 +14,4 @@ Suggests:
     tinytest
 Imports: 
     httr2,
-    jsonlite,
-    xml2
+    data.table
