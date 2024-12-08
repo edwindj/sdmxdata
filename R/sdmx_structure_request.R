@@ -8,6 +8,7 @@ SDMX_STRUCTURES <-
     "structure", "transformationscheme", "rulesetscheme", "userdefinedoperatorscheme",
     "customtypescheme", "namepersonalisationscheme", "vtlmappingscheme")
 
+#'@export
 sdmx_structure_request <- function(
     req = NULL,
     resource = "dataflow",

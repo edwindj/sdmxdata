@@ -1,3 +1,4 @@
+#' @export
 sdmx_data_request <- function(
     req = NULL,
     resource = c("data", "metadata"),
