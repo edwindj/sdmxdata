@@ -3,7 +3,7 @@ library(tinytest)
 library(cbsopendata)
 
 
-req <- sdmx_data_request(flowRef = "NL1,DF_TESTSET_X01,1.0")
+req <- req_sdmx_data(flowRef = "NL1,DF_TESTSET_X01,1.0")
 
 if (!at_home()){
   exit_file("Not running tests outside of home")

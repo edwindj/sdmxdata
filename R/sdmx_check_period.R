@@ -7,11 +7,11 @@ sdmx_as_isodate <- function(x){
     return(x)
   }
 
-  if (is.Date(x)){
+  if (inherits(x, "Date")){
     return(format(x, "%Y-%m-%d"))
   }
 
-  if (is.POSIXt(x)){
+  if (inherits(x, "POSIXct")){
     return(format(x, "%Y-%m-%dT%H:%M:%S"))
   }
 }

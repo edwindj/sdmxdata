@@ -4,7 +4,7 @@ get_dataflows <- function(
     agencyID = NULL
 ){
   resp <-
-    sdmx_rest_structure_query(
+    req_sdmx_structure(
     req = req,
     resource = "dataflow",
     agencyID = agencyID
