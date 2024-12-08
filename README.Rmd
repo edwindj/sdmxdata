@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
 # cbsopendata
 
 <!-- badges: start -->
+[![R-CMD-check](https://github.com/edwindj/cbsopendata/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/edwindj/cbsopendata/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 Work in progress, not to be used for production work.
