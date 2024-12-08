@@ -8,7 +8,7 @@ SDMX_STRUCTURES <-
     "structure", "transformationscheme", "rulesetscheme", "userdefinedoperatorscheme",
     "customtypescheme", "namepersonalisationscheme", "vtlmappingscheme")
 
-sdmx_rest_structure_query <- function(
+sdmx_structure_request <- function(
     req = NULL,
     resource = "dataflow",
     agencyID = NULL,

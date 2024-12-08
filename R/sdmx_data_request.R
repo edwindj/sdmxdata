@@ -1,4 +1,4 @@
-sdmx_rest_data_query <- function(
+sdmx_data_request <- function(
     req = NULL,
     resource = c("data", "metadata"),
     flowRef = NULL,

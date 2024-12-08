@@ -3,4 +3,8 @@
 S3method(get_base_request,character)
 S3method(get_base_request,default)
 S3method(get_base_request,httr2_request)
+S3method(get_search_request,character)
+S3method(get_search_request,default)
+S3method(get_search_request,httr2_request)
 export(get_base_request)
+export(get_search_request)
