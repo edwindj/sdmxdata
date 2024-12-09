@@ -1,3 +1,4 @@
+#  https://search.beta.cbs.nl/api/search?tenant=cbs
 #' Get the search endpoint
 #'
 #' Get the search endpoint
@@ -11,8 +12,8 @@ search_request <- function(x, ...){
 
 #' @export
 search_request.default <- function(x, ...){
-  return(sdmx_request.character("https://sdmx-api.beta.cbs.nl/rest"))
-  stop("sdmx_request() is not implemented for objects of class ", class(x))
+  return(search_request.character("https://search.beta.cbs.nl/api/search?tenant=cbs"))
+  stop("search_request() is not implemented for objects of class ", class(x))
 }
 
 #' @export
