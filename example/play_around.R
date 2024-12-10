@@ -7,7 +7,7 @@ View(dfs)
 
 p <- tempfile("opendata", fileext = ".csv")
 
-req <- req_sdmx_data(
+req <- sdmx_req_data_v2_1(
   "https://lustat.statec.lu/rest",
   flowRef = dfs$flowRefs[1]
 )

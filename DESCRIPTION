@@ -14,5 +14,6 @@ Suggests:
     tinytest
 Imports: 
     httr2,
-    data.table
+    data.table,
+    xml2
 URL: https://edwindj.github.io/cbsopendata/

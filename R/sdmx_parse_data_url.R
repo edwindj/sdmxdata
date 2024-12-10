@@ -10,7 +10,7 @@ sdmx_parse_data_url <- function(x, resource = c("data", "metadata")){
   endpoint <- x1[1]
 
   path <- sub("\\?.*", "", x1[2])
-  query <- sub(".*\\?", "", x1[2])
+  query <- sub("[^?]*\\??", "", x1[2])
 
   params <- parse_url_query(query)
 
@@ -23,7 +23,7 @@ sdmx_parse_data_url <- function(x, resource = c("data", "metadata")){
   args <- c(parts, params)
 
   expr <- bquote(
-    req_sdmx_data(..(args)),
+    sdmx_req_data_v2_1(..(args)),
     splice = TRUE
   )
 
@@ -37,5 +37,6 @@ parse_url_query <- function(x){
   x <- strsplit(x, "&", fixed = TRUE) |> unlist()
   val <- sub(".*=", "", x) |> as.list()
   names(val) <- sub("=.*", "", x)
+  print(list(query=val))
   val
 }

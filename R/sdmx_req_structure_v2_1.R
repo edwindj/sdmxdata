@@ -10,7 +10,7 @@ SDMX_STRUCTURES <-
 
 #'Retrieve sdmx structure
 #'
-#' Wrapper for the SDMX REST interface for structured information
+#' Wrapper for the SDMX REST v2.1 interface for structured information
 #'
 #' @param req An endpoint or an httr2 request object
 #' @param resource The resource to request. One of "datastructure", "metadatastructure", "categoryscheme", "conceptscheme", "codelist", "hierarchicalcodelist", "organisationscheme", "agencyscheme", "dataproviderscheme", "dataconsumerscheme", "organisationunitscheme", "dataflow", "metadataflow", "reportingtaxonomy", "provisionagreement", "structureset", "process", "categorisation", "contentconstraint", "attachmentconstraint", "actualconstraint", "allowedconstraint", "structure", "transformationscheme", "rulesetscheme", "userdefinedoperatorscheme", "customtypescheme", "namepersonalisationscheme", "vtlmappingscheme"
@@ -24,7 +24,7 @@ SDMX_STRUCTURES <-
 #' @param ... saved for future use
 #' @return a modified [httr2::request()] object
 #'@export
-req_sdmx_structure <- function(
+sdmx_req_structure_v2_1 <- function(
     req = NULL,
     resource = "dataflow",
     agencyID = NULL,
@@ -36,7 +36,7 @@ req_sdmx_structure <- function(
     detail = c("full", "allstubs", "referencestubs", "allcompletestubs", "referencecompletestubs", "referencepartial"),
     references = c("none", "parents", "parentsandsiblings", "children", "descendants", "all")
 ){
-  req <- sdmx_request(req)
+  req <- sdmx_endpoint(req)
   resource <- match.arg(resource, choices = SDMX_STRUCTURES)
 
   path <- c(
@@ -86,4 +86,4 @@ req_sdmx_structure <- function(
 }
 
 # req <- httr2::request("https://sdmx-api.beta.cbs.nl/rest") |>
-#   req_sdmx_data(resource = "data")
+#   sdmx_req_data_v2_1(resource = "data")

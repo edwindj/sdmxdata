@@ -1,10 +1,16 @@
-
-get_dataflows <- function(
+#' Get sdmx dataflows
+#'
+#' Get sdmx dataflows from a given endpoint
+#' @param req A character string from a given endpoint
+#' @param agencyID A character string from a given agencyID
+#' @return a data.frame with available dataflows
+#' @export
+sdmx_get_dataflows_v2_1 <- function(
     req = NULL,
     agencyID = NULL
 ){
   resp <-
-    req_sdmx_structure(
+    sdmx_req_structure_v2_1(
     req = req,
     resource = "dataflow",
     agencyID = agencyID
@@ -29,19 +35,4 @@ get_dataflows <- function(
     dataflows,
     contentLanguages = res$meta$contentLanguages
   )
-  # url <- sprintf(
-  #   "https://lustat.statec.lu/rest/dataflow/%s",
-  #   #"https://sdmx-api.beta.cbs.nl/rest/dataflow/%s",
-  #   agencyID
-  # )
-  # dfs <- get_meta_json(url)
-  # # extract extra info?
-  #
-  # flows <- dfs$data$dataflows
-  #
-  # flows
 }
-
-# get_flowRefs <- function(x){
-#   paste(x$agencyID, x$id, x$version, sep = ",")
-# }

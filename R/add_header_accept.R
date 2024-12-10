@@ -1,5 +1,7 @@
 add_header_accept <- function(req, ...){
   to_add <- list(...)
+  empty <- sapply(to_add, length) == 0
+  to_add <- to_add[!empty]
 
   if (length(to_add) == 0){
     return(req)
@@ -11,7 +13,7 @@ add_header_accept <- function(req, ...){
       names(to_add), "=", unlist(to_add)
     )
   ) |>
-  paste(collapse = ";")
+  paste(collapse = "; ")
 
   req |>
     httr2::req_headers(accept = accept)
