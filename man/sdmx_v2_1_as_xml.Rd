@@ -20,7 +20,7 @@ Retrieve data from an sdmx api and return it as an xml_document
 \examples{
 if (interactive()){
   dfs <- sdmx_v2_1_get_dataflows()
-  flowRef <- dfs$flowRefs[1]
+  flowRef <- dfs$ref[1]
 
   d <-
     sdmx_v2_1_data_request(flowRef = flowRef) |>

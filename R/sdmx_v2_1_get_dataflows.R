@@ -27,8 +27,8 @@ sdmx_v2_1_get_dataflows <- function(
 
   dataflows <- res$data$dataflows
 
-  # we add flowRefs to the dataflows for convenience
-  dataflows$flowRefs <- with(dataflows, {
+  # we add ref to the dataflows for convenience, to be used as a flowRef
+  dataflows$ref <- with(dataflows, {
       paste(agencyID, id, version, sep = ",")
   })
 

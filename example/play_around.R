@@ -9,7 +9,7 @@ p <- tempfile("opendata", fileext = ".csv")
 
 req <- sdmx_v2_1_data_request(
   "https://lustat.statec.lu/rest",
-  flowRef = dfs$flowRefs[1]
+  flowRef = dfs$ref[1]
 )
 
 add_accept <- function(req, ...){
