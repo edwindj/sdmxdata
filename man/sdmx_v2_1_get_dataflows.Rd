@@ -17,3 +17,8 @@ a data.frame with available dataflows
 \description{
 Get sdmx dataflows from a given endpoint
 }
+\examples{
+dfs <- sdmx_v2_1_get_dataflows()
+
+head(dfs)
+}

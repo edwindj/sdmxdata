@@ -4,6 +4,7 @@
 #' @param req A character string from a given endpoint
 #' @param agencyID A character string from a given agencyID
 #' @return a data.frame with available dataflows
+#' @example example/sdmx_v2_1_get_dataflows.R
 #' @export
 sdmx_v2_1_get_dataflows <- function(
     req = NULL,
