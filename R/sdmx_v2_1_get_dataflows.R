@@ -10,17 +10,20 @@ sdmx_v2_1_get_dataflows <- function(
     req = NULL,
     agencyID = NULL
 ){
+
+  path <- tempfile("sdmx", fileext = ".json")
+
   resp <-
     sdmx_v2_1_structure_request(
     req = req,
     resource = "dataflow",
     agencyID = agencyID
   ) |>
-    httr2::req_perform()
+    httr2::req_perform(path = path)
 
-  res <-
-    resp |>
-    httr2::resp_body_json(simplifyVector = TRUE)
+  #TODO check resp
+
+  res <- jsonlite::fromJSON(path, simplifyVector = TRUE)
 
 
   # TODO provide a "raw" option that returns the full response

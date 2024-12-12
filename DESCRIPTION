@@ -15,5 +15,6 @@ Suggests:
 Imports: 
     httr2,
     data.table,
-    xml2
+    xml2,
+    jsonlite
 URL: https://edwindj.github.io/cbsopendata/
