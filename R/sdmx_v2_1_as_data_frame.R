@@ -7,9 +7,9 @@
 #' @param as.data.table if TRUE return a [data.table::data.table()].
 #' @param ... reserved for future use
 #' @return a data.frame or data.table depending on the value of `as.data.table`
-#' @example example/sdmx_get_data.R
+#' @example example/sdmx_v2_1_as_data_frame.R
 #' @export
-sdmx_get_data <- function(
+sdmx_v2_1_as_data_frame <- function(
     req,
     format = c("csv", "json"),
     labels = c("both", "id"),
@@ -34,6 +34,7 @@ sdmx_get_data <- function(
 
     a <- resp |> httr2::resp_body_json(simplifyVector = TRUE)
     print(a)
+    return(a)
 
   }
 
@@ -45,10 +46,13 @@ sdmx_get_data <- function(
   #   labels <- match.arg(labels)
   # }
 
-
   req <- req |>
       httr2::req_headers(accept = "application/vnd.sdmx.data+csv; version=1.0.0; charset=utf-8") |>
-      add_header_accept(labels = labels)
+      httr2::req_url_query(format="csv") |> # for EUSTAT it seems format="SDMX-CSV" is required
+      add_header_accept(labels = labels) |>
+      httr2::req_url_query(file = TRUE)
+
+  print(req)
 
   path <- tempfile("sdmx", fileext = ".csv")
 

@@ -1,17 +1,17 @@
 if (interactive()){
-  dfs <- sdmx_get_dataflows_v2_1()
+  dfs <- sdmx_v2_1_get_dataflows()
   flowRef <- dfs$flowRefs[1]
 
   d <-
-    sdmx_req_data_v2_1(flowRef = flowRef) |>
-    sdmx_get_data()
+    sdmx_v2_1_data_request(flowRef = flowRef) |>
+    sdmx_v2_1_as_data_frame()
 
   head(d)
 
 
   # json
   d <-
-    sdmx_req_data_v2_1(flowRef = flowRef) |>
-    sdmx_get_data(format = "json")
+    sdmx_v2_1_data_request(flowRef = flowRef) |>
+    sdmx_v2_1_as_data_frame(format = "json")
 
 }

@@ -23,7 +23,7 @@ sdmx_parse_data_url <- function(x, resource = c("data", "metadata")){
   args <- c(parts, params)
 
   expr <- bquote(
-    sdmx_req_data_v2_1(..(args)),
+    sdmx_v2_1_data_request(..(args)),
     splice = TRUE
   )
 

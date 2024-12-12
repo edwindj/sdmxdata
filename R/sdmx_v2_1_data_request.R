@@ -1,6 +1,6 @@
 #' Request SDMX data
 #'
-#' `sdmx_req_data_v2_1` is a wrapper around the smdx rest api v2.1 and is used to retrieve
+#' `sdmx_v2_1_data_request` is a wrapper around the smdx rest api v2.1 and is used to retrieve
 #' data from the api.
 #'
 #' @param req An endpoint or an httr2 request object
@@ -21,7 +21,7 @@
 #' @param labels Include the labels in the data, only valid when format is "csv"
 #' @return a modified [httr2::request()] object
 #' @export
-sdmx_req_data_v2_1 <- function(
+sdmx_v2_1_data_request <- function(
     req = NULL,
     resource = c("data", "metadata"),
     flowRef = NULL,
@@ -94,4 +94,4 @@ sdmx_req_data_v2_1 <- function(
 }
 
 # req <- httr2::request("https://sdmx-api.beta.cbs.nl/rest") |>
-#   sdmx_req_data_v2_1(resource = "data")
+#   sdmx_v2_1_data_request(resource = "data")

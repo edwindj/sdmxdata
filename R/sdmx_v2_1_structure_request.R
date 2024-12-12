@@ -24,7 +24,7 @@ SDMX_STRUCTURES <-
 #' @param ... saved for future use
 #' @return a modified [httr2::request()] object
 #'@export
-sdmx_req_structure_v2_1 <- function(
+sdmx_v2_1_structure_request <- function(
     req = NULL,
     resource = "dataflow",
     agencyID = NULL,
@@ -86,4 +86,4 @@ sdmx_req_structure_v2_1 <- function(
 }
 
 # req <- httr2::request("https://sdmx-api.beta.cbs.nl/rest") |>
-#   sdmx_req_data_v2_1(resource = "data")
+#   sdmx_v2_1_data_request(resource = "data")

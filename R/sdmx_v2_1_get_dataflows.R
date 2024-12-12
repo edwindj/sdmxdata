@@ -5,12 +5,12 @@
 #' @param agencyID A character string from a given agencyID
 #' @return a data.frame with available dataflows
 #' @export
-sdmx_get_dataflows_v2_1 <- function(
+sdmx_v2_1_get_dataflows <- function(
     req = NULL,
     agencyID = NULL
 ){
   resp <-
-    sdmx_req_structure_v2_1(
+    sdmx_v2_1_structure_request(
     req = req,
     resource = "dataflow",
     agencyID = agencyID

@@ -1,7 +1,7 @@
 dfs <- get_dataflows()
 flowRef <- dfs$flowRefs[2]
 
-df <- sdmx_req_structure_v2_1(
+df <- sdmx_v2_1_structure_request(
   agencyID = "NL1_DOUT",
   resource = "dataflow",
   references = "all"
