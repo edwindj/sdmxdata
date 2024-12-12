@@ -5,7 +5,7 @@ ns_v2_1 <- c(
   s = "http://www.sdmx.org/resources/sdmxml/schemas/v2_1/structure"
 )
 
-# extra nececarry metadata from an xml document retrieved with references=all
+# extra necessary metadata from an xml document retrieved with references=all
 #' @importFrom xml2 xml_find_all xml_find_first xml_text xml_attr xml_attrs
 parse_sdmx_structure_v2_1  <- function(doc, ...){
   structures <- doc |> xml_find_first("/m:Structure/m:Structures", ns = ns_v2_1)

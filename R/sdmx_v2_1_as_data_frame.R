@@ -11,16 +11,29 @@
 #' @export
 sdmx_v2_1_as_data_frame <- function(
     req,
-    format = c("csv", "json"),
+    format = c("csv", "json","xml"),
     labels = c("both", "id"),
     ...,
     as.data.table = FALSE
 ){
-
   format <- match.arg(format)
 
+  req <- switch(
+    format,
+    csv  = req |> httr2::req_headers(accept = "application/vnd.sdmx.data+csv; version=1.0.0; charset=utf-8"),
+    json = req |> httr2::req_headers(accept = "application/vnd.sdmx.data+json; version=1.0; charset=utf-8"),
+    xml  = req,
+    req
+  )
+
+  # only valid for csv format
+  if (!missing(labels)){
+    req <-
+      req |>
+      add_header_accept(labels = labels)
+  }
+
   if (format == "json"){
-    browser()
     req <- req |>
       httr2::req_headers(accept = "application/vnd.sdmx.data+json; version=1.0; charset=utf-8")
 

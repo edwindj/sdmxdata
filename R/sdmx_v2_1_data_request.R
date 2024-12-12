@@ -72,24 +72,6 @@ sdmx_v2_1_data_request <- function(
       detail                 = detail,
       includeHistory         = includeHistory
     )
-
-  format <- match.arg(format)
-
-  req <- switch(
-    format,
-    csv  = req |> httr2::req_headers(accept = "application/vnd.sdmx.data+csv; version=1.0.0; charset=utf-8"),
-    json = req |> httr2::req_headers(accept = "application/vnd.sdmx.data+json; version=1.0; charset=utf-8"),
-    xml  = req,
-    req
-  )
-
-  # only valid for csv format
-  if (!missing(labels)){
-    req <-
-      req |>
-      add_header_accept(labels = labels)
-  }
-
   req
 }
 
