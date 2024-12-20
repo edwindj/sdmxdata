@@ -10,4 +10,4 @@ doc <- read_xml(
 
 
 # language stuff
-d <- cbsopendata:::parse_sdmx_structure_v2_1(doc)
+d <- cbsopendata:::sdmx_v2_1_parse_structure_xml(doc)

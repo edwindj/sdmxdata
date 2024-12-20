@@ -7,7 +7,7 @@ ns_v2_1 <- c(
 
 # extra necessary metadata from an xml document retrieved with references=all
 #' @importFrom xml2 xml_find_all xml_find_first xml_text xml_attr xml_attrs
-parse_sdmx_structure_v2_1  <- function(doc, ...){
+sdmx_v2_1_parse_structure_xml  <- function(doc, ...){
   structures <- doc |> xml_find_first("/m:Structure/m:Structures", ns = ns_v2_1)
 
   dataflows <-
@@ -99,6 +99,8 @@ parse_dataflow <- function(node, lang="nl"){
   agencyID <- xml_attr(node, "agencyID")
   version <- xml_attr(node, "version")
 
+  ref <- paste(agencyID, id, version, sep = ",")
+
   name <- xml_find_first(node, "c:Name", ns = ns_v2_1) |> xml_text()
   description <- xml_find_first(node, "c:Description", ns = ns_v2_1) |> xml_text()
 
@@ -113,6 +115,7 @@ parse_dataflow <- function(node, lang="nl"){
     id = id,
     agencyID = agencyID,
     version = version,
+    ref = ref,
     name = name,
     description = description,
     structure = structure,
@@ -128,6 +131,8 @@ parse_datastructure <- function(node, lang = "nl"){
   agencyID <- xml_attr(node, "agencyID")
   version <- xml_attr(node, "version")
 
+  ref <- paste(agencyID, id, version, sep = ",")
+
   name <- xml_find_first(node, "c:Name", ns = ns_v2_1) |> xml_text()
 
   components <- xml_find_first(node, "s:DataStructureComponents", ns = ns_v2_1)
@@ -135,6 +140,8 @@ parse_datastructure <- function(node, lang = "nl"){
     components |>
     xml_find_all("s:DimensionList/s:Dimension", ns = ns_v2_1) |>
     lapply(parse_dimension, lang = lang)
+
+  names(dimensions) <- sapply(dimensions, function(x) x$id)
 
   timedimension <- components |> xml_find_first("s:DimensionList/s:TimeDimension", ns = ns_v2_1)
   if (length(timedimension)){
@@ -147,6 +154,7 @@ parse_datastructure <- function(node, lang = "nl"){
     id = id,
     agencyID = agencyID,
     version = version,
+    ref = ref,
     name = name,
     dimensions = dimensions
   )
@@ -154,7 +162,7 @@ parse_datastructure <- function(node, lang = "nl"){
 
 parse_dimension <- function(node, lang = "nl"){
   id <- xml_attr(node, "id")
-  position <- xml_attr(node, "position")
+  position <- xml_attr(node, "position") |> as.integer()
 
   concept <- node |>
     xml_find_first("s:ConceptIdentity/Ref", ns = ns_v2_1) |>
@@ -185,6 +193,8 @@ parse_codelist <- function(codelist_node, lang = "nl"){
   agencyID <- xml_attr(codelist_node, "agencyID")
   version <- xml_attr(codelist_node, "version")
 
+  ref <- paste(agencyID, id, version, sep = ",")
+
   name <- xml_find_first(codelist_node, "c:Name", ns = ns_v2_1) |> xml_text()
 
   codes <- xml_find_all(codelist_node, "s:Code", ns = ns_v2_1)
@@ -208,6 +218,7 @@ parse_codelist <- function(codelist_node, lang = "nl"){
     id = id,
     agencyID = agencyID,
     version = version,
+    ref = ref,
     name = name,
     codes = code_df
   )

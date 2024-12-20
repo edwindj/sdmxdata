@@ -1,6 +1,6 @@
 if (interactive()){
   dfs <- sdmx_v2_1_get_dataflows()
-  flowRef <- dfs$ref[1]
+  flowRef <- dfs$ref[3]
 
   d <-
     sdmx_v2_1_data_request(flowRef = flowRef) |>

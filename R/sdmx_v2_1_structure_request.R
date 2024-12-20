@@ -31,7 +31,7 @@ sdmx_v2_1_structure_request <- function(
     resourceID = NULL,
     version = NULL,
     itemID = NULL,
-    format = c("json", "xml"),
+    format = c("xml", "json"),
     ...,
     detail = c("full", "allstubs", "referencestubs", "allcompletestubs", "referencecompletestubs", "referencepartial"),
     references = c("none", "parents", "parentsandsiblings", "children", "descendants", "all")

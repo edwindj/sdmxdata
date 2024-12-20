@@ -17,7 +17,8 @@ sdmx_v2_1_get_dataflows <- function(
     sdmx_v2_1_structure_request(
     req = req,
     resource = "dataflow",
-    agencyID = agencyID
+    agencyID = agencyID,
+    format = "json"
   ) |>
     httr2::req_perform(path = path)
 

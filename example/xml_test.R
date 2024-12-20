@@ -2,11 +2,8 @@ library(xml2)
 
 doc <- read_xml("https://sdmx-api.beta.cbs.nl/rest/dataflow/NL1_DOUT?references=all")
 
-ns <- c(
-  c = "http://www.sdmx.org/resources/sdmxml/schemas/v2_1/common",
-  m = "http://www.sdmx.org/resources/sdmxml/schemas/v2_1/message",
-  s = "http://www.sdmx.org/resources/sdmxml/schemas/v2_1/structure"
-)
+p
+
 
 dfs <- xml_find_all(doc, ".//s:Dataflow", ns = ns)
 

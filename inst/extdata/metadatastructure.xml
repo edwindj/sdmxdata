@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--NSI Web Service v8.19.2.2-->
+<message:Structure xmlns:message="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/message" xmlns:structure="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/structure" xmlns:common="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/common">
+  <message:Header>
+    <message:ID>IDREF6171</message:ID>
+    <message:Test>false</message:Test>
+    <message:Prepared>2024-12-20T16:47:40.360066+00:00</message:Prepared>
+    <message:Sender id="Unknown" />
+    <message:Receiver id="Unknown" />
+  </message:Header>
+  <message:Structures>
+    <structure:MetadataStructures>
+      <structure:MetadataStructure id="MSD_TESTSET_X01" agencyID="NL1" version="1.0" isFinal="false">
+        <common:Name xml:lang="en">Table information TEST_X01</common:Name>
+        <structure:MetadataStructureComponents>
+          <structure:MetadataTarget id="Target">
+            <structure:IdentifiableObjectTarget id="IdentifiableObjectTarget" objectType="Dataflow">
+              <structure:LocalRepresentation>
+                <structure:TextFormat textType="IdentifiableReference" />
+              </structure:LocalRepresentation>
+            </structure:IdentifiableObjectTarget>
+          </structure:MetadataTarget>
+          <structure:ReportStructure id="Report">
+            <structure:MetadataAttribute id="COMMENT" minOccurs="1" maxOccurs="unbounded">
+              <structure:ConceptIdentity>
+                <Ref id="COMMENT" maintainableParentID="CS_REF_METADATA" maintainableParentVersion="1.0" agencyID="NL1" package="conceptscheme" class="Concept" />
+              </structure:ConceptIdentity>
+              <structure:LocalRepresentation>
+                <structure:TextFormat textType="XHTML" isMultiLingual="false" />
+              </structure:LocalRepresentation>
+            </structure:MetadataAttribute>
+            <structure:MetadataAttribute id="CONTACT" minOccurs="1" maxOccurs="unbounded">
+              <structure:ConceptIdentity>
+                <Ref id="CONTACT" maintainableParentID="CS_REF_METADATA" maintainableParentVersion="1.0" agencyID="NL1" package="conceptscheme" class="Concept" />
+              </structure:ConceptIdentity>
+              <structure:LocalRepresentation>
+                <structure:TextFormat textType="XHTML" isMultiLingual="false" />
+              </structure:LocalRepresentation>
+            </structure:MetadataAttribute>
+            <structure:MetadataAttribute id="DATA_SOURCE" minOccurs="1" maxOccurs="unbounded">
+              <structure:ConceptIdentity>
+                <Ref id="DATA_SOURCE" maintainableParentID="CS_REF_METADATA" maintainableParentVersion="1.0" agencyID="NL1" package="conceptscheme" class="Concept" />
+              </structure:ConceptIdentity>
+              <structure:LocalRepresentation>
+                <structure:TextFormat textType="String" isMultiLingual="false" />
+              </structure:LocalRepresentation>
+            </structure:MetadataAttribute>
+            <structure:MetadataAttribute id="RELATED" minOccurs="1" maxOccurs="unbounded">
+              <structure:ConceptIdentity>
+                <Ref id="RELATED" maintainableParentID="CS_REF_METADATA" maintainableParentVersion="1.0" agencyID="NL1" package="conceptscheme" class="Concept" />
+              </structure:ConceptIdentity>
+              <structure:LocalRepresentation>
+                <structure:TextFormat textType="String" isMultiLingual="false" />
+              </structure:LocalRepresentation>
+            </structure:MetadataAttribute>
+            <structure:MetadataTarget>
+              <Ref id="Target" />
+            </structure:MetadataTarget>
+          </structure:ReportStructure>
+        </structure:MetadataStructureComponents>
+      </structure:MetadataStructure>
+    </structure:MetadataStructures>
+  </message:Structures>
+</message:Structure>
