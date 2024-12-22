@@ -7,27 +7,26 @@ DataFlowInfoUI <- function(id){
     ),
     card_body(
       uiOutput(ns("dataflowinfo")),
-      div("id:", textOutput(ns("id"), inline = TRUE)),
+      # div("id:", textOutput(ns("id"), inline = TRUE)),
       htmlOutput(ns("description"))
     )
-)
+  )
 }
 
-DataFlowInfoServer <- function(id, dataflowref){
-  stopifnot(is.reactive(dataflowref))
+DataFlowInfoServer <- function(id, shared_values){
+  stopifnot(is.reactivevalues(shared_values))
 
   moduleServer(id, function(input, output, session){
     text <- reactiveValues()
-    # observeEvent(dataflowref(), {
-    #   print(dataflowref())
-    # })
 
     dataflow <- reactive({
-      ref <- dataflowref()
+      ref <- shared_values$dataflowref
 
       if (is.null(ref)) {
         return(NULL)
       }
+      # browser()
+
       dfi <- get_dataflow_info(ref = ref)
       dfi
     })

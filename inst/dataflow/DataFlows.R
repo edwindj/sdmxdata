@@ -1,19 +1,19 @@
-source("DataFlowInfo.R")
-
 DataFlowsUI <- function(id){
   ns <- NS(id)
-  layout_column_wrap(
-    card(
-      height="100%",
-      fill = TRUE,
-      DT::DTOutput(ns("dataflows"))
-    ),
-    DataFlowInfoUI(ns("dataflowinfo"))
+  layout_columns(
+    min_height="80vh",
+    DT::DTOutput(
+      ns("dataflows"),
+      height = "100%",
+      fill = TRUE
+    )
   )
 }
 
 
-DataFlowsServer <- function(id){
+DataFlowsServer <- function(id, shared_values){
+  stopifnot(is.reactivevalues(shared_values))
+
   flows <- \(){
     df <- cbsopendata::sdmx_v2_1_get_dataflows()
     df |>
@@ -27,21 +27,20 @@ DataFlowsServer <- function(id){
     ns <- session$ns
 
     # we are passing this one to the panel
-    rx_dataflowref <- reactive({
+    observeEvent(input$dataflows_rows_selected, {
       id <- input$dataflows_rows_selected
       if (is.null(id)) {
-        return(NULL)
+        shared_values$dataflowref <- NULL
+      } else {
+        shared_values$dataflowref <- df$ref[id]
       }
-      df$ref[id]
     })
 
-    observeEvent(rx_dataflowref(), {
-      print(rx_dataflowref())
-    })
-
-
-    DataFlowInfoServer("dataflowinfo", rx_dataflowref)
-
+    # observeEvent(shared_values, {
+    #   shared_values |>
+    #     reactiveValuesToList() |>
+    #     print()
+    # })
 
     output$dataflows <- DT::renderDT({
       if (is.null(df)) {

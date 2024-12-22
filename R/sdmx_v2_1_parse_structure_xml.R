@@ -75,7 +75,7 @@ parse_concepts <- function(scheme, lang = "nl"){
 
   enums[is.na(enums)] <- list()
 
-  print(list(enums = enums))
+  # print(list(enums = enums))
   cl_ref <- enums |> sapply(\(x) ifelse(is.na(x), NA, paste(x$agencyID, x$id, x$version, sep = ",")))
 
   d <- data.frame(

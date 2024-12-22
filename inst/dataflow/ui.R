@@ -11,6 +11,7 @@ library(shiny)
 library(bslib)
 library(DT)
 source("DataFlows.R")
+source("DataFlowInfo.R")
 
 page_navbar(
     title = "Dataflow Explorer",
@@ -19,14 +20,17 @@ page_navbar(
       preset = "flatly"
     ),
     fillable = TRUE,
-    # sidebar = sidebar(
-    # ),
-    navset_underline(
-    nav_panel(
-      title="DataFlows",
+    sidebar = sidebar(
+      id = "sidebar",
+      width="80%",
+      height = "100%",
       DataFlowsUI("dataflows")
+    ),
+    navset_tab(
+      nav_panel(
+        DataFlowInfoUI("dataflowinfo")
+      )
     )
-  )
 )
 
 # # Define UI for application that draws a histogram

@@ -12,7 +12,20 @@ library(cbsopendata)
 library(DT)
 
 source("DataFlows.R")
+source("DataFlowInfo.R")
 
 function(input, output, session){
-  DataFlowsServer("dataflows")
+
+  shared_values <- reactiveValues(
+    dataflowref = NULL
+  )
+
+  debounce_dataflowref <- debounce(reactive(shared_values$dataflowref), 600)
+
+  observeEvent(debounce_dataflowref(), {
+    toggle_sidebar(id = "sidebar")
+  })
+
+  DataFlowsServer("dataflows", shared_values = shared_values)
+  DataFlowInfoServer("dataflowinfo", shared_values = shared_values)
 }
