@@ -8,9 +8,11 @@ get_dataflow_info <- function(ref, agencyID, id, version){
   } else {
   ref <- strsplit(ref, ",") |>
     unlist() |>
-    as.list() |>
-    setNames(c("agencyID", "id", "version"))
+    as.list()
   }
+  names(ref) <- c("agencyID", "id", "version")
+
+
 
   if (is.null(ref$agencyID) | is.null(ref$id) | is.null(ref$version)){
     return(NULL)
