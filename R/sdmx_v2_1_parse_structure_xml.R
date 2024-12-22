@@ -1,9 +1,3 @@
-# name space for sdmx v2.1
-ns_v2_1 <- c(
-  c = "http://www.sdmx.org/resources/sdmxml/schemas/v2_1/common",
-  m = "http://www.sdmx.org/resources/sdmxml/schemas/v2_1/message",
-  s = "http://www.sdmx.org/resources/sdmxml/schemas/v2_1/structure"
-)
 
 # extra necessary metadata from an xml document retrieved with references=all
 #' @importFrom xml2 xml_find_all xml_find_first xml_text xml_attr xml_attrs

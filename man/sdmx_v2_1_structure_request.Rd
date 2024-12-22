@@ -11,7 +11,7 @@ sdmx_v2_1_structure_request(
   resourceID = NULL,
   version = NULL,
   itemID = NULL,
-  format = c("json", "xml"),
+  format = c("xml", "json"),
   ...,
   detail = c("full", "allstubs", "referencestubs", "allcompletestubs",
     "referencecompletestubs", "referencepartial"),

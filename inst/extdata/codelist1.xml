@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--NSI Web Service v8.19.2.2-->
+<message:Structure xmlns:message="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/message" xmlns:structure="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/structure" xmlns:common="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/common">
+  <message:Header>
+    <message:ID>IDREF12412</message:ID>
+    <message:Test>false</message:Test>
+    <message:Prepared>2024-12-22T07:47:42.6641618+00:00</message:Prepared>
+    <message:Sender id="Unknown"/>
+    <message:Receiver id="Unknown"/>
+  </message:Header>
+  <message:Structures>
+    <structure:Codelists>
+      <structure:Codelist id="CL_TESTSET_X01" agencyID="NL1" version="1.0" isFinal="false">
+        <common:Name xml:lang="nl">TESTSET (codelist, only use for TESTSET!)</common:Name>
+        <common:Description xml:lang="nl">Regioindeling (TESTSET)</common:Description>
+        <structure:Code id="NL">
+          <common:Name xml:lang="nl">Nederland</common:Name>
+        </structure:Code>
+        <structure:Code id="LD01">
+          <common:Name xml:lang="nl">Noord Nederland</common:Name>
+          <structure:Parent>
+            <Ref id="NL"/>
+          </structure:Parent>
+        </structure:Code>
+        <structure:Code id="LD02">
+          <common:Name xml:lang="nl">Oost Nederland</common:Name>
+          <structure:Parent>
+            <Ref id="NL"/>
+          </structure:Parent>
+        </structure:Code>
+        <structure:Code id="LD03">
+          <common:Name xml:lang="nl">West Nederland</common:Name>
+          <structure:Parent>
+            <Ref id="NL"/>
+          </structure:Parent>
+        </structure:Code>
+        <structure:Code id="LD04">
+          <common:Name xml:lang="nl">Zuid Nederland</common:Name>
+          <structure:Parent>
+            <Ref id="NL"/>
+          </structure:Parent>
+        </structure:Code>
+        <structure:Code id="PV01">
+          <common:Name xml:lang="nl">Groningen</common:Name>
+          <structure:Parent>
+            <Ref id="LD01"/>
+          </structure:Parent>
+        </structure:Code>
+        <structure:Code id="PV02">
+          <common:Name xml:lang="nl">Friesland</common:Name>
+          <structure:Parent>
+            <Ref id="LD01"/>
+          </structure:Parent>
+        </structure:Code>
+        <structure:Code id="PV03">
+          <common:Name xml:lang="nl">Drenthe</common:Name>
+          <structure:Parent>
+            <Ref id="LD01"/>
+          </structure:Parent>
+        </structure:Code>
+        <structure:Code id="PV04">
+          <common:Name xml:lang="nl">Overijssel</common:Name>
+          <structure:Parent>
+            <Ref id="LD02"/>
+          </structure:Parent>
+        </structure:Code>
+        <structure:Code id="PV05">
+          <common:Name xml:lang="nl">Gelderland</common:Name>
+          <structure:Parent>
+            <Ref id="LD02"/>
+          </structure:Parent>
+        </structure:Code>
+        <structure:Code id="PV06">
+          <common:Name xml:lang="nl">Utrecht</common:Name>
+          <structure:Parent>
+            <Ref id="LD03"/>
+          </structure:Parent>
+        </structure:Code>
+        <structure:Code id="PV07">
+          <common:Name xml:lang="nl">Noord-Holland</common:Name>
+          <structure:Parent>
+            <Ref id="LD03"/>
+          </structure:Parent>
+        </structure:Code>
+        <structure:Code id="PV08">
+          <common:Name xml:lang="nl">Zuid-Holland</common:Name>
+          <structure:Parent>
+            <Ref id="LD03"/>
+          </structure:Parent>
+        </structure:Code>
+        <structure:Code id="PV09">
+          <common:Name xml:lang="nl">Zeeland</common:Name>
+          <structure:Parent>
+            <Ref id="LD03"/>
+          </structure:Parent>
+        </structure:Code>
+        <structure:Code id="PV10">
+          <common:Name xml:lang="nl">Noord-Brabant</common:Name>
+          <structure:Parent>
+            <Ref id="LD04"/>
+          </structure:Parent>
+        </structure:Code>
+        <structure:Code id="PV11">
+          <common:Name xml:lang="nl">Limburg</common:Name>
+          <structure:Parent>
+            <Ref id="LD04"/>
+          </structure:Parent>
+        </structure:Code>
+        <structure:Code id="PV12">
+          <common:Name xml:lang="nl">Flevoland</common:Name>
+          <structure:Parent>
+            <Ref id="LD02"/>
+          </structure:Parent>
+        </structure:Code>
+      </structure:Codelist>
+    </structure:Codelists>
+  </message:Structures>
+</message:Structure>
