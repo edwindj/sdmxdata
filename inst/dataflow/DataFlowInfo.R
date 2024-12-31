@@ -20,19 +20,15 @@ DataFlowInfoServer <- function(id, shared_values){
     text <- reactiveValues()
 
     dataflow <- reactive({
-      ref <- shared_values$dataflowref
-
-      if (is.null(ref)) {
+      dfi <- shared_values$dfi
+      if (is.null(dfi)){
         return(NULL)
       }
-      # browser()
-
-      dfi <- get_dataflow_info(ref = ref)
-      dfi
+      dfi$dataflow
     })
 
     observeEvent(dataflow(), {
-      df <- dataflow()$dataflow
+      df <- dataflow()
       text$name <- df$name
       text$description <- df$description
       text$id <- df$id
@@ -49,9 +45,7 @@ DataFlowInfoServer <- function(id, shared_values){
       if (is.null(dataflow())) {
         return(NULL)
       }
-      d <- dataflow()
-      df <- d$dataflow
-
+      df <- dataflow()
       tags$dl(
         class="row",
         dl_item("id", df$id),

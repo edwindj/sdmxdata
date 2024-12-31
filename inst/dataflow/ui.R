@@ -12,25 +12,46 @@ library(bslib)
 library(DT)
 source("DataFlows.R")
 source("DataFlowInfo.R")
+source("Dimensions.R")
 
 page_navbar(
     title = "Dataflow Explorer",
-    theme = bs_theme(
-      version = 5,
-      preset = "flatly"
-    ),
-    fillable = TRUE,
+    window_title = "Dataflow Explorer",
+    id = "page",
     sidebar = sidebar(
       id = "sidebar",
       width="80%",
       height = "100%",
       DataFlowsUI("dataflows")
     ),
-    navset_tab(
-      nav_panel(
-        DataFlowInfoUI("dataflowinfo")
+    nav_panel(
+      id = "nav",
+      title="info",
+      # width = "20%",
+      height = "100%",
+      DataFlowInfoUI("info")
+    ),
+    nav_panel(
+      id = "dimensions",
+      title="Dimensions",
+      DimensionsUI("dimensions")
+    ),
+    nav_panel(
+      id = "rawxml",
+      title = "xml",
+      card(
+        card_header("XML"),
+        card_body(
+          tags$pre(
+            tags$code(
+              textOutput("rawxml")
+            )
+          )
+        )
       )
-    )
+    ),
+    theme = bs_theme(version = 5, preset="flatly")
+    # card(DataFlowInfoUI("dataflowinfo"))
 )
 
 # # Define UI for application that draws a histogram

@@ -170,7 +170,7 @@ parse_dimension <- function(node, lang = "nl"){
     xml_attrs() |>
     as.list()
 
-  cl_ref <- with(enum, paste0(agencyID, id, version, sep = ","))
+  cl_ref <- with(enum, paste(agencyID, id, version, sep = ","))
 
   list(
     id = id,
