@@ -4,6 +4,11 @@ get_dimensions <- cbsopendata:::get_dimensions
 DimensionsUI <- function(id){
   ns <- NS(id)
   tagList(
+    bslib::input_switch(
+      ns("showtree"),
+      label = "Show tree",
+      value=TRUE
+    ),
     uiOutput(ns("ui"))
   )
 }
@@ -11,7 +16,6 @@ DimensionsUI <- function(id){
 DimensionsServer <- function(id, shared_values){
   moduleServer( id, function(input, output, session){
       ns <- session$ns
-
 
       dimensions <- reactive({
         dfi <- shared_values$dfi
