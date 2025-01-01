@@ -1,5 +1,7 @@
 # HACK
 get_dimensions <- cbsopendata:::get_dimensions
+source("CodesTree.R")
+source("CodesDT.R")
 
 DimensionsUI <- function(id){
   ns <- NS(id)
@@ -25,7 +27,7 @@ DimensionsServer <- function(id, shared_values){
         get_dimensions(dfi)
       })
 
-      observeEvent(dimensions(), {
+      observeEvent(c(dimensions(), input$showtree), {
         dims <- dimensions()
         if (!length(dims)){
           return()
@@ -33,7 +35,11 @@ DimensionsServer <- function(id, shared_values){
 
         for (dim in dims){
           id <- paste0("codes", dim$id)
-          CodesServer(id, code = dim$code)
+          if (input$showtree){
+            CodesTreeServer(id, code = dim$code)
+          } else{
+            CodesDTServer(id, code = dim$code)
+          }
         }
         # cleaning up
         gc()
@@ -53,7 +59,11 @@ DimensionsServer <- function(id, shared_values){
 
           accordion_panel(
             panelname,
-            CodesUI(ns(codesid))
+            if (input$showtree){
+              CodesTreeUI(ns(codesid))
+            } else {
+              CodesDTUI(ns(codesid))
+            }
           )
 
         })
@@ -62,64 +72,4 @@ DimensionsServer <- function(id, shared_values){
       })
     }
   )
-}
-
-CodesUI <- function(id){
-  ns <- NS(id)
-  tagList(
-    div(
-      shinyTree::shinyTree(ns("tree"))
-    ),
-    div(
-      class="small",
-      DT::DTOutput(ns("codes"))
-    )
-  )
-}
-
-CodesServer <- function(id, code){
-  code <- force(code)
-
-  moduleServer(id, function(input, output, session){
-    ns <- session$ns
-
-    tree <- reactive({
-      codes <- code
-
-      codes$name <- sprintf("%s&nbsp;[%s]", codes$name, codes$id)
-
-      p  <- match(codes$parent_id, codes$id)
-      codes$parent <- codes$name[p]
-      codes$parent[is.na(codes$parent)] <- ""
-
-      l <- codes[c("parent","name")] |>
-        data.tree::FromDataFrameNetwork() |>
-        as.list()
-
-      l[-1]
-    })
-
-    output$tree <- shinyTree::renderTree({
-      tree()
-    })
-
-    output$codes <- DT::renderDT({
-      DT::datatable(
-        code,
-        rownames=FALSE,
-        autoHideNavigation = TRUE,
-        # filter="top",
-        options=list(
-          pageLength=100,
-          paging = FALSE
-        )
-      )
-    })
-
-  })
-}
-
-parent_child <- function(df, colnames){
-  p <- which(df$parent_id == "")
-
 }
