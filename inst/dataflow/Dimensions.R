@@ -44,7 +44,12 @@ DimensionsServer <- function(id, shared_values){
         dims <- lapply(dimensions(), function(dim){
 
           codesid <- paste0("codes", dim$id)
-          panelname <- sprintf("%s [%s]", dim$name, dim$id)
+          panelname <- sprintf(
+            "%s (%d) [%s]",
+            dim$name,
+            nrow(dim$code),
+            dim$id
+          )
 
           accordion_panel(
             panelname,
