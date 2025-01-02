@@ -46,7 +46,7 @@ parse_conceptschemes <- function(nodes, lang = "nl"){
   ref <- paste(agencyID, id, version, sep = ",")
 
   concepts <- nodes |>
-    lapply(parse_concepts, lang = lang)
+    lapply(parse_concepts, lang = lang, ref = ref)
 
   d <- data.frame(
     id = id,
@@ -61,12 +61,13 @@ parse_conceptschemes <- function(nodes, lang = "nl"){
   d
 }
 
-parse_concepts <- function(scheme, lang = "nl"){
+parse_concepts <- function(scheme, lang = "nl", ref = NULL){
   concepts <- xml_find_all(scheme, "s:Concept", ns = ns_v2_1)
 
   id <- xml_attr(concepts, "id")
   name <- xml_find_first(concepts, "c:Name", ns = ns_v2_1) |> xml_text()
   description <- xml_find_first(concepts, "c:Description", ns = ns_v2_1) |> xml_text()
+  ref <- paste(ref, id, sep=",")
 
   enums <- concepts |>
     xml_find_first("s:CoreRepresentation/s:Enumeration/Ref", ns = ns_v2_1) |>
@@ -76,12 +77,14 @@ parse_concepts <- function(scheme, lang = "nl"){
   enums[is.na(enums)] <- list()
 
   # print(list(enums = enums))
-  cl_ref <- enums |> sapply(\(x) ifelse(is.na(x), NA, paste(x$agencyID, x$id, x$version, sep = ",")))
+  cl_ref <- enums |>
+    sapply(\(x) ifelse(length(x) == 1, NA, paste(x$agencyID, x$id, x$version, sep = ",")))
 
   d <- data.frame(
     id = id,
     name = name,
-    description = description
+    description = description,
+    ref = ref
   )
   d$cl_ref <- cl_ref
   d
@@ -133,7 +136,7 @@ parse_datastructure <- function(node, lang = "nl"){
   dimensions <-
     components |>
     xml_find_all("s:DimensionList/s:Dimension", ns = ns_v2_1) |>
-    lapply(parse_dimension, lang = lang)
+    lapply(parse_dimension, lang = lang, ref = ref)
 
   names(dimensions) <- sapply(dimensions, function(x) x$id)
 
@@ -154,8 +157,9 @@ parse_datastructure <- function(node, lang = "nl"){
   )
 }
 
-parse_dimension <- function(node, lang = "nl"){
+parse_dimension <- function(node, lang = "nl", ref = NULL){
   id <- xml_attr(node, "id")
+  ref <- paste(ref, id, sep = ",")
   position <- xml_attr(node, "position") |> as.integer()
 
   concept <- node |>
@@ -163,7 +167,13 @@ parse_dimension <- function(node, lang = "nl"){
     xml_attrs() |>
     as.list()
 
-  cs_ref <- sprintf("%s,%s,%s", concept$agencyID, concept$maintainableParentID, concept$maintainableParentVersion)
+  concept_ref <- sprintf(
+    "%s,%s,%s,%s",
+    concept$agencyID,
+    concept$maintainableParentID,
+    concept$maintainableParentVersion,
+    concept$id
+  )
 
   enum <- node |>
     xml_find_first("s:LocalRepresentation/s:Enumeration/Ref", ns = ns_v2_1) |>
@@ -175,8 +185,9 @@ parse_dimension <- function(node, lang = "nl"){
   list(
     id = id,
     position = position,
+    ref = ref,
     concept = concept,
-    cs_ref = cs_ref,
+    concept_ref = concept_ref,
     enum = enum,
     cl_ref = cl_ref
   )

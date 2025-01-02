@@ -15,7 +15,3 @@ get_dimensions <- function(dfi){
 
   dims
 }
-
-construct_dimension <- function(dimension){
-  dimension
-}

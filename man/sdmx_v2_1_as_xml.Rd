@@ -4,12 +4,14 @@
 \alias{sdmx_v2_1_as_xml}
 \title{Get data from a SDMX API}
 \usage{
-sdmx_v2_1_as_xml(req, ...)
+sdmx_v2_1_as_xml(req, ..., cache_dir = tempdir())
 }
 \arguments{
 \item{req}{An httr2 request object}
 
 \item{...}{reserved for future use}
+
+\item{cache_dir}{The directory to cache the request in, set to \code{NULL} to disable caching}
 }
 \value{
 a \code{xml2::xml_document} object
