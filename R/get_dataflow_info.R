@@ -1,4 +1,6 @@
 get_dataflow_info <- function(ref, agencyID, id, version){
+  # assumption: only one dataflow is returned with one datastructure
+
   if (missing(ref)){
     ref <- list(
       agencyID = agencyID,
@@ -11,8 +13,6 @@ get_dataflow_info <- function(ref, agencyID, id, version){
     as.list()
   }
   names(ref) <- c("agencyID", "id", "version")
-
-
 
   if (is.null(ref$agencyID) | is.null(ref$id) | is.null(ref$version)){
     return(NULL)
@@ -30,18 +30,24 @@ get_dataflow_info <- function(ref, agencyID, id, version){
 
   d <- xml |> sdmx_v2_1_parse_structure_xml()
 
-  browser()
 
-  dataflow <- d$dataflows[[1]]
-  datastructure <- d$datastructures[[dataflow$dsd_ref]]
-  # TODO improve next line
-  conceptscheme <- d$conceptschemes[1,] |> as.list()
+  dataflow <- d$dataflows[1,]
+  datastructure <- d$datastructures[1,]
+
+  # collect all concepts
+  concepts <-
+    d$conceptschemes$concepts |>
+    data.table::rbindlist(fill = TRUE) |>
+    as.data.frame()
+
   codelists <- d$codelists
+
+  recoder <- list()
 
   list(
     dataflow = dataflow,
     datastructure = datastructure,
-    conceptscheme = conceptscheme,
+    concepts = concepts,
     codelists = codelists,
     raw = as.character(xml)
   ) |>
@@ -53,9 +59,8 @@ print.dataflowinfo <- function(x, ...){
   cat("$dataflow: '", x$dataflow$name, "' [",x$dataflow$id,"]\n", sep="")
   cat("$datastructure: '", x$datastructure$name, "' [",x$datastructure$id,"]\n", sep="")
   #TODO improve
-  cat("$conceptscheme: '", x$conceptscheme$name, "' [",x$conceptscheme$id,"]\n",sep="")
-  cat("\t$concepts: ", length(x$conceptscheme$concepts),"\n", sep="")
-  cat("$codelists: ", length(x$codelists), "\n", sep="")
+  cat("$concepts: ", nrow(x$concepts),"\n", sep="")
+  cat("$codelists: ", nrow(x$codelists), "\n", sep="")
   cat("$raw: ", "...", "\n")
   invisible(x)
 }

@@ -1,17 +1,13 @@
 # HACK
 get_dimensions <- cbsopendata:::get_dimensions
-source("CodesTree.R")
-source("CodesDT.R")
+# source("CodesTree.R")
+# source("CodesDT.R")
+source("CodeList.R")
 
 DimensionsUI <- function(id){
   ns <- NS(id)
   tagList(
-    bslib::input_switch(
-      ns("showtree"),
-      label = "Show tree",
-      value=TRUE
-    ),
-    uiOutput(ns("ui"))
+    uiOutput(ns("dims"))
   )
 }
 
@@ -24,46 +20,46 @@ DimensionsServer <- function(id, shared_values){
         if (is.null(dfi)){
           return(NULL)
         }
-        get_dimensions(dfi)
+        d <- get_dimensions(dfi)
+        d
       })
 
-      observeEvent(c(dimensions(), input$showtree), {
+      observeEvent(c(dimensions()), {
         dims <- dimensions()
+        # browser()
         if (!length(dims)){
           return()
         }
 
         for (dim in dims){
-          id <- paste0("codes", dim$id)
-          if (input$showtree){
-            CodesTreeServer(id, code = dim$code)
-          } else{
-            CodesDTServer(id, code = dim$code)
-          }
+          # id <- paste0("codes", dim$id)
+          cl_id <- paste0("codelist", dim$id)
+          CodeListServer(cl_id, codelist = dim$codelist)
+          # if (input$showtree){
+          #   CodesTreeServer(id, code = dim$code)
+          # } else{
+          #   CodesDTServer(id, code = dim$code)
+          # }
         }
         # cleaning up
         gc()
       })
 
-
-      output$ui <- renderUI({
+      output$dims <- renderUI({
         dims <- lapply(dimensions(), function(dim){
-
           codesid <- paste0("codes", dim$id)
+          cl_id <- paste0("codelist", dim$id)
+
           panelname <- sprintf(
             "%s (%d) [%s]",
             dim$name,
-            nrow(dim$code),
+            nrow(dim$codelist$code),
             dim$id
           )
 
           accordion_panel(
             panelname,
-            if (input$showtree){
-              CodesTreeUI(ns(codesid))
-            } else {
-              CodesDTUI(ns(codesid))
-            }
+            CodeListUI(ns(cl_id))
           )
 
         })
