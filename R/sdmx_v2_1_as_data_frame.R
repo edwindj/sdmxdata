@@ -14,6 +14,7 @@ sdmx_v2_1_as_data_frame <- function(
     format = c("csv", "json","xml"),
     labels = c("both", "id"),
     ...,
+    language = "nl",
     as.data.table = FALSE
 ){
   format <- match.arg(format)
@@ -26,6 +27,11 @@ sdmx_v2_1_as_data_frame <- function(
     req
   )
 
+  # if (!is.null(language)){
+  #   req <- req |>
+  #     req_headers("Accept-Language" = language)
+  # }
+
   # only valid for csv format
   if (!missing(labels)){
     req <-
@@ -35,7 +41,8 @@ sdmx_v2_1_as_data_frame <- function(
 
   if (format == "json"){
     req <- req |>
-      httr2::req_headers(accept = "application/vnd.sdmx.data+json; version=1.0; charset=utf-8")
+      httr2::req_headers(
+        accept = "application/vnd.sdmx.data+json; version=1.0; charset=utf-8")
 
     path <- tempfile("sdmx", fileext = ".json")
 
@@ -51,6 +58,7 @@ sdmx_v2_1_as_data_frame <- function(
 
   }
 
+  # browser()
   labels <- missing_or_match(labels)
   # if (missing(labels)){
   #   labels <- NULL
@@ -58,21 +66,18 @@ sdmx_v2_1_as_data_frame <- function(
   # if (is.null(labels)){
   #   labels <- match.arg(labels)
   # }
-
   req <- req |>
       httr2::req_headers(accept = "application/vnd.sdmx.data+csv; version=1.0.0; charset=utf-8") |>
       httr2::req_url_query(format="csv") |> # for EUSTAT it seems format="SDMX-CSV" is required
-      add_header_accept(labels = labels) |>
-      httr2::req_url_query(file = TRUE)
+      add_header_accept(labels = labels)
 
-  print(req)
-
+  # print(req)
   path <- tempfile("sdmx", fileext = ".csv")
 
   resp <- req |>
     httr2::req_perform(path = path)
 
-  print(resp)
+  # print(resp)
 
   d <- data.table::fread(file = path)
   if (isTRUE(as.data.table)){
