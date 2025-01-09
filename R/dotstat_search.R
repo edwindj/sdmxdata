@@ -10,6 +10,7 @@ dotstat_dataflows <- function(){
     httr2::req_perform() |>
     httr2::resp_body_json(simplifyVector = TRUE)
 
-  View(resp)
+  # View(resp)
+  resp
 }
 

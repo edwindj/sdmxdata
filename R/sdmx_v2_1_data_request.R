@@ -72,6 +72,8 @@ sdmx_v2_1_data_request <- function(
       detail                 = detail,
       includeHistory         = includeHistory
     )
+
+  class(req) <- c("sdmx_v2_1_data_request", class(req))
   req
 }
 

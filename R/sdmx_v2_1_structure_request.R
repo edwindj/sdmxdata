@@ -82,6 +82,7 @@ sdmx_v2_1_structure_request <- function(
       req
   )
 
+  class(req) <- c("sdmx_v2_1_structure_request", class(req))
   req
 }
 

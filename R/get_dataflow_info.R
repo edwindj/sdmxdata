@@ -1,5 +1,5 @@
-get_dataflow_info <- function(ref, agencyID, id, version){
-  if (missing(ref)){
+get_dataflow_info <- function(ref, agencyID, id, version = "latest"){
+  if (missing(ref) || is.null(ref)){
     ref <- list(
       agencyID = agencyID,
       id = id,
@@ -11,8 +11,6 @@ get_dataflow_info <- function(ref, agencyID, id, version){
     as.list()
   }
   names(ref) <- c("agencyID", "id", "version")
-
-
 
   if (is.null(ref$agencyID) | is.null(ref$id) | is.null(ref$version)){
     return(NULL)
@@ -26,9 +24,11 @@ get_dataflow_info <- function(ref, agencyID, id, version){
     detail = "full",
     references = "all"
   ) |>
-    sdmx_v2_1_as_xml()
+    xml2::as_xml_document()
 
   d <- xml |> sdmx_v2_1_parse_structure_xml()
+
+  #TODO check size of dataflows
 
   dataflow <- d$dataflows[[1]]
   datastructure <- d$datastructures[[dataflow$dsd_ref]]

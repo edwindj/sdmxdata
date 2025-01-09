@@ -18,6 +18,7 @@ if (interactive()){
       # references = "all",
       format = "json"
     ) |>
+    httr2::req_headers("Accept-Language" = "nl") |>
     httr2::req_perform(path=path)
 
 }

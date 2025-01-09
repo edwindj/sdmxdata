@@ -5,12 +5,15 @@
 #' @param format The format of the data. Either "csv" or "json"
 #' @param labels The labels to include in the data. Either "both" or "id"
 #' @param as.data.table if TRUE return a [data.table::data.table()].
+#' @param language The language to use for the text used in the response
 #' @param ... reserved for future use
 #' @return a data.frame or data.table depending on the value of `as.data.table`
 #' @example example/sdmx_v2_1_as_data_frame.R
 #' @export
-sdmx_v2_1_as_data_frame <- function(
-    req,
+as.data.frame.sdmx_v2_1_data_request <- function(
+    x,
+    row.names = NULL,
+    optional = FALSE,
     format = c("csv", "json","xml"),
     labels = c("both", "id"),
     ...,
@@ -18,6 +21,7 @@ sdmx_v2_1_as_data_frame <- function(
     as.data.table = FALSE
 ){
   format <- match.arg(format)
+  req <- x
 
   req <- switch(
     format,
@@ -27,10 +31,10 @@ sdmx_v2_1_as_data_frame <- function(
     req
   )
 
-  # if (!is.null(language)){
-  #   req <- req |>
-  #     req_headers("Accept-Language" = language)
-  # }
+  if (!is.null(language)){
+    req <- req |>
+      httr2::req_headers("Accept-Language" = language)
+  }
 
   # only valid for csv format
   if (!missing(labels)){
@@ -50,7 +54,7 @@ sdmx_v2_1_as_data_frame <- function(
       req |>
       httr2::req_perform(path = path)
 
-    print(resp)
+    # print(resp)
 
     a <- resp |> httr2::resp_body_json(simplifyVector = TRUE)
     print(a)
