@@ -1,7 +1,9 @@
 #' Get data from a SDMX API
 #'
 #' Retrieve data from an sdmx api and return it as a data.frame
-#' @param req An httr2 request object
+#' @param x An httr2 request object
+#' @param row.names Not used
+#' @param optional Not used
 #' @param format The format of the data. Either "csv" or "json"
 #' @param labels The labels to include in the data. Either "both" or "id"
 #' @param as.data.table if TRUE return a [data.table::data.table()].
@@ -20,6 +22,7 @@ as.data.frame.sdmx_v2_1_data_request <- function(
     language = "nl",
     as.data.table = FALSE
 ){
+  #TODO move a lot of stuff to data_request
   format <- match.arg(format)
   req <- x
 

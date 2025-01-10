@@ -1,7 +1,7 @@
 #' Get data from a SDMX API
 #'
 #' Retrieve data from an sdmx api and return it as an xml_document
-#' @param req An httr2 request object
+#' @param x An httr2 request object
 #' @param ... reserved for future use
 #' @param cache if TRUE, use cached response if available
 #' @return a `xml2::xml_document` object

@@ -16,6 +16,12 @@
 )
 }
 \arguments{
+\item{x}{An httr2 request object}
+
+\item{row.names}{Not used}
+
+\item{optional}{Not used}
+
 \item{format}{The format of the data. Either "csv" or "json"}
 
 \item{labels}{The labels to include in the data. Either "both" or "id"}
@@ -25,8 +31,6 @@
 \item{language}{The language to use for the text used in the response}
 
 \item{as.data.table}{if TRUE return a \code{\link[data.table:data.table]{data.table::data.table()}}.}
-
-\item{req}{An httr2 request object}
 }
 \value{
 a data.frame or data.table depending on the value of \code{as.data.table}

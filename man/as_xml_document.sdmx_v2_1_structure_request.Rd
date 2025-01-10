@@ -7,11 +7,11 @@
 \method{as_xml_document}{sdmx_v2_1_structure_request}(x, ..., cache = TRUE)
 }
 \arguments{
+\item{x}{An httr2 request object}
+
 \item{...}{reserved for future use}
 
 \item{cache}{if TRUE, use cached response if available}
-
-\item{req}{An httr2 request object}
 }
 \value{
 a \code{xml2::xml_document} object

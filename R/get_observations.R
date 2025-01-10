@@ -52,8 +52,6 @@ get_observations <- function(
     x
   })
 
-  browser()
-
 
   attr(df, "flowRef") <- dfi$dataflow$ref
 
