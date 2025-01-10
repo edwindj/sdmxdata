@@ -28,7 +28,6 @@ sdmx_v2_1_get_dataflows <- function(
 
 
   # TODO provide a "raw" option that returns the full response
-
   dataflows <- res$data$dataflows
 
   # we add ref to the dataflows for convenience, to be used as a flowRef

@@ -11,7 +11,7 @@ get_dimensions <- function(dfi){
   concepts <- dfi$concepts[concept_idx,]
 
   dimensions <- dims |>
-    subset(select = c(id, position))
+    subset(select = c("id", "position"))
 
   # TODO add language support
   dimensions$name <- concepts$name

@@ -3,6 +3,7 @@
 #
 # dfi <- get_dataflow_info(ref)
 # saveRDS(dfi, "inst/extdata/dfi.rds")
+get_units <- cbsopendata:::get_units
 
 dfi <-
   "extdata/dfi.rds" |>

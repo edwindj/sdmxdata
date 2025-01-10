@@ -132,6 +132,7 @@ parse_dataflow <- function(node, lang="nl"){
 }
 
 parse_datastructure <- function(node, lang = "nl"){
+  #browser()
   id <- xml_attr(node, "id")
   agencyID <- xml_attr(node, "agencyID")
   version <- xml_attr(node, "version")
@@ -144,17 +145,17 @@ parse_datastructure <- function(node, lang = "nl"){
 
   dimensions <-
     components |>
-    xml_find_all("s:DimensionList/s:Dimension", ns = ns_v2_1) |>
+    xml_find_all("s:DimensionList/*", ns = ns_v2_1) |> # catches also the timedimension
     lapply(parse_dimension, lang = lang, ref = ref) |>
     data.table::rbindlist(fill = TRUE) |>
     as.data.frame()
 
   # names(dimensions) <- sapply(dimensions, function(x) x$id)
 
-  timedimension <- components |> xml_find_first("s:DimensionList/s:TimeDimension", ns = ns_v2_1)
-  if (length(timedimension)){
-    #TODO process it
-  }
+  # timedimension <- components |> xml_find_first("s:DimensionList/s:TimeDimension", ns = ns_v2_1)
+  # if (length(timedimension)){
+  #   #TODO process it
+  # }
 
   attributes <- components |>
     xml_find_all("s:AttributeList/s:Attribute", ns = ns_v2_1) |>
@@ -202,7 +203,15 @@ parse_dimension <- function(node, lang = "nl", ref = NULL){
     xml_attrs() |>
     as.list()
 
-  cl_ref <- with(enum, paste(agencyID, id, version, sep = ","))
+  if ("agencyID" %in% names(enum)){
+    cl_ref <- with(enum, paste(agencyID, id, version, sep = ","))
+  } else {
+    cl_ref <- NA
+  }
+
+  textformat <- node |>
+    xml_find_first("s:LocalRepresentation/s:TextFormat", ns = ns_v2_1) |>
+    xml_attr("textType")
 
   d <- data.frame(
     id = id,

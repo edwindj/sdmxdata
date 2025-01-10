@@ -1,4 +1,5 @@
 sdmx_parse_data_url <- function(x, resource = c("data", "metadata")){
+  httr2::url_parse(x)
   x <- utils::URLdecode(x)
   resource <- match.arg(resource)
 
