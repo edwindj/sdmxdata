@@ -2,6 +2,7 @@
 get_dimensions <- function(dfi){
 
   dims <- dfi$datastructure$dimensions[[1]]
+  atts <- dfi$datastructure$attributes[[1]]
 
   cl_idx <- match(dims$cl_ref, dfi$codelists$ref)
   codelists <- dfi$codelists[cl_idx,]

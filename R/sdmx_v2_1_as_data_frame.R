@@ -65,8 +65,6 @@ sdmx_v2_1_as_data_frame <- function(
       add_header_accept(labels = labels) |>
       httr2::req_url_query(file = TRUE)
 
-  print(req)
-
   path <- tempfile("sdmx", fileext = ".csv")
 
   resp <- req |>
