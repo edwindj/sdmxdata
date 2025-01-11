@@ -16,3 +16,7 @@ download_to(x, destfile, ...)
 \description{
 Download the response of a request to a file
 }
+\details{
+Download the response of a request to a file, but allows for different
+format specifications e.g. csv, json, xml
+}

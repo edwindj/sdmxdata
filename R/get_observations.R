@@ -7,6 +7,9 @@ get_observations <- function(
     endPeriod = NULL,
     filter_on = NULL,
     ...,
+    dim_contents = c("label", "both", "id"),
+    attributes_contents = c("label", "id", "both"),
+    obs_value_numeric = TRUE,
     raw = FALSE,
     drop_first_column = !raw
   ){
@@ -14,6 +17,8 @@ get_observations <- function(
   if (missing(flowRef) && (missing(agencyID) || missing(id))){
     return(NULL)
   }
+  dim_contents <- match.arg(dim_contents)
+  attributes_contents <- match.arg(attributes_contents)
 
   dfi <- get_dataflow_info(
     ref = flowRef,
@@ -25,18 +30,27 @@ get_observations <- function(
   dims <- get_dimensions(dfi)
   key <- create_filter_key(dims, filter_on)
 
-  df <- sdmx_v2_1_data_request(
+  req <- sdmx_v2_1_data_request(
     resource = "data",
     flowRef = dfi$dataflow$ref,
     key = key,
     startPeriod = startPeriod,
     endPeriod = endPeriod,
     ...
-  ) |>
-  as.data.frame()
+  )
+
+  # print(list(req = req))
+
+  df <- req |> as.data.frame()
 
   if (isTRUE(raw)){
     return(df)
+  }
+
+  if (obs_value_numeric){
+    df$OBS_VALUE <-
+      as.numeric(df$OBS_VALUE) |>
+      suppressWarnings()
   }
 
   # should the first column be dropped?
@@ -46,9 +60,66 @@ get_observations <- function(
 
   # embellish data.frame with metadata
   dmnms <- names(dims)
-  df[dmnms] <- lapply(dmnms, function(id) {
+
+  cpts <- dfi$concepts
+  has_concept <- names(df) %in% cpts$id
+
+  dims <- dfi$datastructure$dimensions[[1]]
+  idx <- dims$cl_ref |> match(dfi$codelists$ref)
+  codelists <- dfi$codelists[idx, "codes"]
+
+  for (i in seq_along(dims$id)){
+    cl <- codelists[[i]]
+    id <- dims$id[i]
+    if (!is.null(cl)){
+      labels <- switch(
+        dim_contents,
+        both  = sprintf("%s: %s", cl$id, cl$name),
+        label = cl$name,
+        id    = cl$id,
+        cl$id
+      )
+      df[[id]] <- df[[id]] |>
+        factor(levels = cl$id, labels=labels)
+    }
+  }
+
+  # CBS specific
+  att <- dfi$datastructure$attributes[[1]]
+  if (!is.null(att)){
+    # browser()
+    idx <- match(att$cl_ref, dfi$codelists$ref)
+    codelists <- dfi$codelists[idx,"codes"]
+    for (i in seq_along(att$id)){
+      cl <- codelists[[i]]
+      id <- att$id[i]
+      if (!is.null(cl)){
+        labels <- switch(
+          attributes_contents,
+          both  = sprintf("%s: %s", cl$id, cl$name),
+          label = cl$name,
+          id    = cl$id,
+          cl$id
+        )
+        df[[id]] <- df[[id]] |>
+          factor(levels = cl$id, labels=labels)
+      }
+    }
+    # unit <- list(id = "UNIT_MEASURE")
+    # um <- att |> subset(id == unit$id)
+    # if (nrow(um) == 1){
+    #   unit$codelist <- dfi$codelists |> subset(ref == um$cl_ref)
+    #   unit$codes <- unit$codelist$codes[[1]]
+    #   unit$name <- subset(dfi$concepts, ref == um$concept_ref)$name
+    #
+    #   recode <- unit$codes$name |> setNames(unit$codes$id)
+    #   df[[unit$id]] <- recode[df[[unit$id]]]
+    # }
+  }
+
+  df[has_concept] <- lapply(names(df)[has_concept], function(id) {
     x <- df[[id]]
-    attr(x, "label") <- dims[[id]]$name
+    attr(x, "label") <- cpts$name[cpts$id == id]
     x
   })
 
@@ -63,8 +134,6 @@ create_filter_key <- function(dims, filter_on){
   if (is.null(filter_on)){
     return(NULL)
   }
-
-  # TODO filter out the TimeDimension in dims
 
   nms <- paste0("'", names(dims), "'", collapse = ",")
 

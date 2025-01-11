@@ -22,6 +22,7 @@ SDMX_STRUCTURES <-
 #' @param detail The detail of the data to return. Either "full", "allstubs", "referencestubs", "allcompletestubs", "referencecompletestubs", "referencepartial"
 #' @param references The references to return. Either "none", "parents", "parentsandsiblings", "children", "descendants", "all"
 #' @param ... saved for future use
+#' @param language The language to use for the text used in the response
 #' @return a modified [httr2::request()] object
 #'@export
 sdmx_v2_1_structure_request <- function(
@@ -32,6 +33,7 @@ sdmx_v2_1_structure_request <- function(
     version = NULL,
     itemID = NULL,
     format = c("xml", "json"),
+    language = NULL,
     ...,
     detail = c("full", "allstubs", "referencestubs", "allcompletestubs", "referencecompletestubs", "referencepartial"),
     references = c("none", "parents", "parentsandsiblings", "children", "descendants", "all")
@@ -50,6 +52,11 @@ sdmx_v2_1_structure_request <- function(
     paste(collapse = "/")
 
   req <- req |> httr2::req_template("GET /{path}")
+
+  if (!is.null(language)){
+    req <- req |>
+      httr2::req_headers("Accept-Language" = language)
+  }
 
   if (missing(detail)){
     detail <- NULL

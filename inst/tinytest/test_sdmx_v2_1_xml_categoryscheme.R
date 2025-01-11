@@ -3,7 +3,7 @@ library(xml2)
 
 doc <- xml2::read_xml(system.file("extdata", "categoryscheme.xml", package = "cbsopendata"))
 
-d <- cbsopendata:::sdmx_v2_1_xml_categoryscheme(doc)
+d <- cbsopendata:::xml_categoryscheme(doc)
 
 expect_equal(d$agencyID, "NL1")
 expect_equal(d$id, "CS_CBS")

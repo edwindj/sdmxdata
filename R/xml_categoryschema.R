@@ -1,4 +1,4 @@
-sdmx_v2_1_xml_categoryscheme <- function(doc){
+xml_categoryscheme <- function(doc){
   d <- doc
   s <- xml2::xml_find_all(d, "m:Structures/s:CategorySchemes/s:CategoryScheme", ns = ns_v2_1)
 

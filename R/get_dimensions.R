@@ -39,5 +39,13 @@ get_dimensions <- function(dfi){
       x
     })
 
+  # make sure the dimension have the position order
+  pos <-
+    d |>
+    sapply(\(x) x$position) |>
+    as.integer() |>
+    order()
+  d <- d[pos]
+
   d
 }

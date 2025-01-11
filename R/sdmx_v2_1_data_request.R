@@ -39,6 +39,7 @@ sdmx_v2_1_data_request <- function(
     includeHistory = NULL,
     labels = c("both", "id")
     ){
+
   req <- sdmx_endpoint(req)
   resource <- match.arg(resource)
 

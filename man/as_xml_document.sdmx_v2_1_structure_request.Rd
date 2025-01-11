@@ -4,7 +4,12 @@
 \alias{as_xml_document.sdmx_v2_1_structure_request}
 \title{Get data from a SDMX API}
 \usage{
-\method{as_xml_document}{sdmx_v2_1_structure_request}(x, ..., cache_dir = tempdir())
+\method{as_xml_document}{sdmx_v2_1_structure_request}(
+  x,
+  ...,
+  cache_dir = tempdir(),
+  verbose = getOption("cbsopendata.verbose", FALSE)
+)
 }
 \arguments{
 \item{x}{An httr2 request object}
@@ -12,6 +17,8 @@
 \item{...}{reserved for future use}
 
 \item{cache_dir}{The directory to cache the request in, set to \code{NULL} to disable caching}
+
+\item{verbose}{if \code{TRUE} print information about the caching.}
 }
 \value{
 a \code{xml2::xml_document} object
@@ -21,7 +28,7 @@ Retrieve data from an sdmx api and return it as an xml_document
 }
 \examples{
 if (interactive()){
-  dfs <- sdmx_v2_1_get_dataflows()
+  dfs <- get_dataflows()
   flowRef <- dfs$ref[1]
 
   d <-

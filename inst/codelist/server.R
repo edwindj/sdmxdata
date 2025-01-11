@@ -21,7 +21,7 @@ function(input, output, session){
   df_codelist <- reactive({
     df <- sdmx_v2_1_structure_request(resource = "codelist", detail = "allstubs") |>
       sdmx_v2_1_as_xml() |>
-      sdmx_v2_1_xml_codelist()
+      xml_codelist()
 
     df |>
       subset(

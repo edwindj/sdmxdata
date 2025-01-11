@@ -1,7 +1,7 @@
 
 # extra necessary metadata from an xml document retrieved with references=all
 #' @importFrom xml2 xml_find_all xml_find_first xml_text xml_attr xml_attrs
-sdmx_v2_1_parse_structure_xml  <- function(doc, ..., lang = "nl"){
+xml_parse_structure  <- function(doc, ..., lang = "nl"){
   structures <- doc |> xml_find_first("/m:Structure/m:Structures", ns = ns_v2_1)
 
   dataflows <-
@@ -226,6 +226,10 @@ parse_dimension <- function(node, lang = "nl", ref = NULL){
 }
 
 parse_attributes <- function(nodes, lang = "nl"){
+  if (length(nodes) == 0){
+    return(NULL)
+  }
+
   id <- nodes |> xml_attr("id")
   assignmentStatus <- nodes |> xml_attr("assignmentStatus")
 
@@ -249,7 +253,12 @@ parse_attributes <- function(nodes, lang = "nl"){
     lapply(as.list) |>
     data.table::rbindlist(fill = TRUE)
 
-  cl_ref <- with(enum, paste(agencyID, id, version, sep = ","))
+  if (nrow(enum) == 0){
+    cl_ref <- NA
+  } else {
+    cl_ref <- with(enum, paste(agencyID, id, version, sep = ","))
+  }
+
 
   dim_ref <- nodes |>
     xml2::xml_find_first("s:AttributeRelationship/s:Dimension/Ref", ns = ns_v2_1) |>

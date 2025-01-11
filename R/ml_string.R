@@ -6,5 +6,4 @@ ml_string <- function(nodes, xpath){
       text <- txt |> xml2::xml_text()
 
     })
-
 }

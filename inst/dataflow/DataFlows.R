@@ -15,7 +15,7 @@ DataFlowsServer <- function(id, shared_values){
   stopifnot(is.reactivevalues(shared_values))
 
   flows <- \(){
-    df <- cbsopendata::sdmx_v2_1_get_dataflows()
+    df <- cbsopendata::get_dataflows()
     df |>
       subset(select=c("name", "id", "agencyID", "version", "ref"))
   }

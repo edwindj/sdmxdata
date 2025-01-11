@@ -1,4 +1,4 @@
-dfs <- sdmx_v2_1_get_dataflows()
+dfs <- get_dataflows()
 flowRef <- dfs$ref[2]
 
 df <- sdmx_v2_1_structure_request(
@@ -8,6 +8,6 @@ df <- sdmx_v2_1_structure_request(
   references = "all"
 ) |> sdmx_v2_1_as_xml()
 
-s <- sdmx_v2_1_parse_structure_xml(df)
+s <- xml_parse_structure(df)
 
 View(s)

@@ -10,18 +10,19 @@ get_json <- function(url){
 
 }
 
-get_meta_json <- function(meta, simplifyDataFrame = TRUE){
-  req <- httr2::request(meta) |>
+get_structure_from_json <- function(
+    req,
+    simplifyVector = TRUE,
+    ...,
+    cache_dir = tempdir(),
+    verbose = getOption("cbsopendata.verbose", FALSE)
+    ){
+
+  req <- req |>
     httr2::req_headers(accept = "application/vnd.sdmx.structure+json;version=1.0;urn=true")
 
-  resp <-
-    req |>
-    httr2::req_perform()  |>
-    httr2::resp_body_json(
-      simplifyDataFrame = simplifyDataFrame
-    )
-  # application/vnd.sdmx.structure+json;version=1.0;urn=true
-  resp
+  res <- cache_json(req, cache_dir = cache_dir, verbose = verbose)
+  res
 }
 
 

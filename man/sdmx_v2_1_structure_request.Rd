@@ -12,6 +12,7 @@ sdmx_v2_1_structure_request(
   version = NULL,
   itemID = NULL,
   format = c("xml", "json"),
+  language = NULL,
   ...,
   detail = c("full", "allstubs", "referencestubs", "allcompletestubs",
     "referencecompletestubs", "referencepartial"),
@@ -33,6 +34,8 @@ sdmx_v2_1_structure_request(
 \item{itemID}{The item ID to request}
 
 \item{format}{The format to request. Either "json" or "xml"}
+
+\item{language}{The language to use for the text used in the response}
 
 \item{...}{saved for future use}
 

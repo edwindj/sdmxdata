@@ -1,4 +1,4 @@
-sdmx_v2_1_xml_codelist <- function(node){
+xml_codelist <- function(node){
   cl <- node |> xml2::xml_find_all(".//s:Codelist", ns = ns_v2_1)
   d <- data.frame(
     id = cl |> xml2::xml_attr("id"),

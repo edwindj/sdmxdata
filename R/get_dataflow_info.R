@@ -1,4 +1,6 @@
-get_dataflow_info <- function(ref, agencyID, id, version = "latest"){
+get_dataflow_info <- function(ref, agencyID, id, version = "latest", language="nl",
+                              verbose=getOption("cbsopendata.verbose", FALSE)
+                            ){
   if (missing(ref) || is.null(ref)){
     ref <- list(
       agencyID = agencyID,
@@ -16,17 +18,22 @@ get_dataflow_info <- function(ref, agencyID, id, version = "latest"){
     return(NULL)
   }
 
-  xml <- sdmx_v2_1_structure_request(
+  req <- sdmx_v2_1_structure_request(
     resource = "dataflow",
     agencyID = ref$agencyID,
     resourceID = ref$id,
     version = ref$version,
     detail = "full",
-    references = "all"
-  ) |>
-    xml2::as_xml_document()
+    references = "all",
+    language = language
+  )
 
-  d <- xml |> sdmx_v2_1_parse_structure_xml()
+  xml <- req |>
+    xml2::as_xml_document(verbose = verbose)
+
+  # json <- req |> get_structure_from_json()
+
+  d <- xml |> xml_parse_structure()
 
   dataflow <- d$dataflows[1,]
   datastructure <- d$datastructures[1,]

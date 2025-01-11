@@ -10,7 +10,7 @@
 #' @param language The language to use for the text used in the response
 #' @param ... reserved for future use
 #' @return a data.frame or data.table depending on the value of `as.data.table`
-#' @example example/sdmx_v2_1_as_data_frame.R
+#' @example example/as.data.frame.R
 #' @export
 as.data.frame.sdmx_v2_1_data_request <- function(
     x,
@@ -82,8 +82,6 @@ as.data.frame.sdmx_v2_1_data_request <- function(
 
   resp <- req |>
     httr2::req_perform(path = path)
-
-  # print(resp)
 
   d <- data.table::fread(file = path)
   if (isTRUE(as.data.table)){

@@ -14,29 +14,86 @@ cache_path <- function(ref, fileext = ".xml", dir = tempdir()){
   path
 }
 
-cache_xml <- function(req, cache_dir = tempdir()){
-  in_cache <- !is.null(cache_dir)
+cache_xml <- function(
+    req,
+    cache_dir = tempdir(),
+    verbose = getOption("cbsopendata.verbose", FALSE)
+  ){
+  should_cache <- !is.null(cache_dir)
 
-  cache_dir <- if (in_cache) cache_dir else tempdir()
+  cache_dir <- if (should_cache) cache_dir else tempdir()
 
   path <- cache_path(req$url, fileext = ".xml", dir = cache_dir)
 
   on.exit({
-    if (!in_cache){
+    if (!should_cache){
       unlink(path)
     }
   })
 
-  if (in_cache && !file.exists(path)){
+  in_cache <- file.exists(path) && should_cache
+  if (!in_cache){
     resp <- req |>
       httr2::req_perform(path = path)
+    if (verbose){
+      message("[cache:add]: ", sQuote(path))
+    }
+
     # TODO log response when failing, adding debugging
   } else {
-    message("Using cached result: '",path,"'")
+    if (verbose){
+      message("[cached:]", sQuote(path))
+    }
   }
 
   doc <- xml2::read_xml(path)
   doc
 }
+
+# returns path to json file
+cache_json <- function(
+    req,
+    simplifyVector = TRUE,
+    ...,
+    cache_dir = tempdir(),
+    verbose = getOption("cbsopendata.verbose", FALSE)
+  ){
+
+  should_cache <- !is.null(cache_dir)
+  cache_dir <- if (should_cache) cache_dir else tempdir()
+
+  path <- cache_path(req$url, fileext = ".json", dir = cache_dir)
+
+  on.exit({
+    if (!should_cache){
+      unlink(path)
+    }
+  })
+
+  in_cache <- file.exists(path)
+
+  if (!in_cache || !should_cache){
+    resp <- req |>
+      httr2::req_perform(path = path)
+
+    if (verbose){
+      if (should_cache) {
+        message("[cache:add]: ", path)
+      } else {
+        message("[cache:disabled]")
+      }
+    }
+  } else if (verbose){
+    message("[cached]: ",path,"'")
+  }
+
+  jsonlite::read_json(path, simplifyVector = simplifyVector, ...) |>
+    structure(
+      was_cached = (in_cache & should_cache)
+    )
+}
+
+
+# maybe provide an empty cache method?
 
 

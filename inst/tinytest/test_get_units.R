@@ -1,4 +1,4 @@
-# dfs <- sdmx_v2_1_get_dataflows()
+# dfs <- get_dataflows()
 # ref <- dfs$ref[4]
 #
 # dfi <- get_dataflow_info(ref)
