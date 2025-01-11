@@ -10,7 +10,6 @@ sdmx_v2_1_data_request(
   flowRef = NULL,
   key = NULL,
   providerRef = NULL,
-  format = c("csv", "json", "xml"),
   ...,
   startPeriod = NULL,
   endPeriod = NULL,
@@ -33,8 +32,6 @@ sdmx_v2_1_data_request(
 \item{key}{The key to request, see details}
 
 \item{providerRef}{The provider reference to request, see details}
-
-\item{format}{The format to request. Either "csv", "json" or "xml"}
 
 \item{...}{Additional parameters to pass to the request}
 

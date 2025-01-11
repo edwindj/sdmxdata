@@ -11,7 +11,9 @@ get_observations <- function(
     attributes_contents = c("label", "id", "both"),
     obs_value_numeric = TRUE,
     raw = FALSE,
-    drop_first_column = !raw
+    drop_first_column = !raw,
+    cache_dir = tempdir(),
+    verbose = getOption("cbsopendata.verbose", FALSE)
   ){
 
   if (missing(flowRef) && (missing(agencyID) || missing(id))){
@@ -20,19 +22,22 @@ get_observations <- function(
   dim_contents <- match.arg(dim_contents)
   attributes_contents <- match.arg(attributes_contents)
 
-  dfi <- get_dataflow_info(
-    ref = flowRef,
+  dfi <- get_dataflow_info2(
+    flowRef = flowRef,
     agencyID = agencyID,
     id = id,
-    version = version
+    version = version,
+    verbose = verbose,
+    cache_dir = cache_dir
   )
 
-  dims <- get_dimensions(dfi)
-  key <- create_filter_key(dims, filter_on)
+  # dims <- get_dimensions(dfi)
+
+  key <- create_filter_key(dims = dfi$dimensions, filter_on)
 
   req <- sdmx_v2_1_data_request(
     resource = "data",
-    flowRef = dfi$dataflow$ref,
+    flowRef = dfi$dataflow$flowRef,
     key = key,
     startPeriod = startPeriod,
     endPeriod = endPeriod,
@@ -59,13 +64,13 @@ get_observations <- function(
   }
 
   # embellish data.frame with metadata
-  dmnms <- names(dims)
+  dmnms <- dfi$dimensions$id
 
   cpts <- dfi$concepts
   has_concept <- names(df) %in% cpts$id
 
-  dims <- dfi$datastructure$dimensions[[1]]
-  idx <- dims$cl_ref |> match(dfi$codelists$ref)
+  dims <- dfi$dimensions
+  idx <- dims$ref_codelist |> match(dfi$codelists$ref)
   codelists <- dfi$codelists[idx, "codes"]
 
   for (i in seq_along(dims$id)){
@@ -85,10 +90,11 @@ get_observations <- function(
   }
 
   # CBS specific
-  att <- dfi$datastructure$attributes[[1]]
+  att <- dfi$attributes
+  # att <- dfi$datastructure$attributes[[1]]
   if (!is.null(att)){
     # browser()
-    idx <- match(att$cl_ref, dfi$codelists$ref)
+    idx <- match(att$ref_codelist, dfi$codelists$ref)
     codelists <- dfi$codelists[idx,"codes"]
     for (i in seq_along(att$id)){
       cl <- codelists[[i]]
@@ -116,7 +122,6 @@ get_observations <- function(
     #   df[[unit$id]] <- recode[df[[unit$id]]]
     # }
   }
-
   df[has_concept] <- lapply(names(df)[has_concept], function(id) {
     x <- df[[id]]
     attr(x, "label") <- cpts$name[cpts$id == id]

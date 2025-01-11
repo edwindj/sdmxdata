@@ -8,7 +8,6 @@
 #' @param flowRef The flow reference to request, see details
 #' @param key The key to request, see details
 #' @param providerRef The provider reference to request, see details
-#' @param format The format to request. Either "csv", "json" or "xml"
 #' @param ... Additional parameters to pass to the request
 #' @param startPeriod The start period for which the data should be returned
 #' @param endPeriod The end period for which the data should be returned
@@ -27,7 +26,6 @@ sdmx_v2_1_data_request <- function(
     flowRef = NULL,
     key = NULL,
     providerRef = NULL,
-    format = c("csv", "json", "xml"),
     ...,
     startPeriod = NULL,
     endPeriod = NULL,

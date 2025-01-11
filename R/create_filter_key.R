@@ -3,7 +3,7 @@ create_filter_key <- function(dims, filter_on){
     return(NULL)
   }
 
-  nms <- names(dims) |> sQuote() |> paste(collapse = ",")
+  nms <- dims$id |> sQuote() |> paste(collapse = ",")
 
   if (!is.list(filter_on) || is.null(names(filter_on))){
     stop("'filter_on' must be a named list with at one or more of the",
@@ -12,7 +12,7 @@ create_filter_key <- function(dims, filter_on){
   }
 
   #check filter
-  chk <- names(filter_on) %in% names(dims)
+  chk <- names(filter_on) %in% dims$id
   if (!all(chk)){
     stop("'filter_on' contains invalid dimension name(s): ",
          paste0("'", names(filter_on)[!chk], "'", collapse = ","),
@@ -24,7 +24,7 @@ create_filter_key <- function(dims, filter_on){
   # TODO check codes, generate a warning when a code is not found in the codelist
   # of a dimension
 
-  key <- lapply(names(dims), function(id){
+  key <- lapply(dims$id, function(id){
     paste(filter_on[[id]], collapse = "+")
   }) |>
     paste(collapse = ".")
