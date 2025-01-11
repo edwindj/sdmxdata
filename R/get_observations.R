@@ -135,7 +135,7 @@ create_filter_key <- function(dims, filter_on){
     return(NULL)
   }
 
-  nms <- paste0("'", names(dims), "'", collapse = ",")
+  nms <- names(dims) |> sQuote() |> paste(collapse = ",")
 
   if (!is.list(filter_on) || is.null(names(filter_on))){
     stop("'filter_on' must be a named list with at one or more of the",

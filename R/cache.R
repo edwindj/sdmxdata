@@ -4,7 +4,11 @@ cache_path <- function(ref, fileext = ".xml", dir = tempdir()){
     ref |>
     sub("^.*//", "", x = _)
 
-  path <- file.path(dir, sprintf("%s%s", ref, fileext))
+  path <- file.path(
+    dir,
+    "cbsopendata",
+    sprintf("%s%s", ref, fileext)
+  )
 
   # make sure directory exists (ref can contain sub paths)
   path |>
@@ -93,7 +97,62 @@ cache_json <- function(
     )
 }
 
+ObjectCache <- function(
+  key,
+  cache_dir = tempdir(),
+  verbose = getOption("cbsopendata.verbose", FALSE)
+){
 
-# maybe provide an empty cache method?
+  e <- new.env()
 
+  disabled <- is.null(cache_dir)
+  e$disabled <- disabled
 
+  if (disabled){
+    cache_dir <- tempdir()
+    path <- cache_path(key, fileext = ".rds", dir = cache_dir)
+    unlink(path)
+
+    e$save <- function(object){
+      NULL
+    }
+
+    e$get <- function(){
+      NULL
+    }
+
+    e$is_cached <- function(){
+      FALSE
+    }
+    return(e)
+  }
+
+  e$path <- cache_path(key, fileext = ".rds", dir = cache_dir)
+  e$verbose <- verbose
+
+  e$is_cached <- function(){
+    file.exists(e$path)
+  }
+
+  e$save <- function(object){
+    if (e$verbose){
+      message("[cache:add]: ", e$path)
+    }
+    saveRDS(object, e$path)
+  }
+
+  e$get <- function(){
+    if (file.exists(e$path)){
+      if (e$verbose){
+        message("[cached]: ", e$path)
+      }
+      readRDS(e$path)
+    } else {
+      if (e$verbose){
+        message("[cache:miss]: ", e$path)
+      }
+      NULL
+    }
+  }
+  e
+}

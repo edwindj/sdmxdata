@@ -1,30 +1,43 @@
 get_dataflow_info2 <- function(
-    ref,
+    flowRef,
     agencyID,
     id,
     version = "latest",
     language="nl",
+    cache_dir = tempdir(),
     verbose = getOption("cbsopendata.verbose", FALSE)
   ){
   # get the information for just one dataflow
 
-  if (missing(ref) || is.null(ref)){
+  if (missing(flowRef) || is.null(flowRef)){
     ref <- list(
       agencyID = agencyID,
       id = id,
       version = version
     )
   } else {
-  ref <- strsplit(ref, ",") |>
+  ref <- strsplit(flowRef, ",") |>
     unlist() |>
     as.list()
   }
   names(ref) <- c("agencyID", "id", "version")
+  flowRef <- paste(ref$agencyID, ref$id, ref$version, sep = ",")
 
-  if (is.null(ref$agencyID) | is.null(ref$id) | is.null(ref$version)){
-    # TODO must stop here
-    return(NULL)
+  if (is.null(ref$agencyID) || is.null(ref$id) || is.null(ref$version)){
+    stop(
+      "Incomplete flow reference:", sQuote(flowRef)
+    )
   }
+
+  # oc <- ObjectCache(
+  #   key = paste("dataflowinfo2", flowRef, sep = "_"),
+  #   cache_dir = cache_dir,
+  #   verbose = verbose
+  # )
+  #
+  # if (oc$is_cached()){
+  #   return(oc$get())
+  # }
 
   req <- sdmx_v2_1_structure_request(
     resource = "dataflow",
@@ -36,7 +49,9 @@ get_dataflow_info2 <- function(
     language = language
   )
 
-  raw <- req |> get_structure_from_json(verbose = verbose)
+  raw <- req |> get_structure_from_json(
+    verbose = verbose, cache_dir = cache_dir
+  )
 
   d <- raw$data
   # process the structure and make it simpler
@@ -52,6 +67,8 @@ get_dataflow_info2 <- function(
 
   dataflow$ref <- extract_self_urn(dataflow) |> strip_urn()
   dataflow$ref_dsd <- dataflow$structure |> strip_urn()
+
+  # useful because it can be used in the data request
   dataflow$flowRef <- paste(dataflow$agencyID, dataflow$id, dataflow$version, sep = ",")
   dataflow <- dataflow |>
     subset(select = c("id", "agencyID", "version",
@@ -59,6 +76,21 @@ get_dataflow_info2 <- function(
                      )
           ) |>
     as.list()
+
+  # collect all concepts
+  concepts <-
+    d$conceptSchemes$concepts |>
+    lapply(function(x){
+      x$ref <- extract_self_urn(x) |> strip_urn()
+      x$ref_codelist <- x$coreRepresentation$enumeration |> strip_urn()
+      x$textFormat <- x$coreRepresentation$textFormat$textType
+
+      x$description <- if (is.null(x$description)) NA_character_ else x$description
+      x[,c("id", "name", "description", "ref", "ref_codelist","textFormat")]
+    }) |>
+    data.table::rbindlist(fill = TRUE) |>
+    as.data.frame()
+
 
   dsd <- d$dataStructures
   dsd$ref <- extract_self_urn(dsd) |> strip_urn()
@@ -88,20 +120,6 @@ get_dataflow_info2 <- function(
   atts <- atts |>
     subset(select = c("id", "ref", "ref_concept", "ref_codelist", "assignmentStatus"))
 
-  # browser()
-  # collect all concepts
-  concepts <-
-    d$conceptSchemes$concepts |>
-    lapply(function(x){
-      x$ref <- extract_self_urn(x) |> strip_urn()
-      x$ref_codelist <- x$coreRepresentation$enumeration |> strip_urn()
-      x$textFormat <- x$coreRepresentation$textFormat$textType
-
-      x$description <- if (is.null(x$description)) NA_character_ else x$description
-      x[,c("id", "name", "description", "ref", "ref_codelist","textFormat")]
-    }) |>
-    data.table::rbindlist(fill = TRUE) |>
-    as.data.frame()
 
   codelists <- d$codelists
   codelists$ref <- extract_self_urn(codelists) |> strip_urn()
@@ -116,15 +134,21 @@ get_dataflow_info2 <- function(
 
   concepts$column_id <- concepts$id
 
+  # just to be sure, add a column id
+  # it may be possible that the column id is not the same as the concept id
+  # when the concepts are from shared concept schemes that is...
   dim_idx <- match(dimensions$ref_concept, concepts$ref)
   concepts$column_id[dim_idx] <- dimensions$id
+  # add the concept names to the dimension
+  dimensions$name <- concepts$name[dim_idx]
 
   att_idx <- match(atts$ref_concept, concepts$ref)
   concepts$column_id[att_idx] <- atts$id
+  atts$name <- concepts$name[att_idx]
 
   #measure....
 
-  list(
+  dfi <- list(
     dataflow = dataflow,
     datastructure = datastructure,
     concepts = concepts,
@@ -134,6 +158,10 @@ get_dataflow_info2 <- function(
     raw = raw
   ) |>
   structure(class="dataflowinfo2")
+
+  # oc$save(dfi)
+
+  dfi
 }
 
 strip_urn <- function(x){
@@ -151,7 +179,7 @@ extract_self_urn <- function(x, prop = "links"){
 
 #' @export
 print.dataflowinfo2 <- function(x, ...){
-  cat("$dataflow: '", x$dataflow$name, "' [",x$dataflow$id,"]\n", sep="")
+  cat("$dataflow: '", x$dataflow$name, "' [",x$dataflow$flowRef,"]\n", sep="")
   cat("$dimensions: ", x$dimensions$id |> sQuote() |> paste(collapse = ","), "\n", sep="")
   cat("$datastructure: '", x$datastructure$name, "' [",x$datastructure$id,"]\n", sep="")
   #TODO improve
