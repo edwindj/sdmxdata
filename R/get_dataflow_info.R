@@ -50,6 +50,11 @@ get_dataflow_info <- function(
   )
 
   raw <- req |> get_structure_from_json(
+    cache_key = paste(
+      "dataflow",
+      gsub(",", "_",flowRef),
+      sep = "_"
+    ),
     verbose = verbose, cache_dir = cache_dir
   )
 

@@ -8,6 +8,7 @@ get_dataflows(
   req = NULL,
   agencyID = NULL,
   ...,
+  language = "nl",
   cache_dir = tempdir(),
   verbose = getOption("cbsopendata.verbose", FALSE)
 )
@@ -18,6 +19,8 @@ get_dataflows(
 \item{agencyID}{A character string from a given agencyID.}
 
 \item{...}{saved for future use.}
+
+\item{language}{The language to use for the text used in the response.}
 
 \item{cache_dir}{The directory to cache the request in, set to \code{NULL} to disable caching.}
 

@@ -4,12 +4,13 @@ get_structure_from_json <- function(
     simplifyVector = TRUE,
     ...,
     cache_dir = tempdir(),
+    cache_key = req$url,
     verbose = getOption("cbsopendata.verbose", FALSE)
     ){
 
   req <- req |>
     httr2::req_headers(accept = "application/vnd.sdmx.structure+json;version=1.0;urn=true")
 
-  res <- cache_json(req, cache_dir = cache_dir, verbose = verbose)
+  res <- cache_json(req, key = cache_key, cache_dir = cache_dir, verbose = verbose)
   res
 }

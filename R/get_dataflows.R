@@ -4,6 +4,7 @@
 #' @param req A character string for a given endpoint.
 #' @param agencyID A character string from a given agencyID.
 #' @param ... saved for future use.
+#' @param language The language to use for the text used in the response.
 #' @param cache_dir The directory to cache the request in, set to `NULL` to disable caching.
 #' @param verbose if `TRUE` print information about the dataflows.
 #' @return a data.frame with available dataflows
@@ -13,6 +14,7 @@ get_dataflows <- function(
     req = NULL,
     agencyID = NULL,
     ...,
+    language = "nl",
     cache_dir = tempdir(),
     verbose = getOption("cbsopendata.verbose", FALSE)
 ){
@@ -24,12 +26,23 @@ get_dataflows <- function(
     req = req,
     resource = "dataflow",
     agencyID = agencyID,
-    format = "json"
+    format = "json",
+    language = language
   )
+
+  cache_key <- "dataflows"
+  if (!is.null(agencyID)){
+    cache_key <- paste0(cache_key, "_", agencyID)
+  }
+
+  if (!is.null(language)){
+    cache_key <- paste0(cache_key, "_", language)
+  }
 
   res <- req |>
     cache_json(
       simplifyVector = TRUE,
+      key = cache_key,
       cache_dir = cache_dir,
       verbose = verbose
     )
