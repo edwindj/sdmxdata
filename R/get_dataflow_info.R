@@ -179,12 +179,53 @@ extract_self_urn <- function(x, prop = "links"){
 
 #' @export
 print.dataflow_info <- function(x, ...){
-  cat("$dataflow: '", x$dataflow$name, "' [",x$dataflow$flowRef,"]\n", sep="")
-  cat("$dimensions: ", x$dimensions$id |> sQuote() |> paste(collapse = ","), "\n", sep="")
-  cat("$datastructure: '", x$datastructure$name, "' [",x$datastructure$id,"]\n", sep="")
-  #TODO improve
-  cat("$concepts: (",nrow(x$concepts),")", paste(sQuote(x$concepts$name), collapse = ","),"\n", sep="")
-  cat("$codelists: ", nrow(x$codelists), "\n", sep="")
-  cat("$raw: ", "...", "\n")
+  cat(
+    x$dataflow$id,": ",
+    x$dataflow$name |> sQuote(),
+    " [", x$dataflow$flowRef, "]",
+    "\n", sep=""
+  )
+
+  cat("\nColumns: \n  ")
+  for (i in seq_len(nrow(x$dimensions))){
+    id <- x$dimensions$id[i]
+    name <- x$dimensions$name[i]
+    cat(id, ": ", name |> sQuote(), ", ", sep="")
+  }
+
+  cat("\n  ")
+
+  # for loop for measures
+  id <- "OBS_VALUE"
+  name <- "Waarneming"
+  cat(id, ": ", name |> sQuote(), ", ", sep="")
+
+  cat("\n  ")
+
+    for (i in seq_len(nrow(x$attributes))){
+    id <- x$attributes$id[i]
+    name <- x$attributes$name[i]
+    cat(id, ": ", name |> sQuote(), ", ", sep="")
+    }
+
+  cat("\n\n")
+  cat("Get a default selection of the data with:\n")
+
+
+  # def_sel <-
+  #   get_default_selection(x) |>
+  #   deparse(width.cutoff = 500, nlines = 1)
+
+  cmd <- sprintf(
+'obs <- get_observations(id="%s", agencyID="%s")',
+  x$dataflow$id,
+  x$dataflow$agencyID
+)
+
+  cat("  ", cmd, "\n", sep="")
+
+  cat("\nProperties:\n ", sep="")
+  paste0("$", names(x), collapse = ", ") |> cat()
+
   invisible(x)
 }
