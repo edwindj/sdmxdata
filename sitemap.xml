@@ -5,9 +5,12 @@
 <url><loc>https://edwindj.github.io/cbsopendata/authors.html</loc></url>
 <url><loc>https://edwindj.github.io/cbsopendata/index.html</loc></url>
 <url><loc>https://edwindj.github.io/cbsopendata/reference/as.data.frame.sdmx_v2_1_data_request.html</loc></url>
+<url><loc>https://edwindj.github.io/cbsopendata/reference/as.data.table.sdmx_v2_1_data_request.html</loc></url>
 <url><loc>https://edwindj.github.io/cbsopendata/reference/as_xml_document.sdmx_v2_1_structure_request.html</loc></url>
 <url><loc>https://edwindj.github.io/cbsopendata/reference/download_to.html</loc></url>
+<url><loc>https://edwindj.github.io/cbsopendata/reference/get_dataflow_info.html</loc></url>
 <url><loc>https://edwindj.github.io/cbsopendata/reference/get_dataflows.html</loc></url>
+<url><loc>https://edwindj.github.io/cbsopendata/reference/get_observations.html</loc></url>
 <url><loc>https://edwindj.github.io/cbsopendata/reference/index.html</loc></url>
 <url><loc>https://edwindj.github.io/cbsopendata/reference/sdmx_endpoint.html</loc></url>
 <url><loc>https://edwindj.github.io/cbsopendata/reference/sdmx_v2_1_data_request.html</loc></url>
