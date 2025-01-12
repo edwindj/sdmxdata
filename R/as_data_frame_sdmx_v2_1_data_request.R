@@ -81,7 +81,20 @@ as.data.frame.sdmx_v2_1_data_request <- function(
   path <- tempfile("sdmx", fileext = ".csv")
 
   resp <- req |>
+    httr2::req_error(
+      is_error = function(x) {
+        if (x$status_code == 404){
+          message("** Empty data selection, you may need to adjust your query.")
+          return(FALSE)
+        }
+        return(FALSE)
+      }
+    ) |>
     httr2::req_perform(path = path)
+
+  if (resp$status_code == 404){
+    return(NULL)
+  }
 
   d <- data.table::fread(file = path)
   if (isTRUE(as.data.table)){

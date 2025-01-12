@@ -28,7 +28,7 @@ DataFlowInfoServer <- function(id, dataflowref){
       if (is.null(ref)) {
         return(NULL)
       }
-      dfi <- get_dataflow_info(ref = ref)
+      dfi <- get_dataflow_info_xml(ref = ref)
       dfi
     })
 

@@ -22,7 +22,7 @@ get_observations <- function(
   dim_contents <- match.arg(dim_contents)
   attributes_contents <- match.arg(attributes_contents)
 
-  dfi <- get_dataflow_info2(
+  dfi <- get_dataflow_info(
     flowRef = flowRef,
     agencyID = agencyID,
     id = id,
@@ -32,6 +32,14 @@ get_observations <- function(
   )
 
   # dims <- get_dimensions(dfi)
+  if (missing(filter_on)){
+    filter_on <- get_default_selection(dfi)
+    if (!is.null(filter_on)){
+      message("`filter_on` argument not specified, using default selection:\n "
+             , "filter_on=", deparse(filter_on)
+             )
+    }
+  }
 
   key <- create_filter_key(dims = dfi$dimensions, filter_on)
 
@@ -47,6 +55,16 @@ get_observations <- function(
   # print(list(req = req))
 
   df <- req |> as.data.frame()
+
+  # shitty return from SDMX rest, empty selection.
+  # fixing it by returning a data.frame without rows.
+  if (is.null(df)){
+    df <-
+      # TODO improve this with measures
+      c(dfi$dimensions$id, "OBS_VALUE", dfi$attributes$id) |>
+      sapply(\(x) character()) |>
+      as.data.frame()
+  }
 
   if (isTRUE(raw)){
     return(df)
@@ -124,7 +142,7 @@ get_observations <- function(
   }
   df[has_concept] <- lapply(names(df)[has_concept], function(id) {
     x <- df[[id]]
-    attr(x, "label") <- cpts$name[cpts$id == id]
+    attr(x, "label") <- cpts$name[cpts$column_id == id]
     x
   })
 

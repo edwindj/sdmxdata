@@ -1,4 +1,4 @@
-# input is result of get_dataflow_info
+# input is result of get_dataflow_info_xml
 get_dimensions <- function(dfi){
 
   dims <- dfi$datastructure$dimensions[[1]]

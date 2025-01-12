@@ -1,10 +1,6 @@
-PROVIDERS_v2_1 <-
+PROVIDER_v2_1 <-
   list(
-    EUSTAT = "https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1"
+    ESTAT = "https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1",
+    LU1 = "https://lustat.statec.lu/rest/",
+    NL1 = "https://sdmx-api.beta.cbs.nl/rest"
   )
-
-
-# d <- sdmx_endpoint(PROVIDERS_v2_1$EUSTAT) |>
-#   sdmx_v2_1_data_request(flowRef="NAMA_10_GDP", key = "all") |>
-#   httr2::req_dry_run()
-#   sdmx_v2_1_as_data_frame()

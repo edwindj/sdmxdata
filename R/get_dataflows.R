@@ -36,7 +36,7 @@ get_dataflows <- function(
 
   was_cached <- isTRUE(attr(res, "was_cached"))
 
-  # TODO provide a "raw" option that returns the full response
+  # TODO provide a "raw" option that returns the full response of the SDMX v2.1 API
   dataflows <- res$data$dataflows
 
   # we add ref to the dataflows for convenience, to be used as a flowRef
@@ -44,12 +44,15 @@ get_dataflows <- function(
       paste(agencyID, id, version, sep = ",")
   })
 
+  dataflows$flowRef <- with(dataflows, {
+    paste(agencyID, id, version, sep = ",")
+  })
+
   contentLanguages = res$meta$contentLanguages
 
 if (verbose || (!was_cached && missing(verbose))){
   message(
-"Available dataflows (with versions): ", nrow(dataflows), "\n",
-"Unique dataflows: ", dataflows$id |> unique() |> length(), "\n",
+"Available dataflows: ", nrow(dataflows), "\n",
 "Agencies: ", unique(dataflows$agencyID) |> sQuote() |> paste(collapse = ", "), "\n",
 "Content languages: ", contentLanguages |> sQuote() |> paste(collapse = ", ")
 )
