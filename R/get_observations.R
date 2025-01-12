@@ -1,3 +1,25 @@
+#' Get data from a SDMX API
+#'
+#' Get data from a SDMX API
+#' @param agencyID The agency ID
+#' @param id The id of the dataflow
+#' @param version The version of the dataflow
+#' @param flowRef The flow reference can be used in stead of agencyID, id and version
+#' @param startPeriod The start period for which the data should be returned
+#' @param endPeriod The end period for which the data should be returned
+#' @param filter_on A named list of filters to apply to the data, if not speficied, it is the default selection, set to NULL to select all.
+#' @param ... Additional parameters to pass to the request
+#' @param dim_contents The contents of the dimension columns, either "label", "id" or "both"
+#' @param attributes_contents The contents of the attribute columns, either "label", "id" or "both"
+#' @param obs_value_numeric Should the OBS_VALUE column be coerced to numeric? Default is `TRUE`
+#' @param raw If `TRUE` return the raw data.frame from the SDMX, otherwise the data.frame is processed
+#' @param drop_first_column Should the first column be dropped? Default is `TRUE` (if not raw)
+#' @param cache_dir The directory to cache the meta data, set to `NULL` to disable caching
+#' @param verbose if `TRUE` print information about the caching.
+#' @param as.data.table If `TRUE` return a [data.table()], otherwise a [data.frame()]
+#' @return [data.frame()] or [data.table::data.table()] depending on `as.data.table`
+#' @example example/get_observations.R
+#' @export
 get_observations <- function(
     agencyID,
     id,
@@ -7,6 +29,7 @@ get_observations <- function(
     endPeriod = NULL,
     filter_on = NULL,
     ...,
+    as.data.table = FALSE,
     dim_contents = c("label", "both", "id"),
     attributes_contents = c("label", "id", "both"),
     obs_value_numeric = TRUE,
@@ -54,11 +77,15 @@ get_observations <- function(
 
   # print(list(req = req))
 
-  df <- req |> as.data.frame()
+  df <- req |> as.data.table()
+  if (as.data.table){
+    return(df)
+  }
+  data.table::setDF(df)
 
   # shitty return from SDMX rest, empty selection.
   # fixing it by returning a data.frame without rows.
-  if (is.null(df)){
+  if (nrow(df) == 0){
     df <-
       # TODO improve this with measures
       c(dfi$dimensions$id, "OBS_VALUE", dfi$attributes$id) |>

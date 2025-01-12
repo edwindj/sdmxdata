@@ -1,9 +1,22 @@
+#' Get information about a dataflow
+#'
+#' Get infomration about a dataflow
+#' @param flowRef A string with the flow reference, in the form of "agencyID,id,version"
+#' @param id The id of the dataflow
+#' @param version The version of the dataflow, defaults to "latest"
+#' @param agencyID The agency ID of the dataflow, defaults to "NL1"
+#' @param language The language of the metadata, defaults to "nl"
+#' @param verbose print some information on the console
+#' @param cache_dir The directory to cache the data in, set to `NULL` to disable caching.
+#' @return a list with the dataflow information
+#' @importFrom data.table as.data.table
+#' @export
 get_dataflow_info <- function(
     flowRef,
-    agencyID,
     id,
     version = "latest",
-    language="nl",
+    agencyID = getOption("cbsopendata.agencyID", "NL1"),
+    language= getOption("cbsopendata.language", "nl"),
     cache_dir = tempdir(),
     verbose = getOption("cbsopendata.verbose", FALSE)
   ){
