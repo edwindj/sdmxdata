@@ -1,6 +1,6 @@
 #' Get data from a SDMX API
 #'
-#' Get data from a SDMX API
+#' Get data from an SDMX API
 #' @param agencyID The agency ID
 #' @param id The id of the dataflow
 #' @param version The version of the dataflow

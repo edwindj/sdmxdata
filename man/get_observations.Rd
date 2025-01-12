@@ -60,7 +60,7 @@ get_observations(
 \code{\link[=data.frame]{data.frame()}} or \code{\link[data.table:data.table]{data.table::data.table()}} depending on \code{as.data.table}
 }
 \description{
-Get data from a SDMX API
+Get data from an SDMX API
 }
 \examples{
 if (interactive()) {
