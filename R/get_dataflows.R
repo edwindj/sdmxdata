@@ -66,8 +66,8 @@ get_dataflows <- function(
 if (verbose || (!was_cached && missing(verbose))){
   message(
 "Available dataflows: ", nrow(dataflows), "\n",
-"Agencies: ", unique(dataflows$agencyID) |> sQuote() |> paste(collapse = ", "), "\n",
-"Content languages: ", contentLanguages |> sQuote() |> paste(collapse = ", ")
+"Agencies: ", unique(dataflows$agencyID) |> dQuote() |> paste(collapse = ", "), "\n",
+"Content languages: ", contentLanguages |> dQuote() |> paste(collapse = ", ")
 )
 }
 

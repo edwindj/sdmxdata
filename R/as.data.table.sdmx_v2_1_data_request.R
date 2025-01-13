@@ -14,7 +14,7 @@ as.data.table.sdmx_v2_1_data_request <- function(
 ){
   req <- x
   req <- req |>
-      httr2::req_headers(accept = "application/vnd.sdmx.data+csv; version=1.0.0; charset=utf-8") |>
+      httr2::req_headers(accept = "application/vnd.sdmx.data+csv; version=2.0.0; charset=utf-8") |>
       httr2::req_url_query(format="csv")  # for ESTAT it seems format="SDMX-CSV" is required
 
   path <- tempfile("sdmx", fileext = ".csv")

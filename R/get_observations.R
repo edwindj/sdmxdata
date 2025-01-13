@@ -13,7 +13,7 @@
 #' @param attributes_contents The contents of the attribute columns, either "label", "id" or "both"
 #' @param obs_value_numeric Should the OBS_VALUE column be coerced to numeric? Default is `TRUE`
 #' @param raw If `TRUE` return the raw data.frame from the SDMX, otherwise the data.frame is processed
-#' @param drop_first_column Should the first column be dropped? Default is `TRUE` (if not raw)
+#' @param drop_first_columns Should the first columns be dropped? Default is `TRUE` (if not raw)
 #' @param cache_dir The directory to cache the meta data, set to `NULL` to disable caching
 #' @param verbose if `TRUE` print information about the caching.
 #' @param as.data.table If `TRUE` return a [data.table()], otherwise a [data.frame()]
@@ -34,7 +34,7 @@ get_observations <- function(
     attributes_contents = c("label", "id", "both"),
     obs_value_numeric = TRUE,
     raw = FALSE,
-    drop_first_column = !raw,
+    drop_first_columns = !raw,
     cache_dir = tempdir(),
     verbose = getOption("cbsopendata.verbose", FALSE)
   ){
@@ -68,7 +68,7 @@ get_observations <- function(
 
   req <- sdmx_v2_1_data_request(
     resource = "data",
-    flowRef = dfi$dataflow$flowRef,
+    flowRef = dfi$flowRef,
     key = key,
     startPeriod = startPeriod,
     endPeriod = endPeriod,
@@ -97,79 +97,66 @@ get_observations <- function(
     return(df)
   }
 
+
   if (obs_value_numeric){
-    df$OBS_VALUE <-
-      as.numeric(df$OBS_VALUE) |>
+    value <- dfi$measure$id
+    df[[value]] <-
+      as.numeric(df[[value]]) |>
       suppressWarnings()
   }
 
   # should the first column be dropped?
-  if (isTRUE(drop_first_column)){
-    df <- df[, -1]
+  if (isTRUE(drop_first_columns)){
+    df <- df[, -(1:3)]
   }
 
   # embellish data.frame with metadata
-  dmnms <- dfi$dimensions$id
-
-  cpts <- dfi$concepts
-  has_concept <- names(df) %in% cpts$id
 
   dims <- dfi$dimensions
-  idx <- dims$ref_codelist |> match(dfi$codelists$ref)
-  codelists <- dfi$codelists[idx, "codes"]
-
-  for (i in seq_along(dims$id)){
-    cl <- codelists[[i]]
+  for (i in seq_len(nrow(dims))){
     id <- dims$id[i]
-    if (!is.null(cl)){
+    code <- dims$codes[[i]]
+    if (!is.null(code)){
       labels <- switch(
         dim_contents,
-        both  = sprintf("%s: %s", cl$id, cl$name),
-        label = cl$name,
-        id    = cl$id,
-        cl$id
+        both  = sprintf("%s: %s", code$id, code$name),
+        label = code$name,
+        id    = code$id,
+        code$id
       )
       df[[id]] <- df[[id]] |>
-        factor(levels = cl$id, labels=labels)
+        factor(levels = code$id, labels=labels)
     }
   }
 
   # CBS specific
   att <- dfi$attributes
-  # att <- dfi$datastructure$attributes[[1]]
   if (!is.null(att)){
-    # browser()
-    idx <- match(att$ref_codelist, dfi$codelists$ref)
-    codelists <- dfi$codelists[idx,"codes"]
-    for (i in seq_along(att$id)){
-      cl <- codelists[[i]]
+    for (i in seq_len(nrow(att))){
       id <- att$id[i]
-      if (!is.null(cl)){
+      code <- att$codes[[i]]
+      if (!is.null(code)){
         labels <- switch(
           attributes_contents,
-          both  = sprintf("%s: %s", cl$id, cl$name),
-          label = cl$name,
-          id    = cl$id,
-          cl$id
+          both  = sprintf("%s: %s", code$id, code$name),
+          label = code$name,
+          id    = code$id,
+          code$id
         )
         df[[id]] <- df[[id]] |>
-          factor(levels = cl$id, labels=labels)
+          factor(levels = code$id, labels=labels)
       }
     }
-    # unit <- list(id = "UNIT_MEASURE")
-    # um <- att |> subset(id == unit$id)
-    # if (nrow(um) == 1){
-    #   unit$codelist <- dfi$codelists |> subset(ref == um$cl_ref)
-    #   unit$codes <- unit$codelist$codes[[1]]
-    #   unit$name <- subset(dfi$concepts, ref == um$concept_ref)$name
-    #
-    #   recode <- unit$codes$name |> setNames(unit$codes$id)
-    #   df[[unit$id]] <- recode[df[[unit$id]]]
-    # }
   }
-  df[has_concept] <- lapply(names(df)[has_concept], function(id) {
+
+
+  columns <- dfi$columns
+  columns <- columns[columns$id %in% names(df),]
+  nms <- columns$name |> stats::setNames(columns$id)
+
+  df[columns$id] <- lapply(columns$id, function(id) {
     x <- df[[id]]
-    attr(x, "label") <- cpts$name[cpts$column_id == id]
+    attr(x, "label") <- nms[id]
     x
   })
 

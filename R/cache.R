@@ -40,13 +40,13 @@ cache_xml <- function(
     resp <- req |>
       httr2::req_perform(path = path)
     if (verbose){
-      message("[cache:add]: ", sQuote(path))
+      message("[cache:add]: ", dQuote(path))
     }
 
     # TODO log response when failing, adding debugging
   } else {
     if (verbose){
-      message("[cached:]", sQuote(path))
+      message("[cached:]", dQuote(path))
     }
   }
 

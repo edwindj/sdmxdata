@@ -1,9 +1,10 @@
 create_filter_key <- function(dims, filter_on){
+  # browser()
   if (is.null(filter_on)){
     return(NULL)
   }
 
-  nms <- dims$id |> sQuote() |> paste(collapse = ",")
+  nms <- dims$id |> dQuote() |> paste(collapse = ",")
 
   if (!is.list(filter_on) || is.null(names(filter_on))){
     stop("'filter_on' must be a named list with at one or more of the",
