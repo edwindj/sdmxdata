@@ -18,7 +18,7 @@ get_observations(
   attributes_contents = c("label", "id", "both"),
   obs_value_numeric = TRUE,
   raw = FALSE,
-  drop_first_column = !raw,
+  drop_first_columns = !raw,
   cache_dir = tempdir(),
   verbose = getOption("cbsopendata.verbose", FALSE)
 )
@@ -50,7 +50,7 @@ get_observations(
 
 \item{raw}{If \code{TRUE} return the raw data.frame from the SDMX, otherwise the data.frame is processed}
 
-\item{drop_first_column}{Should the first column be dropped? Default is \code{TRUE} (if not raw)}
+\item{drop_first_columns}{Should the first columns be dropped? Default is \code{TRUE} (if not raw)}
 
 \item{cache_dir}{The directory to cache the meta data, set to \code{NULL} to disable caching}
 
