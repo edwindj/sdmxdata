@@ -16,6 +16,10 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/introduction.html">introduction</a></li>
+  </ul></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
       </ul></div>
@@ -51,7 +55,7 @@
 <span>  attributes_contents <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"label"</span>, <span class="st">"id"</span>, <span class="st">"both"</span><span class="op">)</span>,</span>
 <span>  obs_value_numeric <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  raw <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  drop_first_column <span class="op">=</span> <span class="op">!</span><span class="va">raw</span>,</span>
+<span>  drop_first_columns <span class="op">=</span> <span class="op">!</span><span class="va">raw</span>,</span>
 <span>  cache_dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"cbsopendata.verbose"</span>, <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -113,8 +117,8 @@
 <dd><p>If <code>TRUE</code> return the raw data.frame from the SDMX, otherwise the data.frame is processed</p></dd>
 
 
-<dt id="arg-drop-first-column">drop_first_column<a class="anchor" aria-label="anchor" href="#arg-drop-first-column"></a></dt>
-<dd><p>Should the first column be dropped? Default is <code>TRUE</code> (if not raw)</p></dd>
+<dt id="arg-drop-first-columns">drop_first_columns<a class="anchor" aria-label="anchor" href="#arg-drop-first-columns"></a></dt>
+<dd><p>Should the first columns be dropped? Default is <code>TRUE</code> (if not raw)</p></dd>
 
 
 <dt id="arg-cache-dir">cache_dir<a class="anchor" aria-label="anchor" href="#arg-cache-dir"></a></dt>
