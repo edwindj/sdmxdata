@@ -13,7 +13,7 @@
 #' @param attributes_contents The contents of the attribute columns, either "label", "id" or "both"
 #' @param obs_value_numeric Should the OBS_VALUE column be coerced to numeric? Default is `TRUE`
 #' @param raw If `TRUE` return the raw data.frame from the SDMX, otherwise the data.frame is processed
-#' @param drop_first_column Should the first column be dropped? Default is `TRUE` (if not raw)
+#' @param drop_first_columns Should the first columns be dropped? Default is `TRUE` (if not raw)
 #' @param cache_dir The directory to cache the meta data, set to `NULL` to disable caching
 #' @param verbose if `TRUE` print information about the caching.
 #' @param as.data.table If `TRUE` return a [data.table()], otherwise a [data.frame()]
@@ -34,7 +34,7 @@ get_observations <- function(
     attributes_contents = c("label", "id", "both"),
     obs_value_numeric = TRUE,
     raw = FALSE,
-    drop_first_column = !raw,
+    drop_first_columns = !raw,
     cache_dir = tempdir(),
     verbose = getOption("cbsopendata.verbose", FALSE)
   ){
@@ -103,9 +103,9 @@ get_observations <- function(
       suppressWarnings()
   }
 
-  # should the first column be dropped?
-  if (isTRUE(drop_first_column)){
-    df <- df[, -1]
+  # should the first columns be dropped?
+  if (isTRUE(drop_first_columns)){
+    df <- df[, -(1:3)]
   }
 
   # embellish data.frame with metadata
