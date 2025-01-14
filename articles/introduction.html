@@ -74,13 +74,22 @@
 <span><span class="co">#&gt; Available dataflows: 82</span></span>
 <span><span class="co">#&gt; Agencies: 'NL1', 'NL1.CNVT', 'NL1_DOUT', 'PT'</span></span>
 <span><span class="co">#&gt; Content languages: 'nl', 'en'</span></span>
-<span><span class="va">dfs</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span></span>
+<span><span class="va">dfs</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt;               id version agencyID isFinal</span></span>
 <span><span class="co">#&gt; 1 DF_TESTSET_X01     1.0      NL1   FALSE</span></span>
 <span><span class="co">#&gt; 2 DF_TESTSET_X02     1.0      NL1   FALSE</span></span>
 <span><span class="co">#&gt; 3    DF_24103NED     1.0 NL1.CNVT   FALSE</span></span>
 <span><span class="co">#&gt; 4    DF_37230ned     1.0 NL1.CNVT   FALSE</span></span>
-<span><span class="co">#&gt; 5       DF_37852     1.0 NL1.CNVT   FALSE</span></span></code></pre></div>
+<span><span class="co">#&gt; 5       DF_37852     1.0 NL1.CNVT   FALSE</span></span>
+<span><span class="co">#&gt; 6    DF_50012NED     1.0 NL1.CNVT   FALSE</span></span>
+<span><span class="co">#&gt;                                                                       name</span></span>
+<span><span class="co">#&gt; 1                                TESTSET (dataflow, only use for TESTSET!)</span></span>
+<span><span class="co">#&gt; 2                                 TESTSET (dataflow, alleen voor TESTSET!)</span></span>
+<span><span class="co">#&gt; 3                               Mbo; deelnemers, leerweg, opleiding, regio</span></span>
+<span><span class="co">#&gt; 4                                  Bevolkingsontwikkeling; regio per maand</span></span>
+<span><span class="co">#&gt; 5 Gezondheid, leefstijl, zorggebruik en -aanbod, doodsoorzaken; vanaf 1900</span></span>
+<span><span class="co">#&gt; 6                              Geneesmiddelen; kosten en gebruik 2010-2015</span></span></code></pre></div>
 <p>To retrieve a dataflow info:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">flowRef</span> <span class="op">&lt;-</span> <span class="va">dfs</span><span class="op">$</span><span class="va">flowRef</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span></span>
