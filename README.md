@@ -35,13 +35,22 @@ dfs <- get_dataflows()
 #> Available dataflows: 82
 #> Agencies: 'NL1', 'NL1.CNVT', 'NL1_DOUT', 'PT'
 #> Content languages: 'nl', 'en'
-dfs[1:5, 1:4]
+dfs[,1:5] |> 
+  head()
 #>               id version agencyID isFinal
 #> 1 DF_TESTSET_X01     1.0      NL1   FALSE
 #> 2 DF_TESTSET_X02     1.0      NL1   FALSE
 #> 3    DF_24103NED     1.0 NL1.CNVT   FALSE
 #> 4    DF_37230ned     1.0 NL1.CNVT   FALSE
 #> 5       DF_37852     1.0 NL1.CNVT   FALSE
+#> 6    DF_50012NED     1.0 NL1.CNVT   FALSE
+#>                                                                       name
+#> 1                                TESTSET (dataflow, only use for TESTSET!)
+#> 2                                 TESTSET (dataflow, alleen voor TESTSET!)
+#> 3                               Mbo; deelnemers, leerweg, opleiding, regio
+#> 4                                  Bevolkingsontwikkeling; regio per maand
+#> 5 Gezondheid, leefstijl, zorggebruik en -aanbod, doodsoorzaken; vanaf 1900
+#> 6                              Geneesmiddelen; kosten en gebruik 2010-2015
 ```
 
 To retrieve a dataflow info:

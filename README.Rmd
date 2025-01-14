@@ -43,7 +43,8 @@ To retrieve a list of tables:
 
 ```{r}
 dfs <- get_dataflows()
-dfs[1:5, 1:4]
+dfs[,1:5] |> 
+  head()
 ```
 
 To retrieve a dataflow info:
