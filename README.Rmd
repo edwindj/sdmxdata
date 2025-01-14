@@ -33,8 +33,35 @@ pak::pak("edwindj/cbsopendata")
 
 ## Example
 
-```{r example}
+
+```{r setup}
 library(cbsopendata)
-## basic example code
 ```
+
+To retrieve a list of tables:
+
+
+```{r}
+dfs <- get_dataflows()
+dfs[1:5, 1:4]
+```
+
+To retrieve a dataflow info:
+
+```{r}
+flowRef <- dfs$flowRef[4]
+print(flowRef)
+
+df <- get_dataflow_info(flowRef = flowRef)
+df
+```
+
+```{r}
+obs <-   obs <- get_observations(id="DF_37230ned", agencyID="NL1.CNVT")
+```
+
+```{r}
+head(obs)
+```
+
 
