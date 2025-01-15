@@ -56,7 +56,7 @@ get_observations <- function(
 
   # dims <- get_dimensions(dfi)
   if (missing(filter_on)){
-    filter_on <- get_default_selection(dfi)
+    filter_on <- dfi$default_selection
     if (!is.null(filter_on)){
       message("`filter_on` argument not specified, using default selection:\n "
              , "filter_on=", deparse(filter_on)
@@ -65,7 +65,6 @@ get_observations <- function(
   }
 
   key <- create_filter_key(dims = dfi$dimensions, filter_on)
-
   req <- sdmx_v2_1_data_request(
     resource = "data",
     flowRef = dfi$flowRef,
@@ -87,8 +86,7 @@ get_observations <- function(
   # fixing it by returning a data.frame without rows.
   if (nrow(df) == 0){
     df <-
-      # TODO improve this with measures
-      c(dfi$dimensions$id, "OBS_VALUE", dfi$attributes$id) |>
+      dfi$columns$id |>
       sapply(\(x) character()) |>
       as.data.frame()
   }
@@ -112,10 +110,9 @@ get_observations <- function(
 
   # embellish data.frame with metadata
 
-  dims <- dfi$dimensions
-  for (i in seq_len(nrow(dims))){
-    id <- dims$id[i]
-    code <- dims$codes[[i]]
+  for (d in dfi$dimensions){
+    id <- d$id
+    code <- d$codes
     if (!is.null(code)){
       labels <- switch(
         dim_contents,
@@ -130,11 +127,9 @@ get_observations <- function(
   }
 
   # CBS specific
-  att <- dfi$attributes
-  if (!is.null(att)){
-    for (i in seq_len(nrow(att))){
-      id <- att$id[i]
-      code <- att$codes[[i]]
+  for (a in dfi$attributes){
+      id <- a$id
+      code <- a$codes
       if (!is.null(code)){
         labels <- switch(
           attributes_contents,
@@ -146,7 +141,6 @@ get_observations <- function(
         df[[id]] <- df[[id]] |>
           factor(levels = code$id, labels=labels)
       }
-    }
   }
 
 

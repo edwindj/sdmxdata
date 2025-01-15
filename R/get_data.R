@@ -26,7 +26,7 @@ get_data <- function(
     )
 
     if (missing(filter_on)){
-      filter_on <- get_default_selection(dfi)
+      filter_on <- dfi$default_selection
     }
 
     obs <- get_observations(
@@ -44,13 +44,14 @@ get_data <- function(
 
     data.table::setDT(obs)
 
-    dims <- dfi$dimensions$id
+    dims <- names(dfi$dimensions)
     # CBS specific
     dims <- dims[dims != "Topics"]
     f <- "%s ~ Topics" |>
         sprintf(dims |> paste(collapse = " + ")) |>
         stats::as.formula()
-    measure <- "OBS_VALUE"
+
+    measure <- dfi$measure$name
 
     dta <- data.table::dcast(obs, f, value.var = measure)
 

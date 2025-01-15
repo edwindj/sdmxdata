@@ -1,9 +1,18 @@
 source("CodesTree.R")
 source("CodesDT.R")
 
-CodeListUI <- function(id){
+DimensionUI <- function(id){
   ns <- NS(id)
   tagList(
+    div(
+      "Name: ",
+      textOutput(ns("name"), inline = TRUE)
+    ),
+    div(
+      tags$pre(
+        textOutput(ns("description"))
+      )
+    ),
     # div(
     #     "codelist: ",
     #     textOutput(ns("name"))
@@ -22,30 +31,40 @@ CodeListUI <- function(id){
   )
 }
 
-CodeListServer <- function(id, codelist){
-  force(codelist)
+DimensionServer <- function(id, dim){
+  force(dim)
 
   moduleServer(id, function(input, output, session){
     ns <- session$ns
 
     observeEvent(input$showtree,{
-      if (!is.null(codelist)){
+      if (!is.null(dim)){
         # browser()
         if (input$showtree){
-          CodesTreeServer("code", codelist$code)
+          CodesTreeServer("code", dim$code)
         } else {
-          CodesDTServer("code", codelist$code)
+          CodesDTServer("code", dim$code)
         }
       }
       gc()
     })
 
+    # output$name <- renderText({
+    #   codelist$name
+    # })
+    #
+    # output$description <- renderText({
+    #   codelist$description
+    # })
+
     output$name <- renderText({
-      codelist$name
+      dim$name
     })
 
     output$description <- renderText({
-      codelist$description
+      if (!is.na(dim$description)){
+        dim$description
+      }
     })
 
     output$code <- renderUI({

@@ -9,13 +9,13 @@
 
 library(shiny)
 library(cbsopendata)
-get_dataflow_info_xml <- cbsopendata:::get_dataflow_info_xml
+get_dataflow_info <- cbsopendata:::get_dataflow_info
 
 library(DT)
 
 source("DataFlows.R")
 source("DataFlowInfo.R")
-source("Dimensions.R")
+source("DimensionsTab.R")
 
 function(input, output, session){
 
@@ -26,10 +26,10 @@ function(input, output, session){
   debounce_dataflowref <- debounce(reactive(shared_values$dataflowref), 600)
 
   observeEvent(shared_values$dataflowref, {
-    ref <- shared_values$dataflowref
+    flowRef <- shared_values$dataflowref
 
-    if (!is.null(ref)){
-      dfi <- get_dataflow_info_xml(ref = ref)
+    if (!is.null(flowRef)){
+      dfi <- get_dataflow_info(flowRef = flowRef)
       shared_values$dfi <- dfi
     } else{
       shared_values$dfi <- NULL
@@ -42,6 +42,9 @@ function(input, output, session){
 
   DataFlowsServer("dataflows", shared_values = shared_values)
   DataFlowInfoServer("info", shared_values = shared_values)
-  DimensionsServer("dimensions", shared_values = shared_values)
-  output$rawxml <- renderText(shared_values$dfi$raw)
+  DimensionsTabServer("dimensions", shared_values = shared_values)
+  output$rawsdmx <- renderText(
+    shared_values$dfi$raw_sdmx |>
+      jsonlite::toJSON(auto_unbox = TRUE, pretty = TRUE)
+  )
 }

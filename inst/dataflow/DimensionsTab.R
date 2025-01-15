@@ -1,17 +1,17 @@
 # HACK
-get_dimensions <- cbsopendata:::get_dimensions
+# get_dimensions <- cbsopendata:::get_dimensions
 # source("CodesTree.R")
 # source("CodesDT.R")
-source("CodeList.R")
+source("Dimension.R")
 
-DimensionsUI <- function(id){
+DimensionsTabUI <- function(id){
   ns <- NS(id)
   tagList(
     uiOutput(ns("dims"))
   )
 }
 
-DimensionsServer <- function(id, shared_values){
+DimensionsTabServer <- function(id, shared_values){
   moduleServer( id, function(input, output, session){
       ns <- session$ns
 
@@ -20,7 +20,7 @@ DimensionsServer <- function(id, shared_values){
         if (is.null(dfi)){
           return(NULL)
         }
-        d <- get_dimensions(dfi)
+        d <- dfi$dimensions
         d
       })
 
@@ -33,8 +33,8 @@ DimensionsServer <- function(id, shared_values){
 
         for (dim in dims){
           # id <- paste0("codes", dim$id)
-          cl_id <- paste0("codelist", dim$id)
-          CodeListServer(cl_id, codelist = dim$codelist)
+          dim_id <- paste0("dim", dim$id)
+          DimensionServer(dim_id, dim = dim)
           # if (input$showtree){
           #   CodesTreeServer(id, code = dim$code)
           # } else{
@@ -47,19 +47,18 @@ DimensionsServer <- function(id, shared_values){
 
       output$dims <- renderUI({
         dims <- lapply(dimensions(), function(dim){
-          codesid <- paste0("codes", dim$id)
-          cl_id <- paste0("codelist", dim$id)
+          dim_id <- paste0("dim", dim$id)
 
           panelname <- sprintf(
             "%s (%d) [%s]",
             dim$name,
-            nrow(dim$codelist$code),
+            nrow(dim$code),
             dim$id
           )
 
           accordion_panel(
             panelname,
-            CodeListUI(ns(cl_id))
+            DimensionUI(ns(dim_id))
           )
 
         })

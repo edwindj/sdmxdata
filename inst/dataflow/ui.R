@@ -12,7 +12,7 @@ library(bslib)
 library(DT)
 source("DataFlows.R")
 source("DataFlowInfo.R")
-source("Dimensions.R")
+source("DimensionsTab.R")
 
 page_navbar(
     title = "Dataflow Explorer",
@@ -34,17 +34,17 @@ page_navbar(
     nav_panel(
       id = "dimensions",
       title="Dimensions",
-      DimensionsUI("dimensions")
+      DimensionsTabUI("dimensions")
     ),
     nav_panel(
-      id = "rawxml",
-      title = "xml",
+      id = "rawsdmx",
+      title = "sdmx",
       card(
-        card_header("XML"),
+        card_header("json"),
         card_body(
           tags$pre(
             tags$code(
-              textOutput("rawxml")
+              textOutput("rawsdmx")
             )
           )
         )

@@ -24,7 +24,7 @@ DataFlowInfoServer <- function(id, shared_values){
       if (is.null(dfi)){
         return(NULL)
       }
-      dfi$dataflow
+      dfi
     })
 
     observeEvent(dataflow(), {

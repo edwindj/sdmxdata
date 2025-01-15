@@ -131,7 +131,9 @@ get_dataflow_info <- function(
     as.list()
 
   # extract the dimensions
-  dimensions <- dsd$dataStructureComponents$dimensionList$dimensions[[1]]
+  dimlist <- dsd$dataStructureComponents$dimensionList
+
+  dimensions <- dimlist$dimensions[[1]]
   dimensions$ref <- extract_self_urn(dimensions) |> strip_urn()
 
   ref_concept <- dimensions$conceptIdentity |> strip_urn()
@@ -142,8 +144,27 @@ get_dataflow_info <- function(
   codelist <- codelists[match(concept$ref_codelist, codelists$ref),]
   dimensions$codes <- codelist$codes
 
-  dimensions <- dimensions |>
-    subset(select = c("id", "name","description","codes", "position", "type", "ref"))
+  dimensions <- dimensions[, c("id", "name","description","codes",
+                               "position", "type", "ref"
+                               )
+  ]
+
+  time_dimensions <- dimlist$timeDimensions[[1]]
+  if (!is.null(time_dimensions)){
+    time_dimensions$ref <- extract_self_urn(time_dimensions) |> strip_urn()
+
+    ref_concept <- time_dimensions$conceptIdentity |> strip_urn()
+    concept <- concepts[match(ref_concept, concepts$ref),]
+    time_dimensions$name <- concept$name
+    time_dimensions$description <- concept$description
+    time_dimensions$codes <- list(NULL)
+
+    time_dimensions <- time_dimensions[, c("id", "name","description","codes",
+                                 "position", "type", "ref"
+    )]
+  }
+
+  dimensions <- rbind(dimensions, time_dimensions)
 
   # sort the dimension by position. Needed for assembling key/filter_on
   o <- order(dimensions$position)
@@ -155,6 +176,7 @@ get_dataflow_info <- function(
   concept <- concepts[match(ref_concept, concepts$ref),]
   measure$name <- concept$name
   measure$description <- concept$description
+
   # not sure which has precedence, concept$textformat or measure$textformat
   measure$text_format <- switch(
     measure$localRepresentation$textFormat$textType,
@@ -162,27 +184,46 @@ get_dataflow_info <- function(
     "Double" = "numeric",
     "character"
   )
-  measure <- measure[, c("id", "name", "description", "text_format", "ref")]
+  measure <-
+    measure[, c("id", "name", "description", "text_format", "ref")]
 
   atts <- dsd$dataStructureComponents$attributeList$attributes[[1]]
-  atts$ref <- extract_self_urn(atts) |> strip_urn()
-  ref_concept <- atts$conceptIdentity |> strip_urn()
-  concept <- concepts[match(ref_concept, concepts$ref),]
-  atts$name <- concept$name
-  atts$description <- concept$description
-  atts$text_format <- concept$textFormat
+  if (!is.null(atts)){
 
-  codelist <- codelists[match(concept$ref_codelist, codelists$ref),]
-  atts$codes <- codelist$codes
-  atts <- atts[, c("id", "name", "description", "text_format", "codes", "ref")]
-  atts
+    atts$ref <- extract_self_urn(atts) |> strip_urn()
+    ref_concept <- atts$conceptIdentity |> strip_urn()
+    concept <- concepts[match(ref_concept, concepts$ref),]
+    atts$name <- concept$name
+    atts$description <- concept$description
+    atts$text_format <- concept$textFormat
 
+    codelist <- codelists[match(concept$ref_codelist, codelists$ref),]
+    atts$codes <- codelist$codes
+    atts <-
+      atts[, c("id", "name", "description", "text_format", "codes", "ref")]
+
+  }
 
   columns <- rbind(
     dimensions[,c("id", "name", "description")],
     measure[,c("id", "name", "description")],
     atts[,c("id", "name", "description")]
   )
+
+  dimensions <- dimensions |>
+    split(seq_len(nrow(dimensions))) |>
+    lapply(\(x) unlist(x, recursive = FALSE)) |>
+    stats::setNames(dimensions$id)
+
+  measure <- measure |>
+    as.list()
+
+  if (!is.null(atts)){
+    atts <- atts |>
+      split(seq_len(nrow(atts))) |>
+      lapply(\(x) unlist(x, recursive = FALSE)) |>
+      stats::setNames(atts$id)
+  }
 
   dfi <- list(
     id          = dataflow$id,
@@ -199,6 +240,8 @@ get_dataflow_info <- function(
     raw_sdmx    = raw
   ) |>
   structure(class="dataflow_info")
+
+  dfi$default_selection <- get_default_selection(dfi)
 
   # oc$save(dfi)
 
