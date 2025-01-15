@@ -1,0 +1,52 @@
+---
+title: "introduction"
+output:
+  rmarkdown::html_vignette:
+    df_print: kable
+vignette: >
+  %\VignetteIndexEntry{introduction}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  df_print = "kable"
+)
+```
+
+```{r setup}
+library(cbsopendata)
+```
+
+# Introduction
+
+To retrieve a list of tables:
+
+
+```{r}
+dfs <- get_dataflows()
+dfs[, 1:5] |> 
+  head()
+```
+
+To retrieve a dataflow info:
+
+```{r}
+flowRef <- dfs$flowRef[4]
+print(flowRef)
+
+df <- get_dataflow_info(flowRef = flowRef)
+df
+```
+
+```{r}
+obs <-   obs <- get_observations(id="DF_37230ned", agencyID="NL1.CNVT")
+```
+
+```{r}
+head(obs)
+```
+

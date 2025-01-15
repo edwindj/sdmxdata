@@ -105,7 +105,7 @@ get_observations <- function(
       suppressWarnings()
   }
 
-  # should the first column be dropped?
+  # should the first columns be dropped?
   if (isTRUE(drop_first_columns)){
     df <- df[, -(1:3)]
   }
