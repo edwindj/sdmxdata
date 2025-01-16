@@ -1,6 +1,7 @@
 #' Get information about a dataflow
 #'
 #' Get infomration about a dataflow
+#' @param req A character string with the request to the dataflow
 #' @param flowRef A string with the flow reference, in the form of "agencyID,id,version"
 #' @param id The id of the dataflow
 #' @param version The version of the dataflow, defaults to "latest"
@@ -12,6 +13,7 @@
 #' @importFrom data.table as.data.table
 #' @export
 get_dataflow_info <- function(
+    req = NULL,
     flowRef,
     id,
     version = "latest",
@@ -53,6 +55,7 @@ get_dataflow_info <- function(
   # }
 
   req <- sdmx_v2_1_structure_request(
+    req = req,
     resource = "dataflow",
     agencyID = ref$agencyID,
     resourceID = ref$id,

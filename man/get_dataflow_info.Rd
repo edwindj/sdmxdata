@@ -5,6 +5,7 @@
 \title{Get information about a dataflow}
 \usage{
 get_dataflow_info(
+  req = NULL,
   flowRef,
   id,
   version = "latest",
@@ -15,6 +16,8 @@ get_dataflow_info(
 )
 }
 \arguments{
+\item{req}{A character string with the request to the dataflow}
+
 \item{flowRef}{A string with the flow reference, in the form of "agencyID,id,version"}
 
 \item{id}{The id of the dataflow}

@@ -3,7 +3,7 @@
 #' `sdmx_v2_1_data_request` is a wrapper around the smdx rest api v2.1 and is used to retrieve
 #' data from the api.
 #'
-#' @param req An endpoint or an httr2 request object
+#' @param req An endpoint or an httr2 request object pointing to an endpoint.
 #' @param resource The resource to request. Either "data" or "metadata"
 #' @param flowRef The flow reference to request, see details
 #' @param key The key to request, see details

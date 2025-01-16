@@ -1,6 +1,7 @@
 #' Get data from a SDMX API
 #'
 #' Get data from an SDMX API
+#' @param req An endpoint
 #' @param agencyID The agency ID
 #' @param id The id of the dataflow
 #' @param version The version of the dataflow
@@ -21,6 +22,7 @@
 #' @example example/get_observations.R
 #' @export
 get_observations <- function(
+    req  = NULL,
     agencyID,
     id,
     version = "latest",
@@ -46,6 +48,7 @@ get_observations <- function(
   attributes_contents <- match.arg(attributes_contents)
 
   dfi <- get_dataflow_info(
+    req = req,
     flowRef = flowRef,
     agencyID = agencyID,
     id = id,
@@ -57,15 +60,34 @@ get_observations <- function(
   # dims <- get_dimensions(dfi)
   if (missing(filter_on)){
     filter_on <- dfi$default_selection
+
     if (!is.null(filter_on)){
-      message("`filter_on` argument not specified, using default selection:\n "
-             , "filter_on=", deparse(filter_on)
+      fl <- filter_on |>
+        lapply(\(x) {
+          deparse(x) |>
+            paste(collapse = "")
+        })
+      fl2 <- paste("\t", names(fl),"=",fl, collapse = ",\n")
+      message("\n* `filter_on` argument not specified, using default selection:\n "
+             , "  filter_on = list(\n",
+               fl2,
+             "\n   )",
+               "\n*  To select all data, set `filter_on` to `NULL`.\n"
              )
     }
   }
 
   key <- create_filter_key(dims = dfi$dimensions, filter_on)
+
+  if (!is.null(startPeriod) || !is.null(endPeriod)){
+    warning("`startPeriod` and `endPeriod` are only implemented for ",
+            "dataflows with an explicit time dimension.",
+            call. = FALSE
+          )
+  }
+
   req <- sdmx_v2_1_data_request(
+    req = req,
     resource = "data",
     flowRef = dfi$flowRef,
     key = key,
