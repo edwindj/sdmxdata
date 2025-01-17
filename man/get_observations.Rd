@@ -5,6 +5,7 @@
 \title{Get data from a SDMX API}
 \usage{
 get_observations(
+  req = NULL,
   agencyID,
   id,
   version = "latest",
@@ -24,6 +25,8 @@ get_observations(
 )
 }
 \arguments{
+\item{req}{An endpoint}
+
 \item{agencyID}{The agency ID}
 
 \item{id}{The id of the dataflow}

@@ -1,7 +1,7 @@
 #' Get sdmx dataflows
 #'
 #' Get sdmx dataflows from a given endpoint.
-#' @param req A character string for a given endpoint.
+#' @param req A character string or endpoint for a given endpoint.
 #' @param agencyID A character string from a given agencyID.
 #' @param ... saved for future use.
 #' @param language The language to use for the text used in the response.
