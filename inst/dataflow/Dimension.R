@@ -8,11 +8,7 @@ DimensionUI <- function(id){
       "Name: ",
       textOutput(ns("name"), inline = TRUE)
     ),
-    div(
-      tags$pre(
-        textOutput(ns("description"))
-      )
-    ),
+    uiOutput(ns("description")),
     # div(
     #     "codelist: ",
     #     textOutput(ns("name"))
@@ -61,9 +57,13 @@ DimensionServer <- function(id, dim){
       dim$name
     })
 
-    output$description <- renderText({
+    output$description <- renderUI({
       if (!is.na(dim$description)){
-        dim$description
+        tags$textarea(
+          readonly = TRUE,
+          disabled = TRUE,
+          dim$description
+        )
       }
     })
 

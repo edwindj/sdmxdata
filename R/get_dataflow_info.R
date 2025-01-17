@@ -115,7 +115,7 @@ get_dataflow_info <- function(
   codelists$codes[] <- codelists$codes |>
     lapply(\(x){
       x$description <- if(is.null(x$description)) NA_character_ else x$description
-      x$parent_id <- if(is.null(x$parent_id)) NA_character_ else x$parent_id
+      x$parent_id <- if(is.null(x$parent)) NA_character_ else x$parent
       x[,c("id", "name", "description", "parent_id")]
     })
 
