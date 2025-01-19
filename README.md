@@ -32,7 +32,7 @@ To retrieve a list of tables:
 
 ``` r
 dfs <- list_dataflows()
-#> [cache:add]: /var/folders/2s/2pdmtjz14d9_y6yb9h6g265m0000gn/T//Rtmp11xljY/cbsopendata/dataflows_nl.json
+#> [cache:add]: /var/folders/2s/2pdmtjz14d9_y6yb9h6g265m0000gn/T//RtmpnEsAQG/cbsopendata/dataflows_nl.json
 #> Available dataflows: 82
 #> Agencies: "NL1", "NL1.CNVT", "NL1_DOUT", "PT"
 #> Content languages: "nl", "en"
@@ -62,7 +62,7 @@ print(flowRef)
 #> [1] "NL1.CNVT,DF_37230ned,1.0"
 
 df <- get_dataflow_structure(flowRef = flowRef)
-#> [cache:add]: /var/folders/2s/2pdmtjz14d9_y6yb9h6g265m0000gn/T//Rtmp11xljY/cbsopendata/dataflow_NL1.CNVT_DF_37230ned_1.0.json
+#> [cache:add]: /var/folders/2s/2pdmtjz14d9_y6yb9h6g265m0000gn/T//RtmpnEsAQG/cbsopendata/dataflow_NL1.CNVT_DF_37230ned_1.0_nl.json
 df
 #> Dataflow: [NL1.CNVT:DF_37230ned(1.0)]
 #>   "Bevolkingsontwikkeling; regio per maand"
@@ -80,9 +80,19 @@ df
 
 ``` r
 obs <-   obs <- get_observations(id="DF_37230ned", agencyID="NL1.CNVT")
-#> [cache:add]: /var/folders/2s/2pdmtjz14d9_y6yb9h6g265m0000gn/T//Rtmp11xljY/cbsopendata/dataflow_NL1.CNVT_DF_37230ned_latest.json
-#> `filter_on` argument not specified, using default selection:
-#>  filter_on=list(Perioden = c("2024MM01", "2024MM02", "2024MM03", "2024MM04", "2024MM05", "2024MM06", "2024MM07", "2024MM08", "2024MM09", "2024MM10"), RegioS = "NL01")
+#> [cache:add]: /var/folders/2s/2pdmtjz14d9_y6yb9h6g265m0000gn/T//RtmpnEsAQG/cbsopendata/dataflow_NL1.CNVT_DF_37230ned_latest_en.json
+#> 
+#> * `filter_on` argument not specified, using default selection:
+#>    filter_on = list(
+#>   Perioden = c("2024MM01", "2024MM02", "2024MM03", "2024MM04", "2024MM05", "2024MM06", "2024MM07", "2024MM08", "2024MM09", "2024MM10"),
+#>   RegioS = "NL01"
+#>    )
+#> *  To select all data, set `filter_on` to `NULL`.
+#> $request
+#> <sdmx_v2_1_data_request/httr2_request>
+#> GET
+#> https://sdmx-api.beta.cbs.nl/rest/data/NL1.CNVT,DF_37230ned,1.0/NL01.2024MM01+2024MM02+2024MM03+2024MM04+2024MM05+2024MM06+2024MM07+2024MM08+2024MM09+2024MM10...
+#> Body: empty
 ```
 
 ``` r
