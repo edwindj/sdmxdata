@@ -32,7 +32,6 @@ To retrieve a list of tables:
 
 ``` r
 dfs <- list_dataflows()
-#> [cache:add]: /var/folders/2s/2pdmtjz14d9_y6yb9h6g265m0000gn/T//RtmpnEsAQG/cbsopendata/dataflows_nl.json
 #> Available dataflows: 82
 #> Agencies: "NL1", "NL1.CNVT", "NL1_DOUT", "PT"
 #> Content languages: "nl", "en"
@@ -54,7 +53,7 @@ dfs[,1:5] |>
 #> 6                              Geneesmiddelen; kosten en gebruik 2010-2015
 ```
 
-To retrieve a dataflow info:
+To retrieve a dataflow structure:
 
 ``` r
 flowRef <- dfs$flowRef[4]
@@ -62,7 +61,6 @@ print(flowRef)
 #> [1] "NL1.CNVT,DF_37230ned,1.0"
 
 df <- get_dataflow_structure(flowRef = flowRef)
-#> [cache:add]: /var/folders/2s/2pdmtjz14d9_y6yb9h6g265m0000gn/T//RtmpnEsAQG/cbsopendata/dataflow_NL1.CNVT_DF_37230ned_1.0_nl.json
 df
 #> Dataflow: [NL1.CNVT:DF_37230ned(1.0)]
 #>   "Bevolkingsontwikkeling; regio per maand"
@@ -78,9 +76,10 @@ df
 #>  $id, $agencyID, $version, $name, $description, $dimensions, $measure, $attributes, $columns, $ref, $flowRef, $raw_sdmx, $default_selection
 ```
 
+To retrieve data use `get_data`
+
 ``` r
-obs <-   obs <- get_observations(id="DF_37230ned", agencyID="NL1.CNVT")
-#> [cache:add]: /var/folders/2s/2pdmtjz14d9_y6yb9h6g265m0000gn/T//RtmpnEsAQG/cbsopendata/dataflow_NL1.CNVT_DF_37230ned_latest_en.json
+data <- get_data(flowRef = flowRef, pivot="Topics")
 #> 
 #> * `filter_on` argument not specified, using default selection:
 #>    filter_on = list(
@@ -88,11 +87,69 @@ obs <-   obs <- get_observations(id="DF_37230ned", agencyID="NL1.CNVT")
 #>   RegioS = "NL01"
 #>    )
 #> *  To select all data, set `filter_on` to `NULL`.
-#> $request
-#> <sdmx_v2_1_data_request/httr2_request>
-#> GET
-#> https://sdmx-api.beta.cbs.nl/rest/data/NL1.CNVT,DF_37230ned,1.0/NL01.2024MM01+2024MM02+2024MM03+2024MM04+2024MM05+2024MM06+2024MM07+2024MM08+2024MM09+2024MM10...
-#> Body: empty
+head(data)
+#>      RegioS      Perioden BevolkingAanHetBeginVanDePeriode_1
+#> 1 Nederland  2024 januari                           17942942
+#> 2 Nederland 2024 februari                           17946556
+#> 3 Nederland    2024 maart                           17955743
+#> 4 Nederland    2024 april                           17962763
+#> 5 Nederland      2024 mei                           17970044
+#> 6 Nederland     2024 juni                           17977676
+#>   BevolkingAanHetEindeVanDePeriode_15 BevolkingsgroeiRelatief_12
+#> 1                            17946556                       0.02
+#> 2                            17955743                       0.05
+#> 3                            17962763                       0.04
+#> 4                            17970044                       0.04
+#> 5                            17977676                       0.04
+#> 6                            17981933                       0.02
+#>   BevolkingsgroeiSinds1JanuariRela_14 BevolkingsgroeiSinds1Januari_13
+#> 1                                0.02                            3614
+#> 2                                0.07                           12801
+#> 3                                0.11                           19821
+#> 4                                0.15                           27102
+#> 5                                0.19                           34734
+#> 6                                0.22                           38991
+#>   Bevolkingsgroei_11 EmigratieInclusiefAdmCorrecties_9 Immigratie_6
+#> 1               3614                             17958        24815
+#> 2               9187                             15621        27110
+#> 3               7020                             14137        22850
+#> 4               7281                             13455        21837
+#> 5               7632                             13429        20651
+#> 6               4257                             16979        20478
+#>   LevendGeborenKinderen_2 OverigeCorrecties_10 Overledenen_3
+#> 1                   13582                   NA         16825
+#> 2                   12893                   NA         15195
+#> 3                   13527                   NA         15220
+#> 4                   13171                   NA         14272
+#> 5                   14254                   NA         13844
+#> 6                   13831                   NA         13073
+#>   TotaalVertrekInclAdmCorrecties_7 TotaleVestiging_4
+#> 1                            86162             93019
+#> 2                            79128             90617
+#> 3                            79026             87739
+#> 4                            74843             83225
+#> 5                            74837             82059
+#> 6                            76737             80236
+#>   VertrekNaarAndereGemeente_8 VestigingVanuitEenAndereGemeente_5
+#> 1                       68204                              68204
+#> 2                       63507                              63507
+#> 3                       64889                              64889
+#> 4                       61388                              61388
+#> 5                       61408                              61408
+#> 6                       59758                              59758
+```
+
+Or get the underlying observations with `get_observations`
+
+``` r
+obs <- get_observations(id="DF_37230ned", agencyID="NL1.CNVT")
+#> 
+#> * `filter_on` argument not specified, using default selection:
+#>    filter_on = list(
+#>   Perioden = c("2024MM01", "2024MM02", "2024MM03", "2024MM04", "2024MM05", "2024MM06", "2024MM07", "2024MM08", "2024MM09", "2024MM10"),
+#>   RegioS = "NL01"
+#>    )
+#> *  To select all data, set `filter_on` to `NULL`.
 ```
 
 ``` r

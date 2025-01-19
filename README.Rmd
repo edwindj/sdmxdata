@@ -47,7 +47,7 @@ dfs[,1:5] |>
   head()
 ```
 
-To retrieve a dataflow info:
+To retrieve a dataflow structure:
 
 ```{r}
 flowRef <- dfs$flowRef[4]
@@ -57,8 +57,17 @@ df <- get_dataflow_structure(flowRef = flowRef)
 df
 ```
 
+To retrieve data use `get_data`
+
 ```{r}
-obs <-   obs <- get_observations(id="DF_37230ned", agencyID="NL1.CNVT")
+data <- get_data(flowRef = flowRef, pivot="Topics")
+head(data)
+```
+
+Or get the underlying observations with `get_observations`
+
+```{r}
+obs <- get_observations(id="DF_37230ned", agencyID="NL1.CNVT")
 ```
 
 ```{r}
