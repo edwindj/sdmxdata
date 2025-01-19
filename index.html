@@ -72,7 +72,6 @@
 <p>To retrieve a list of tables:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dfs</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/list_dataflows.html">list_dataflows</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [cache:add]: /var/folders/2s/2pdmtjz14d9_y6yb9h6g265m0000gn/T//RtmpnEsAQG/cbsopendata/dataflows_nl.json</span></span>
 <span><span class="co">#&gt; Available dataflows: 82</span></span>
 <span><span class="co">#&gt; Agencies: "NL1", "NL1.CNVT", "NL1_DOUT", "PT"</span></span>
 <span><span class="co">#&gt; Content languages: "nl", "en"</span></span>
@@ -92,14 +91,13 @@
 <span><span class="co">#&gt; 4                                  Bevolkingsontwikkeling; regio per maand</span></span>
 <span><span class="co">#&gt; 5 Gezondheid, leefstijl, zorggebruik en -aanbod, doodsoorzaken; vanaf 1900</span></span>
 <span><span class="co">#&gt; 6                              Geneesmiddelen; kosten en gebruik 2010-2015</span></span></code></pre></div>
-<p>To retrieve a dataflow info:</p>
+<p>To retrieve a dataflow structure:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">flowRef</span> <span class="op">&lt;-</span> <span class="va">dfs</span><span class="op">$</span><span class="va">flowRef</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">flowRef</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "NL1.CNVT,DF_37230ned,1.0"</span></span>
 <span></span>
 <span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_dataflow_structure.html">get_dataflow_structure</a></span><span class="op">(</span>flowRef <span class="op">=</span> <span class="va">flowRef</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [cache:add]: /var/folders/2s/2pdmtjz14d9_y6yb9h6g265m0000gn/T//RtmpnEsAQG/cbsopendata/dataflow_NL1.CNVT_DF_37230ned_1.0_nl.json</span></span>
 <span><span class="va">df</span></span>
 <span><span class="co">#&gt; Dataflow: [NL1.CNVT:DF_37230ned(1.0)]</span></span>
 <span><span class="co">#&gt;   "Bevolkingsontwikkeling; regio per maand"</span></span>
@@ -113,9 +111,9 @@
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Properties:</span></span>
 <span><span class="co">#&gt;  $id, $agencyID, $version, $name, $description, $dimensions, $measure, $attributes, $columns, $ref, $flowRef, $raw_sdmx, $default_selection</span></span></code></pre></div>
+<p>To retrieve data use <code>get_data</code></p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">obs</span> <span class="op">&lt;-</span>   <span class="va">obs</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_observations.html">get_observations</a></span><span class="op">(</span>id<span class="op">=</span><span class="st">"DF_37230ned"</span>, agencyID<span class="op">=</span><span class="st">"NL1.CNVT"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [cache:add]: /var/folders/2s/2pdmtjz14d9_y6yb9h6g265m0000gn/T//RtmpnEsAQG/cbsopendata/dataflow_NL1.CNVT_DF_37230ned_latest_en.json</span></span>
+<code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_data.html">get_data</a></span><span class="op">(</span>flowRef <span class="op">=</span> <span class="va">flowRef</span>, pivot<span class="op">=</span><span class="st">"Topics"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; * `filter_on` argument not specified, using default selection:</span></span>
 <span><span class="co">#&gt;    filter_on = list(</span></span>
@@ -123,12 +121,67 @@
 <span><span class="co">#&gt;   RegioS = "NL01"</span></span>
 <span><span class="co">#&gt;    )</span></span>
 <span><span class="co">#&gt; *  To select all data, set `filter_on` to `NULL`.</span></span>
-<span><span class="co">#&gt; $request</span></span>
-<span><span class="co">#&gt; &lt;sdmx_v2_1_data_request/httr2_request&gt;</span></span>
-<span><span class="co">#&gt; GET</span></span>
-<span><span class="co">#&gt; https://sdmx-api.beta.cbs.nl/rest/data/NL1.CNVT,DF_37230ned,1.0/NL01.2024MM01+2024MM02+2024MM03+2024MM04+2024MM05+2024MM06+2024MM07+2024MM08+2024MM09+2024MM10...</span></span>
-<span><span class="co">#&gt; Body: empty</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span>
+<span><span class="co">#&gt;      RegioS      Perioden BevolkingAanHetBeginVanDePeriode_1</span></span>
+<span><span class="co">#&gt; 1 Nederland  2024 januari                           17942942</span></span>
+<span><span class="co">#&gt; 2 Nederland 2024 februari                           17946556</span></span>
+<span><span class="co">#&gt; 3 Nederland    2024 maart                           17955743</span></span>
+<span><span class="co">#&gt; 4 Nederland    2024 april                           17962763</span></span>
+<span><span class="co">#&gt; 5 Nederland      2024 mei                           17970044</span></span>
+<span><span class="co">#&gt; 6 Nederland     2024 juni                           17977676</span></span>
+<span><span class="co">#&gt;   BevolkingAanHetEindeVanDePeriode_15 BevolkingsgroeiRelatief_12</span></span>
+<span><span class="co">#&gt; 1                            17946556                       0.02</span></span>
+<span><span class="co">#&gt; 2                            17955743                       0.05</span></span>
+<span><span class="co">#&gt; 3                            17962763                       0.04</span></span>
+<span><span class="co">#&gt; 4                            17970044                       0.04</span></span>
+<span><span class="co">#&gt; 5                            17977676                       0.04</span></span>
+<span><span class="co">#&gt; 6                            17981933                       0.02</span></span>
+<span><span class="co">#&gt;   BevolkingsgroeiSinds1JanuariRela_14 BevolkingsgroeiSinds1Januari_13</span></span>
+<span><span class="co">#&gt; 1                                0.02                            3614</span></span>
+<span><span class="co">#&gt; 2                                0.07                           12801</span></span>
+<span><span class="co">#&gt; 3                                0.11                           19821</span></span>
+<span><span class="co">#&gt; 4                                0.15                           27102</span></span>
+<span><span class="co">#&gt; 5                                0.19                           34734</span></span>
+<span><span class="co">#&gt; 6                                0.22                           38991</span></span>
+<span><span class="co">#&gt;   Bevolkingsgroei_11 EmigratieInclusiefAdmCorrecties_9 Immigratie_6</span></span>
+<span><span class="co">#&gt; 1               3614                             17958        24815</span></span>
+<span><span class="co">#&gt; 2               9187                             15621        27110</span></span>
+<span><span class="co">#&gt; 3               7020                             14137        22850</span></span>
+<span><span class="co">#&gt; 4               7281                             13455        21837</span></span>
+<span><span class="co">#&gt; 5               7632                             13429        20651</span></span>
+<span><span class="co">#&gt; 6               4257                             16979        20478</span></span>
+<span><span class="co">#&gt;   LevendGeborenKinderen_2 OverigeCorrecties_10 Overledenen_3</span></span>
+<span><span class="co">#&gt; 1                   13582                   NA         16825</span></span>
+<span><span class="co">#&gt; 2                   12893                   NA         15195</span></span>
+<span><span class="co">#&gt; 3                   13527                   NA         15220</span></span>
+<span><span class="co">#&gt; 4                   13171                   NA         14272</span></span>
+<span><span class="co">#&gt; 5                   14254                   NA         13844</span></span>
+<span><span class="co">#&gt; 6                   13831                   NA         13073</span></span>
+<span><span class="co">#&gt;   TotaalVertrekInclAdmCorrecties_7 TotaleVestiging_4</span></span>
+<span><span class="co">#&gt; 1                            86162             93019</span></span>
+<span><span class="co">#&gt; 2                            79128             90617</span></span>
+<span><span class="co">#&gt; 3                            79026             87739</span></span>
+<span><span class="co">#&gt; 4                            74843             83225</span></span>
+<span><span class="co">#&gt; 5                            74837             82059</span></span>
+<span><span class="co">#&gt; 6                            76737             80236</span></span>
+<span><span class="co">#&gt;   VertrekNaarAndereGemeente_8 VestigingVanuitEenAndereGemeente_5</span></span>
+<span><span class="co">#&gt; 1                       68204                              68204</span></span>
+<span><span class="co">#&gt; 2                       63507                              63507</span></span>
+<span><span class="co">#&gt; 3                       64889                              64889</span></span>
+<span><span class="co">#&gt; 4                       61388                              61388</span></span>
+<span><span class="co">#&gt; 5                       61408                              61408</span></span>
+<span><span class="co">#&gt; 6                       59758                              59758</span></span></code></pre></div>
+<p>Or get the underlying observations with <code>get_observations</code></p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">obs</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_observations.html">get_observations</a></span><span class="op">(</span>id<span class="op">=</span><span class="st">"DF_37230ned"</span>, agencyID<span class="op">=</span><span class="st">"NL1.CNVT"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; * `filter_on` argument not specified, using default selection:</span></span>
+<span><span class="co">#&gt;    filter_on = list(</span></span>
+<span><span class="co">#&gt;   Perioden = c("2024MM01", "2024MM02", "2024MM03", "2024MM04", "2024MM05", "2024MM06", "2024MM07", "2024MM08", "2024MM09", "2024MM10"),</span></span>
+<span><span class="co">#&gt;   RegioS = "NL01"</span></span>
+<span><span class="co">#&gt;    )</span></span>
+<span><span class="co">#&gt; *  To select all data, set `filter_on` to `NULL`.</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">obs</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      RegioS     Perioden                                 Topics OBS_VALUE</span></span>
 <span><span class="co">#&gt; 1 Nederland 2024 januari Bevolking aan het begin van de periode  17942942</span></span>
