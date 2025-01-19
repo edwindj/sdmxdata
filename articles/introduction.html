@@ -70,7 +70,7 @@
 </h2>
 <p>To retrieve a list of tables:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">dfs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_dataflows.html">get_dataflows</a></span><span class="op">(</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">dfs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/list_dataflows.html">list_dataflows</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Available dataflows: 82</span></span>
 <span><span class="co">#&gt; Agencies: "NL1", "NL1.CNVT", "NL1_DOUT", "PT"</span></span>
 <span><span class="co">#&gt; Content languages: "nl", "en"</span></span>
@@ -96,7 +96,7 @@
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">flowRef</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "NL1.CNVT,DF_37230ned,1.0"</span></span>
 <span></span>
-<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_dataflow_info.html">get_dataflow_info</a></span><span class="op">(</span>flowRef <span class="op">=</span> <span class="va">flowRef</span><span class="op">)</span></span>
+<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_dataflow_structure.html">get_dataflow_structure</a></span><span class="op">(</span>flowRef <span class="op">=</span> <span class="va">flowRef</span><span class="op">)</span></span>
 <span><span class="va">df</span></span>
 <span><span class="co">#&gt; Dataflow: [NL1.CNVT:DF_37230ned(1.0)]</span></span>
 <span><span class="co">#&gt;   "Bevolkingsontwikkeling; regio per maand"</span></span>
