@@ -8,9 +8,9 @@
 #' @param cache_dir The directory to cache the request in, set to `NULL` to disable caching.
 #' @param verbose if `TRUE` print information about the dataflows.
 #' @return a data.frame with available dataflows
-#' @example example/get_dataflows.R
+#' @example example/list_dataflows.R
 #' @export
-get_dataflows <- function(
+list_dataflows <- function(
     req = NULL,
     agencyID = NULL,
     ...,

@@ -1,40 +1,71 @@
+#' Retrieve data from a SDMX data API
+#'
+#' Retrieve data from an SDMX data API.
+#' The function retrieves data from the SDMX data API and returns it as a data.frame.
+#'
+#' `get_data` is similar to [get_observations()], but its differs in two aspects:
+#' - it returns only data columns, no attribute columns
+#' - it can pivot the observations, i.e. it can return the data in a wide format, which
+#' is useful feature when the data has multiple measures or when the data is to
+#' presented as a time series.
+#' @export
+#' @inheritParams get_observations
+#' @param pivot `character` The name of the column to pivot the data on.
+#' If `NULL` (default) the data is returned in a long format.
+#' @return a data.frame
 get_data <- function(
+    req = NULL,
     agencyID,
     id,
     version = "latest",
     flowRef = NULL,
     startPeriod = NULL,
     endPeriod = NULL,
-    filter_on = NULL,
+    filter_on = list(),
     ...,
     dim_contents = c("label", "both", "id"),
-    attributes_contents = c("label", "id", "both"),
     obs_value_numeric = TRUE,
     raw = FALSE,
-    drop_first_column = !raw,
+    language = NULL,
     cache_dir = tempdir(),
+    pivot = NULL,
     verbose = getOption("cbsopendata.verbose", FALSE)
     ){
 
-    dfi <- get_dataflow_info(
+    has_pivot <- (length(pivot) > 0)
+
+    dfi <- get_dataflow_structure(
+      req = req,
       agencyID = agencyID,
       id = id,
       version = version,
       flowRef = flowRef,
       cache_dir = cache_dir,
-      verbose = verbose
+      verbose = verbose,
+      language = language
     )
+    dim_contents <- match.arg(dim_contents)
+    # maybe add the attributes here too
+    dims <- names(dfi$dimensions)
 
-    if (missing(filter_on)){
-      filter_on <- dfi$default_selection
+    # check before retrieving the data, to reduce frustration :-)
+    if (has_pivot) {
+      chk <- pivot %in% dims
+      if (!all(chk)){
+        stop("* 'pivot'=",pivot[!chk] |> dQuote() |> paste(collapse = ", "),
+             " not found in dimensions: ", dims |> dQuote() |> paste(collapse = ", ")
+        )
+      }
     }
 
     obs <- get_observations(
+      req = req,
       agencyID = agencyID,
       id = id,
       version = version,
       flowRef = flowRef,
       startPeriod = startPeriod,
+      language = language,
       endPeriod = endPeriod,
       filter_on = filter_on,
       cache_dir = cache_dir,
@@ -44,16 +75,57 @@ get_data <- function(
 
     data.table::setDT(obs)
 
-    dims <- names(dfi$dimensions)
-    # CBS specific
-    dims <- dims[dims != "Topics"]
-    f <- "%s ~ Topics" |>
-        sprintf(dims |> paste(collapse = " + ")) |>
-        stats::as.formula()
+    # pivot if asked for
+    if (has_pivot) {
+      dims <- dims[dims != pivot]
+      f <- "%s ~ %s" |>
+          sprintf(
+            dims |> paste(collapse = " + "),
+            pivot |> paste(collapse = " + ")
+          ) |>
+          stats::as.formula()
 
-    measure <- dfi$measure$name
+      measure <- dfi$measure$id
+      dta <- data.table::dcast(obs, f, value.var = measure)
+      data.table::setDF(dta)
+    } else {
+      dta <- obs[, c(dims, dfi$measure$id), with = FALSE]
+    }
+    data.table::setDF(dta)
 
-    dta <- data.table::dcast(obs, f, value.var = measure)
+    # recode the dimension columns:
+    for (id in dims){
+      code <- dfi$dimensions[[id]]$codes
+      if (!is.null(code)){
+        labels <- switch(
+          dim_contents,
+          both  = sprintf("%s: %s", code$id, code$name),
+          label = code$name,
+          id    = code$id,
+          code$id
+        )
+        dta[[id]] <- dta[[id]] |>
+          factor(levels = code$id, labels=labels)
+      }
+    }
+
+
+    # add labels to the columns
+    clmn <- dfi$columns$name |> stats::setNames(dfi$columns$id)
+    clmn <- clmn[names(clmn) %in% names(dta)]
+
+    if (has_pivot){
+      d <- dfi$dimensions[[pivot]]
+      if (!is.null(d)){
+        code <- d$codes[d$codes$id %in% names(dta),]
+        clmn <- c(clmn, code$name |> stats::setNames(code$id))
+      }
+    }
+
+    for (n in names(clmn)){
+      attr(dta[[n]], "label") <- clmn[[n]]
+    }
+
 
     dta
 }

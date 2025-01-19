@@ -2,7 +2,7 @@
 % Please edit documentation in R/sdmx_v2_1_data_request.R
 \name{sdmx_v2_1_data_request}
 \alias{sdmx_v2_1_data_request}
-\title{Request SDMX data}
+\title{Request SDMX data using the SDMX REST API v2.1}
 \usage{
 sdmx_v2_1_data_request(
   req = NULL,
@@ -23,7 +23,7 @@ sdmx_v2_1_data_request(
 )
 }
 \arguments{
-\item{req}{An endpoint or an httr2 request object}
+\item{req}{An endpoint or an httr2 request object pointing to an endpoint.}
 
 \item{resource}{The resource to request. Either "data" or "metadata"}
 

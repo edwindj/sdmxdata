@@ -1,11 +1,32 @@
 PROVIDER_v2_1 <-
-  list(
-    ESTAT = "https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1",
-    LU1 = "https://lustat.statec.lu/rest/",
-    NL1 = "https://sdmx-api.beta.cbs.nl/rest"
-  )
+"id,name,endpoint,language,json
+ESTAT,EUROSTAT,https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1,en,2.0.0
+LU1,STATEC,https://lustat.statec.lu/rest/,fr,2.0.0
+NL1,Centraal Bureau voor de Statistiek,https://sdmx-api.beta.cbs.nl/rest,nl,2.0.0
+OECD,OECD,https://sdmx.oecd.org/public/rest,en,2.0.0
+ABS,AUSTRALIA,https://data.api.abs.gov.au/rest,en,2.0.0
+BIS,BIS,https://stats.bis.org/api/v1,en,2.0.0
+FAO,FAO,https://nsi-release-ro-statsuite.fao.org/rest,en,2.0.0
+ILO,ILO,https://sdmx.ilo.org/rest,en,1.0.0
+" |>
+  data.table::fread() |>
+  as.data.frame()
 
-get_endpoint <- function(provider = getOption("cbsopendata", "NL1")){
-  provider <- match.arg(provider, choices = names(PROVIDER_v2_1))
-  sdmx_endpoint(PROVIDER_v2_1[[provider]])
+get_dataclient <- function(
+    provider,
+    language = NULL,
+    verbose = FALSE
+  ){
+
+  provider <- match.arg(provider, choices = PROVIDER_v2_1$id)
+  idx <- match(provider, PROVIDER_v2_1$id)
+  provider <- PROVIDER_v2_1[idx,] |> as.list()
+
+  SDMXDataClient$new(
+    provider$endpoint,
+    id = provider$id,
+    name = provider$name,
+    language = language %||% provider$language,
+    verbose = verbose
+  )
 }

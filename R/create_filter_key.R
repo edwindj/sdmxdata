@@ -12,7 +12,9 @@ create_filter_key <- function(dims, filter_on){
   }
 
   #check filter
-  chk <- names(filter_on) %in% names(dims)
+  allowed <- c(names(dims), "TIME_PERIOD_START", "TIME_PERIOD_END")
+
+  chk <- names(filter_on) %in% allowed
   if (!all(chk)){
     stop("'filter_on' contains invalid dimension name(s): ",
          paste0("'", names(filter_on)[!chk], "'", collapse = ","),
@@ -24,7 +26,7 @@ create_filter_key <- function(dims, filter_on){
   # TODO check codes, generate a warning when a code is not found in the codelist
   # of a dimension
 
-  key <- lapply(names(dims), function(id){
+  key <- lapply(allowed, function(id){
     paste(filter_on[[id]], collapse = "+")
   }) |>
     paste(collapse = ".")

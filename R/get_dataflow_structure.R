@@ -12,7 +12,7 @@
 #' @return a list with the dataflow information
 #' @importFrom data.table as.data.table
 #' @export
-get_dataflow_info <- function(
+get_dataflow_structure <- function(
     req = NULL,
     flowRef,
     id,
@@ -69,6 +69,7 @@ get_dataflow_info <- function(
     cache_key = paste(
       "dataflow",
       gsub(",", "_",flowRef),
+      language,
       sep = "_"
     ),
     verbose = verbose, cache_dir = cache_dir
@@ -77,7 +78,7 @@ get_dataflow_info <- function(
   d <- raw$data
   # process the structure and make it simpler
   if (nrow(d$dataflows) == 0){
-    stop("Not a valid selection")
+    stop("No dataflow found for: ", dQuote(flowRef))
   }
 
   if (nrow(d$dataflows) > 1){
@@ -91,8 +92,10 @@ get_dataflow_info <- function(
 
   # useful because it can be used in the data request
   dataflow$flowRef <- paste(dataflow$agencyID, dataflow$id, dataflow$version, sep = ",")
+  # browser()
+  dataflow$description <- dataflow$description %||% NA_character_
   dataflow <- dataflow |>
-    subset(select = c("id", "agencyID", "version",
+    ensure(c("id", "agencyID", "version",
                       "name", "description", "ref", "ref_dsd", "flowRef"
                      )
           ) |>
@@ -105,9 +108,8 @@ get_dataflow_info <- function(
       x$ref <- extract_self_urn(x) |> strip_urn()
       x$ref_codelist <- x$coreRepresentation$enumeration |> strip_urn()
       x$textFormat <- x$coreRepresentation$textFormat$textType
-
-      x$description <- if (is.null(x$description)) NA_character_ else x$description
-      x[,c("id", "name", "description", "ref", "ref_codelist","textFormat")]
+      x <- x |> ensure(c("id", "name", "description", "ref", "ref_codelist","textFormat"))
+      x
     }) |>
     data.table::rbindlist(fill = TRUE) |>
     as.data.frame()
@@ -117,12 +119,12 @@ get_dataflow_info <- function(
   codelists$ref <- extract_self_urn(codelists) |> strip_urn()
   codelists$codes[] <- codelists$codes |>
     lapply(\(x){
-      x$description <- if(is.null(x$description)) NA_character_ else x$description
-      x$parent_id <- if(is.null(x$parent)) NA_character_ else x$parent
-      x[,c("id", "name", "description", "parent_id")]
+      ensure(x, c("id", "name", "description", "parent_id"))
     })
 
-  codelists <- codelists[,c("id", "agencyID", "version", "name", "codes", "ref")]
+  codelists <- codelists |> ensure(
+    c("id", "agencyID", "version", "name", "codes", "ref")
+  )
 
   dsd <- d$dataStructures
   dsd$ref <- extract_self_urn(dsd) |> strip_urn()
@@ -130,7 +132,7 @@ get_dataflow_info <- function(
   dsd <- dsd[dsd$ref == dataflow$ref_dsd,]
 
   datastructure <- dsd |>
-    subset(select = c("id", "agencyID", "version", "name", "ref")) |>
+    ensure(c("id", "agencyID", "version", "name", "ref")) |>
     as.list()
 
   # extract the dimensions
@@ -144,13 +146,13 @@ get_dataflow_info <- function(
   dimensions$name <- concept$name
   dimensions$description <- concept$description
 
-  codelist <- codelists[match(concept$ref_codelist, codelists$ref),]
+  dimensions$ref_codelist <- dimensions$localRepresentation$enumeration |> strip_urn()
+  ref_codelist <- ifelse(is.na(dimensions$ref_codelist), concept$ref_codelist, dimensions$ref_codelist)
+  codelist <- codelists[match(ref_codelist, codelists$ref),]
   dimensions$codes <- codelist$codes
 
-  dimensions <- dimensions[, c("id", "name","description","codes",
-                               "position", "type", "ref"
-                               )
-  ]
+  dimensions <- dimensions |>
+    ensure(c("id", "name","description","codes","position", "type", "ref"))
 
   time_dimensions <- dimlist$timeDimensions[[1]]
   if (!is.null(time_dimensions)){
@@ -162,9 +164,10 @@ get_dataflow_info <- function(
     time_dimensions$description <- concept$description
     time_dimensions$codes <- list(NULL)
 
-    time_dimensions <- time_dimensions[, c("id", "name","description","codes",
-                                 "position", "type", "ref"
-    )]
+    time_dimensions <-
+      time_dimensions |> ensure(
+        c("id", "name","description","codes","position", "type", "ref")
+      )
   }
 
   dimensions <- rbind(dimensions, time_dimensions)
@@ -188,7 +191,8 @@ get_dataflow_info <- function(
     "character"
   )
   measure <-
-    measure[, c("id", "name", "description", "text_format", "ref")]
+    measure |>
+    ensure(c("id", "name", "description", "text_format", "ref"))
 
   atts <- dsd$dataStructureComponents$attributeList$attributes[[1]]
   if (!is.null(atts)){
@@ -200,10 +204,12 @@ get_dataflow_info <- function(
     atts$description <- concept$description
     atts$text_format <- concept$textFormat
 
-    codelist <- codelists[match(concept$ref_codelist, codelists$ref),]
+    atts$ref_codelist <- atts$localRepresentation$enumeration |> strip_urn()
+    ref_codelist <- ifelse(is.na(atts$ref_codelist), concept$ref_codelist, atts$ref_codelist)
+    codelist <- codelists[match(ref_codelist, codelists$ref),]
     atts$codes <- codelist$codes
-    atts <-
-      atts[, c("id", "name", "description", "text_format", "codes", "ref")]
+    atts <- atts |>
+      ensure(c("id", "name", "description", "text_format", "codes", "ref"))
 
   }
 
@@ -307,7 +313,6 @@ print.dataflow_info <- function(x, ...){
 
   cat("\n\n")
   cat("Get a default selection of the data with:\n")
-
 
   # def_sel <-
   #   get_default_selection(x) |>

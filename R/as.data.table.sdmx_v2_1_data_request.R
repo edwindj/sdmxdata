@@ -31,6 +31,8 @@ as.data.table.sdmx_v2_1_data_request <- function(
     ) |>
     httr2::req_perform(path = path)
 
+  # shitty rest interface: when selection is empty, it returns a 404 (error)
+  # and not an empty dataset
   if (resp$status_code == 404){
     return(
       as.data.table(NULL)

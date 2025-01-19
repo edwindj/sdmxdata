@@ -21,7 +21,7 @@ Retrieve data from an sdmx api and return it as a data.frame
 }
 \examples{
 if (interactive()){
-  dfs <- get_dataflows()
+  dfs <- list_dataflows()
   flowRef <- dfs$ref[2]
 
   system.time({

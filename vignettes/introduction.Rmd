@@ -27,7 +27,7 @@ To retrieve a list of tables:
 
 
 ```{r}
-dfs <- get_dataflows()
+dfs <- list_dataflows()
 dfs[, 1:5] |> 
   head()
 ```
@@ -38,7 +38,7 @@ To retrieve a dataflow info:
 flowRef <- dfs$flowRef[4]
 print(flowRef)
 
-df <- get_dataflow_info(flowRef = flowRef)
+df <- get_dataflow_structure(flowRef = flowRef)
 df
 ```
 

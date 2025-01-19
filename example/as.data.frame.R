@@ -1,5 +1,5 @@
 if (interactive()){
-  dfs <- get_dataflows()
+  dfs <- list_dataflows()
   flowRef <- dfs$ref[2]
 
   system.time({

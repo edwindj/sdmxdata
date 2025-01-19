@@ -1,4 +1,4 @@
-get_dataflow_info_xml <- function(ref, agencyID, id, version = "latest", language="nl",
+get_dataflow_structure_xml <- function(ref, agencyID, id, version = "latest", language="nl",
                               verbose=getOption("cbsopendata.verbose", FALSE)
                             ){
   if (missing(ref) || is.null(ref)){

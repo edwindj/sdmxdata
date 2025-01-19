@@ -1,6 +1,6 @@
 if (interactive()) {
 
-  dfs <- get_dataflows()
+  dfs <- list_dataflows()
   flowRef <- dfs$flowRef[4]
 
   obs <- get_observations(

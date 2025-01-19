@@ -18,6 +18,7 @@ Imports:
     httr2,
     data.table,
     xml2,
-    jsonlite
+    jsonlite,
+    R6
 URL: https://edwindj.github.io/cbsopendata/
 VignetteBuilder: knitr

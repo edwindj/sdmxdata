@@ -31,7 +31,7 @@ library(cbsopendata)
 To retrieve a list of tables:
 
 ``` r
-dfs <- get_dataflows()
+dfs <- list_dataflows()
 #> [cache:add]: /var/folders/2s/2pdmtjz14d9_y6yb9h6g265m0000gn/T//Rtmp11xljY/cbsopendata/dataflows_nl.json
 #> Available dataflows: 82
 #> Agencies: "NL1", "NL1.CNVT", "NL1_DOUT", "PT"
@@ -61,7 +61,7 @@ flowRef <- dfs$flowRef[4]
 print(flowRef)
 #> [1] "NL1.CNVT,DF_37230ned,1.0"
 
-df <- get_dataflow_info(flowRef = flowRef)
+df <- get_dataflow_structure(flowRef = flowRef)
 #> [cache:add]: /var/folders/2s/2pdmtjz14d9_y6yb9h6g265m0000gn/T//Rtmp11xljY/cbsopendata/dataflow_NL1.CNVT_DF_37230ned_1.0.json
 df
 #> Dataflow: [NL1.CNVT:DF_37230ned(1.0)]

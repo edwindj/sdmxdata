@@ -9,7 +9,7 @@
 
 library(shiny)
 library(cbsopendata)
-get_dataflow_info <- cbsopendata:::get_dataflow_info
+get_dataflow_structure <- cbsopendata:::get_dataflow_structure
 
 library(DT)
 
@@ -29,7 +29,7 @@ function(input, output, session){
     flowRef <- shared_values$dataflowref
 
     if (!is.null(flowRef)){
-      dfi <- get_dataflow_info(flowRef = flowRef)
+      dfi <- get_dataflow_structure(flowRef = flowRef)
       shared_values$dfi <- dfi
     } else{
       shared_values$dfi <- NULL

@@ -1,4 +1,4 @@
-#' Request SDMX data
+#' Request SDMX data using the SDMX REST API v2.1
 #'
 #' `sdmx_v2_1_data_request` is a wrapper around the smdx rest api v2.1 and is used to retrieve
 #' data from the api.

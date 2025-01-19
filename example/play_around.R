@@ -1,5 +1,5 @@
 
-dfs <- get_dataflows("https://lustat.statec.lu/rest")
+dfs <- list_dataflows("https://lustat.statec.lu/rest")
 
 attr(dfs, "contentLanguages")
 

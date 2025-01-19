@@ -15,7 +15,7 @@ DataFlowsUI <- function(id){
 
 DataFlowsServer <- function(id){
   flows <- \(){
-    df <- cbsopendata::get_dataflows()
+    df <- cbsopendata::list_dataflows()
     df |>
       subset(select=c("name", "id", "agencyID", "version", "ref"))
   }

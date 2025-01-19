@@ -1,4 +1,4 @@
-dfs <- get_dataflows()
+dfs <- list_dataflows()
 flowRef <- dfs$ref[2]
 
 df <- sdmx_v2_1_structure_request(
