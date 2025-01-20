@@ -22,13 +22,13 @@
 #' @export
 get_dataflow_structure <- function(
     req = NULL,
-    ref,
-    agencyID = getOption("cbsopendata.agencyID", NULL),
+    agencyID = getOption("sdmxdata.agencyID", NULL),
     id,
     version = "latest",
-    language= getOption("cbsopendata.language", "en"),
+    ref,
+    language= getOption("sdmxdata.language", "en"),
     cache_dir = tempdir(),
-    verbose = getOption("cbsopendata.verbose", FALSE)
+    verbose = getOption("sdmxdata.verbose", FALSE)
   ){
   # get the information for just one dataflow
   if (missing(ref) || is.null(ref)){

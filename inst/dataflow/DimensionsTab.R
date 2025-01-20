@@ -1,5 +1,5 @@
 # HACK
-# get_dimensions <- cbsopendata:::get_dimensions
+# get_dimensions <- sdmxdata:::get_dimensions
 # source("CodesTree.R")
 # source("CodesDT.R")
 source("Dimension.R")

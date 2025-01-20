@@ -1,11 +1,11 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# cbsopendata
+# sdmxdata
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/edwindj/cbsopendata/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/edwindj/cbsopendata/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/edwindj/sdmxdata/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/edwindj/sdmxdata/actions/workflows/R-CMD-check.yaml)
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
@@ -14,18 +14,18 @@ Work in progress, not to be used for production work.
 
 ## Installation
 
-You can install the development version of cbsopendata from
+You can install the development version of sdmxdata from
 [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("pak")
-pak::pak("edwindj/cbsopendata")
+pak::pak("edwindj/sdmxdata")
 ```
 
 ## Example
 
 ``` r
-library(cbsopendata)
+library(sdmxdata)
 ```
 
 To retrieve a list of tables:

@@ -8,7 +8,7 @@
 #
 
 library(shiny)
-library(cbsopendata)
+library(sdmxdata)
 library(DT)
 
 source("DataFlows.R")

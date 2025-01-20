@@ -22,7 +22,7 @@ get_observations(
   raw = FALSE,
   drop_first_columns = !raw,
   cache_dir = tempdir(),
-  verbose = getOption("cbsopendata.verbose", FALSE)
+  verbose = getOption("sdmxdata.verbose", FALSE)
 )
 }
 \arguments{

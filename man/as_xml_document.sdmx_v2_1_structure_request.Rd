@@ -8,7 +8,7 @@
   x,
   ...,
   cache_dir = tempdir(),
-  verbose = getOption("cbsopendata.verbose", FALSE)
+  verbose = getOption("sdmxdata.verbose", FALSE)
 )
 }
 \arguments{

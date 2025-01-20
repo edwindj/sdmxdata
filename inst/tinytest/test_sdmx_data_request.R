@@ -1,6 +1,6 @@
 library(httr2)
 library(tinytest)
-library(cbsopendata)
+library(sdmxdata)
 
 
 req <- sdmx_v2_1_data_request(flowRef = "NL1,DF_TESTSET_X01,1.0")

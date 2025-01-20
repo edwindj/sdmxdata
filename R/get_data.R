@@ -9,6 +9,7 @@
 #' is useful feature when the data has multiple measures or when the data is to
 #' presented as a time series.
 #' @export
+#' @importFrom utils tail
 #' @inheritParams get_observations
 #' @param pivot `character` The name of the column to pivot the data on.
 #' If `NULL` (default) the data is returned in a long format.
@@ -29,7 +30,7 @@ get_data <- function(
     language = NULL,
     cache_dir = tempdir(),
     pivot = NULL,
-    verbose = getOption("cbsopendata.verbose", FALSE)
+    verbose = getOption("sdmxdata.verbose", FALSE)
     ){
 
 

@@ -13,7 +13,7 @@ as_xml_document.sdmx_v2_1_structure_request <- function(
     x,
     ...,
     cache_dir = tempdir(),
-    verbose = getOption("cbsopendata.verbose", FALSE)
+    verbose = getOption("sdmxdata.verbose", FALSE)
 ){
   req <- x
   doc <- cache_xml(req, cache_dir = cache_dir, verbose = verbose)

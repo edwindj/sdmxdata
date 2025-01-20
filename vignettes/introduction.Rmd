@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-library(cbsopendata)
+library(sdmxdata)
 ```
 
 # Introduction
@@ -35,10 +35,10 @@ dfs[, 1:5] |>
 To retrieve a dataflow info:
 
 ```{r}
-flowRef <- dfs$flowRef[4]
-print(flowRef)
+ref <- dfs$ref[4]
+print(ref)
 
-df <- get_dataflow_structure(flowRef = flowRef)
+df <- get_dataflow_structure(ref = ref)
 df
 ```
 

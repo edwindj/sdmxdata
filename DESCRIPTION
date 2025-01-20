@@ -1,4 +1,4 @@
-Package: cbsopendata
+Package: sdmxdata
 Title: Statistics Netherlands (CBS) Open Data SDMX API Client
 Version: 0.1.9000
 Authors@R: c(
@@ -20,5 +20,5 @@ Imports:
     xml2,
     jsonlite,
     R6
-URL: https://edwindj.github.io/cbsopendata/
+URL: https://edwindj.github.io/sdmxdata/
 VignetteBuilder: knitr

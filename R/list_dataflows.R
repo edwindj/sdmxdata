@@ -17,8 +17,8 @@ list_dataflows <- function(
     ...,
     language = "nl",
     cache_dir = tempdir(),
-    verbose = getOption("cbsopendata.verbose", FALSE),
-    raw = FALSE
+    raw = FALSE,
+    verbose = getOption("sdmxdata.verbose", FALSE)
 ){
 
 

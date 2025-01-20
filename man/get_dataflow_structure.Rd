@@ -6,26 +6,26 @@
 \usage{
 get_dataflow_structure(
   req = NULL,
-  ref,
-  agencyID = getOption("cbsopendata.agencyID", NULL),
+  agencyID = getOption("sdmxdata.agencyID", NULL),
   id,
   version = "latest",
-  language = getOption("cbsopendata.language", "en"),
+  ref,
+  language = getOption("sdmxdata.language", "en"),
   cache_dir = tempdir(),
-  verbose = getOption("cbsopendata.verbose", FALSE)
+  verbose = getOption("sdmxdata.verbose", FALSE)
 )
 }
 \arguments{
 \item{req}{A character string with the request to the dataflow}
-
-\item{ref}{A string with the flow reference, in the form of "agencyID:id(version)". Overrules
-the agencyID, id and version arguments.}
 
 \item{agencyID}{The agency ID of the dataflow}
 
 \item{id}{The id of the dataflow}
 
 \item{version}{The version of the dataflow, defaults to "latest"}
+
+\item{ref}{A string with the flow reference, in the form of "agencyID:id(version)". Overrules
+the agencyID, id and version arguments.}
 
 \item{language}{The language of the metadata}
 

@@ -6,7 +6,7 @@ cache_path <- function(ref, fileext = ".xml", dir = tempdir()){
 
   path <- file.path(
     dir,
-    "cbsopendata",
+    "sdmxdata",
     sprintf("%s%s", ref, fileext)
   )
 
@@ -21,7 +21,7 @@ cache_path <- function(ref, fileext = ".xml", dir = tempdir()){
 cache_xml <- function(
     req,
     cache_dir = tempdir(),
-    verbose = getOption("cbsopendata.verbose", FALSE)
+    verbose = getOption("sdmxdata.verbose", FALSE)
   ){
   should_cache <- !is.null(cache_dir)
 
@@ -61,7 +61,7 @@ cache_json <- function(
     simplifyVector = TRUE,
     ...,
     cache_dir = tempdir(),
-    verbose = getOption("cbsopendata.verbose", FALSE)
+    verbose = getOption("sdmxdata.verbose", FALSE)
   ){
 
   should_cache <- !is.null(cache_dir)
