@@ -9,7 +9,7 @@ get_observations(
   agencyID,
   id,
   version = "latest",
-  flowRef = NULL,
+  ref = NULL,
   startPeriod = NULL,
   endPeriod = NULL,
   filter_on = list(),
@@ -34,7 +34,7 @@ get_observations(
 
 \item{version}{The version of the dataflow, default "latest"}
 
-\item{flowRef}{The flow reference can be used in stead of agencyID, id and version}
+\item{ref}{The dataflow reference can be used in stead of agencyID, id and version}
 
 \item{startPeriod}{The start period for which the data should be returned, works only for dataflows with an explicit time dimension.}
 
@@ -72,10 +72,10 @@ Get data from an SDMX API
 if (interactive()) {
 
   dfs <- list_dataflows()
-  flowRef <- dfs$flowRef[4]
+  ref <- dfs$ref[4]
 
   obs <- get_observations(
-    flowRef = flowRef,
+    ref = ref,
     filter_on = list(
       "RegioS" = c("NL01"),
       "Perioden" = c("2024MM01")

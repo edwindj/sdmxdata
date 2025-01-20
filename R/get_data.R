@@ -18,7 +18,7 @@ get_data <- function(
     agencyID,
     id,
     version = "latest",
-    flowRef = NULL,
+    ref = NULL,
     startPeriod = NULL,
     endPeriod = NULL,
     filter_on = list(),
@@ -32,14 +32,13 @@ get_data <- function(
     verbose = getOption("cbsopendata.verbose", FALSE)
     ){
 
-    has_pivot <- (length(pivot) > 0)
 
     dfi <- get_dataflow_structure(
       req = req,
       agencyID = agencyID,
       id = id,
       version = version,
-      flowRef = flowRef,
+      ref = ref,
       cache_dir = cache_dir,
       verbose = verbose,
       language = language
@@ -48,6 +47,12 @@ get_data <- function(
     # maybe add the attributes here too
     dims <- names(dfi$dimensions)
 
+    if (missing(pivot)){
+      pivot <- dfi$dimensions |> names() |> tail(1)
+      message("`pivot` is missing, selecting last dimension as pivot: ",
+              dQuote(pivot))
+    }
+    has_pivot <- (length(pivot) > 0)
     # check before retrieving the data, to reduce frustration :-)
     if (has_pivot) {
       chk <- pivot %in% dims
@@ -63,7 +68,7 @@ get_data <- function(
       agencyID = agencyID,
       id = id,
       version = version,
-      flowRef = flowRef,
+      ref = ref,
       startPeriod = startPeriod,
       language = language,
       endPeriod = endPeriod,
@@ -84,6 +89,10 @@ get_data <- function(
             pivot |> paste(collapse = " + ")
           ) |>
           stats::as.formula()
+
+      for (pv in pivot){
+        obs[[pv]] <- sprintf("%s:%s", pv, obs[[pv]])
+      }
 
       measure <- dfi$measure$id
       dta <- data.table::dcast(obs, f, value.var = measure)
@@ -112,15 +121,18 @@ get_data <- function(
 
     # add labels to the columns
     clmn <- dfi$columns$name |> stats::setNames(dfi$columns$id)
-    clmn <- clmn[names(clmn) %in% names(dta)]
 
     if (has_pivot){
       d <- dfi$dimensions[[pivot]]
       if (!is.null(d)){
-        code <- d$codes[d$codes$id %in% names(dta),]
-        clmn <- c(clmn, code$name |> stats::setNames(code$id))
+        code <- d$codes
+        code_id <- sprintf("%s:%s", pivot, code$id)
+        clmn <- c(clmn, code$name |> stats::setNames(code_id))
       }
     }
+
+    # only keep the columns that are in the data
+    clmn <- clmn[names(clmn) %in% names(dta)]
 
     for (n in names(clmn)){
       attr(dta[[n]], "label") <- clmn[[n]]

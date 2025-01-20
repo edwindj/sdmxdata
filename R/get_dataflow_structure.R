@@ -1,12 +1,20 @@
 #' Get information about a dataflow
 #'
-#' Get infomration about a dataflow
+#' Get information and structure  about a dataflow. The dataflow can be identified
+#' using `agencyID`, `id` and `version` or by using the `ref` argument.
+#'
+#' For most use cases the `agencyID` and `id` are to be preferred, as the `ref` argument
+#' includes a specific version number of the dataflow. Not specifying a version number
+#' will default to the latest version. If it is desirable to pin the reference of
+#' the dataflow to a specific version, the `ref` argument can be used. The `ref`
+#' argument can also be found in [list_dataflows()].
 #' @param req A character string with the request to the dataflow
-#' @param flowRef A string with the flow reference, in the form of "agencyID,id,version"
+#' @param ref A string with the flow reference, in the form of "agencyID:id(version)". Overrules
+#' the agencyID, id and version arguments.
+#' @param agencyID The agency ID of the dataflow
 #' @param id The id of the dataflow
 #' @param version The version of the dataflow, defaults to "latest"
-#' @param agencyID The agency ID of the dataflow, defaults to "NL1"
-#' @param language The language of the metadata, defaults to "nl"
+#' @param language The language of the metadata
 #' @param verbose print some information on the console
 #' @param cache_dir The directory to cache the data in, set to `NULL` to disable caching.
 #' @return a list with the dataflow information
@@ -14,33 +22,30 @@
 #' @export
 get_dataflow_structure <- function(
     req = NULL,
-    flowRef,
+    ref,
+    agencyID = getOption("cbsopendata.agencyID", NULL),
     id,
     version = "latest",
-    agencyID = getOption("cbsopendata.agencyID", "NL1"),
-    language= getOption("cbsopendata.language", "nl"),
+    language= getOption("cbsopendata.language", "en"),
     cache_dir = tempdir(),
     verbose = getOption("cbsopendata.verbose", FALSE)
   ){
   # get the information for just one dataflow
-
-  if (missing(flowRef) || is.null(flowRef)){
-    ref <- list(
+  if (missing(ref) || is.null(ref)){
+    eref <- list(
       agencyID = agencyID,
       id = id,
       version = version
     )
   } else {
-  ref <- strsplit(flowRef, ",") |>
-    unlist() |>
-    as.list()
+    eref <- extract_ref(ref) |> as.list()
   }
-  names(ref) <- c("agencyID", "id", "version")
-  flowRef <- paste(ref$agencyID, ref$id, ref$version, sep = ",")
 
-  if (is.null(ref$agencyID) || is.null(ref$id) || is.null(ref$version)){
+  ref <- sprintf("%s:%s(%s)", eref$agencyID, eref$id, eref$version)
+
+  if (is.null(eref$agencyID) || is.null(eref$id) || is.null(eref$version)){
     stop(
-      "Incomplete flow reference:", dQuote(flowRef)
+      "Incomplete/invalid reference to dataflow:", dQuote(ref)
     )
   }
 
@@ -57,9 +62,9 @@ get_dataflow_structure <- function(
   req <- sdmx_v2_1_structure_request(
     req = req,
     resource = "dataflow",
-    agencyID = ref$agencyID,
-    resourceID = ref$id,
-    version = ref$version,
+    agencyID = eref$agencyID,
+    resourceID = eref$id,
+    version = eref$version,
     detail = "full",
     references = "all",
     language = language
@@ -68,9 +73,9 @@ get_dataflow_structure <- function(
   raw <- req |> get_structure_from_json(
     cache_key = paste(
       "dataflow",
-      gsub(",", "_",flowRef),
-      language,
-      sep = "_"
+      eref$agencyID,
+      sprintf("%s_%s_%s", eref$id, eref$version, language),
+      sep = "/"
     ),
     verbose = verbose, cache_dir = cache_dir
   )
@@ -78,7 +83,7 @@ get_dataflow_structure <- function(
   d <- raw$data
   # process the structure and make it simpler
   if (nrow(d$dataflows) == 0){
-    stop("No dataflow found for: ", dQuote(flowRef))
+    stop("No dataflow found for: ", dQuote(ref))
   }
 
   if (nrow(d$dataflows) > 1){
@@ -90,7 +95,7 @@ get_dataflow_structure <- function(
   dataflow$ref <- extract_self_urn(dataflow) |> strip_urn()
   dataflow$ref_dsd <- dataflow$structure |> strip_urn()
 
-  # useful because it can be used in the data request
+  #useful because it can be used in the data request
   dataflow$flowRef <- paste(dataflow$agencyID, dataflow$id, dataflow$version, sep = ",")
   # browser()
   dataflow$description <- dataflow$description %||% NA_character_
@@ -248,7 +253,7 @@ get_dataflow_structure <- function(
     flowRef     = dataflow$flowRef,
     raw_sdmx    = raw
   ) |>
-  structure(class="dataflow_info")
+  structure(class="dataflow_structure")
 
   dfi$default_selection <- get_default_selection(dfi)
 
@@ -271,7 +276,7 @@ extract_self_urn <- function(x, prop = "links"){
 }
 
 #' @export
-print.dataflow_info <- function(x, ...){
+print.dataflow_structure <- function(x, ...){
   cat(
     "Dataflow: [", x$ref, "]\n  ",
     # x$dataflow$id,": ",
@@ -284,7 +289,7 @@ print.dataflow_info <- function(x, ...){
      ", version: ", x$version |> dQuote(),
       "\n", sep="")
 
-  cat("\nColumns: \n  ")
+  cat("\nObservation columns: \n  ")
   paste0(
     x$columns$id |> dQuote(),
     collapse = ", "
@@ -312,6 +317,20 @@ print.dataflow_info <- function(x, ...){
   #   }
 
   cat("\n\n")
+  cat("Get a default selection of the observations with:\n")
+
+  # def_sel <-
+  #   get_default_selection(x) |>
+  #   deparse(width.cutoff = 500, nlines = 1)
+
+  cmd <- sprintf(
+    'obs <- get_observations(id="%s", agencyID="%s")',
+    x$id,
+    x$agencyID
+  )
+
+  cat("  ", cmd, "\n", sep="")
+
   cat("Get a default selection of the data with:\n")
 
   # def_sel <-
@@ -319,12 +338,14 @@ print.dataflow_info <- function(x, ...){
   #   deparse(width.cutoff = 500, nlines = 1)
 
   cmd <- sprintf(
-'obs <- get_observations(id="%s", agencyID="%s")',
-  x$id,
-  x$agencyID
-)
-
+    'dat <- get_data(id="%s", agencyID="%s", pivot="%s")',
+    x$id,
+    x$agencyID,
+    tail(x$dimensions, 1)[[1]]$id
+  )
   cat("  ", cmd, "\n", sep="")
+
+  cat("\n")
 
   cat("\nProperties:\n ", sep="")
   paste0("$", names(x), collapse = ", ") |> cat()

@@ -3,6 +3,7 @@
 #' Get sdmx dataflows from a given endpoint.
 #' @param req A character string or endpoint for a given endpoint.
 #' @param agencyID A character string from a given agencyID.
+#' @param raw If `TRUE` return the raw data from the SDMX, otherwise the data is processed.
 #' @param ... saved for future use.
 #' @param language The language to use for the text used in the response.
 #' @param cache_dir The directory to cache the request in, set to `NULL` to disable caching.
@@ -16,10 +17,18 @@ list_dataflows <- function(
     ...,
     language = "nl",
     cache_dir = tempdir(),
-    verbose = getOption("cbsopendata.verbose", FALSE)
+    verbose = getOption("cbsopendata.verbose", FALSE),
+    raw = FALSE
 ){
 
+
   # path <- tempfile("sdmx", fileext = ".json")
+
+  agencyID <- if (is.null(agencyID)){
+    NULL
+  } else {
+    agencyID |> paste0(collapse = "+")
+  }
 
   req <-
     sdmx_v2_1_structure_request(
@@ -49,17 +58,26 @@ list_dataflows <- function(
 
   was_cached <- isTRUE(attr(res, "was_cached"))
 
+  if (isTRUE(raw)){
+    return(res)
+  }
+
   # TODO provide a "raw" option that returns the full response of the SDMX v2.1 API
   dataflows <- res$data$dataflows
 
-  # we add ref to the dataflows for convenience, to be used as a flowRef
+  # we add ref to the dataflows for convenience, to be used as a reference to a
+  # dataflow
   dataflows$ref <- with(dataflows, {
-      paste(agencyID, id, version, sep = ",")
+      sprintf("%s:%s(%s)", agencyID, id, version)
   })
 
-  dataflows$flowRef <- with(dataflows, {
-    paste(agencyID, id, version, sep = ",")
-  })
+  dataflows <- dataflows |>
+    ensure(c("agencyID", "id", "version", "name", "description", "ref"))
+
+  # we add ref to the dataflows for convenience, to be used as a flowRef
+  # dataflows$flowRef <- with(dataflows, {
+  #   paste(agencyID, id, version, sep = ",")
+  # })
 
   contentLanguages = res$meta$contentLanguages
 

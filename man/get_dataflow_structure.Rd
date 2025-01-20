@@ -6,11 +6,11 @@
 \usage{
 get_dataflow_structure(
   req = NULL,
-  flowRef,
+  ref,
+  agencyID = getOption("cbsopendata.agencyID", NULL),
   id,
   version = "latest",
-  agencyID = getOption("cbsopendata.agencyID", "NL1"),
-  language = getOption("cbsopendata.language", "nl"),
+  language = getOption("cbsopendata.language", "en"),
   cache_dir = tempdir(),
   verbose = getOption("cbsopendata.verbose", FALSE)
 )
@@ -18,15 +18,16 @@ get_dataflow_structure(
 \arguments{
 \item{req}{A character string with the request to the dataflow}
 
-\item{flowRef}{A string with the flow reference, in the form of "agencyID,id,version"}
+\item{ref}{A string with the flow reference, in the form of "agencyID:id(version)". Overrules
+the agencyID, id and version arguments.}
+
+\item{agencyID}{The agency ID of the dataflow}
 
 \item{id}{The id of the dataflow}
 
 \item{version}{The version of the dataflow, defaults to "latest"}
 
-\item{agencyID}{The agency ID of the dataflow, defaults to "NL1"}
-
-\item{language}{The language of the metadata, defaults to "nl"}
+\item{language}{The language of the metadata}
 
 \item{cache_dir}{The directory to cache the data in, set to \code{NULL} to disable caching.}
 
@@ -36,5 +37,13 @@ get_dataflow_structure(
 a list with the dataflow information
 }
 \description{
-Get infomration about a dataflow
+Get information and structure  about a dataflow. The dataflow can be identified
+using \code{agencyID}, \code{id} and \code{version} or by using the \code{ref} argument.
+}
+\details{
+For most use cases the \code{agencyID} and \code{id} are to be preferred, as the \code{ref} argument
+includes a specific version number of the dataflow. Not specifying a version number
+will default to the latest version. If it is desirable to pin the reference of
+the dataflow to a specific version, the \code{ref} argument can be used. The \code{ref}
+argument can also be found in \code{\link[=list_dataflows]{list_dataflows()}}.
 }

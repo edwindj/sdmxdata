@@ -1,10 +1,10 @@
 if (interactive()) {
 
   dfs <- list_dataflows()
-  flowRef <- dfs$flowRef[4]
+  ref <- dfs$ref[4]
 
   obs <- get_observations(
-    flowRef = flowRef,
+    ref = ref,
     filter_on = list(
       "RegioS" = c("NL01"),
       "Perioden" = c("2024MM01")

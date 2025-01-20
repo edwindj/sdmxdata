@@ -5,7 +5,7 @@
 #' @param agencyID The agency ID
 #' @param id The id of the dataflow
 #' @param version The version of the dataflow, default "latest"
-#' @param flowRef The flow reference can be used in stead of agencyID, id and version
+#' @param ref The dataflow reference can be used in stead of agencyID, id and version
 #' @param startPeriod The start period for which the data should be returned, works only for dataflows with an explicit time dimension.
 #' @param endPeriod The end period for which the data should be returned, works only for dataflows with an explicit time dimension.
 #' @param filter_on A named list of filters to apply to the data, if not specified or `list()`, it is the default selection, set to `NULL` to select all.
@@ -27,7 +27,7 @@ get_observations <- function(
     agencyID,
     id,
     version = "latest",
-    flowRef = NULL,
+    ref = NULL,
     startPeriod = NULL,
     endPeriod = NULL,
     filter_on = list(),
@@ -43,8 +43,8 @@ get_observations <- function(
     verbose = getOption("cbsopendata.verbose", FALSE)
   ){
 
-  if (missing(flowRef) && (missing(agencyID) || missing(id))){
-    return(NULL)
+  if (missing(ref) && (missing(agencyID) || missing(id))){
+    stop("Either `ref` or `agencyID` and `id` should be specified.", call. = FALSE)
   }
 
   dim_contents <- match.arg(dim_contents)
@@ -52,7 +52,7 @@ get_observations <- function(
 
   dfi <- get_dataflow_structure(
     req = req,
-    flowRef = flowRef,
+    ref = ref,
     agencyID = agencyID,
     id = id,
     version = version,
@@ -203,7 +203,7 @@ get_observations <- function(
   })
 
 
-  attr(df, "flowRef") <- dfi$dataflow$ref
+  attr(df, "ref_dataflow") <- dfi$ref
 
   df
 }

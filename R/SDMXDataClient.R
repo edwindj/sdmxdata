@@ -50,15 +50,15 @@ SDMXDataClient <- R6::R6Class("SDMXDataClient",
     },
 
     get_dataflow_structure = function(
-      flowRef,
-      id,
-      agencyID,
+      ref = NULL,
+      id = NULL,
+      agencyID = NULL,
       version = "latest",
       language = NULL
     ){
       get_dataflow_structure(
         req = self$req,
-        flowRef = flowRef,
+        ref = ref,
         id = id,
         agencyID = agencyID,
         version = version,
@@ -72,14 +72,14 @@ SDMXDataClient <- R6::R6Class("SDMXDataClient",
       agencyID = NULL,
       id = NULL,
       version = "latest",
-      flowRef = NULL,
+      ref = NULL,
       filter_on = list(),
       ...,
       language = NULL
     ) {
       get_observations(
         req = self$req,
-        flowRef = flowRef,
+        ref = ref,
         agencyID = agencyID,
         id = id,
         version = version,
@@ -94,7 +94,7 @@ SDMXDataClient <- R6::R6Class("SDMXDataClient",
     get_data = function(
       agencyID = NULL,
       id = NULL,
-      flowRef = NULL,
+      ref = NULL,
       filter_on = list(),
       pivot = NULL,
       ...,
@@ -102,7 +102,7 @@ SDMXDataClient <- R6::R6Class("SDMXDataClient",
     ){
       get_data(
         req = self$req,
-        flowRef = flowRef,
+        ref = ref,
         agencyID = agencyID,
         id = id,
         filter_on = filter_on,

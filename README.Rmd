@@ -50,17 +50,17 @@ dfs[,1:5] |>
 To retrieve a dataflow structure:
 
 ```{r}
-flowRef <- dfs$flowRef[4]
-print(flowRef)
+dataflow_ref <- dfs$ref[4]
+print(dataflow_ref)
 
-df <- get_dataflow_structure(flowRef = flowRef)
-df
+dsd <- get_dataflow_structure(ref = dataflow_ref)
+dsd
 ```
 
 To retrieve data use `get_data`
 
 ```{r}
-data <- get_data(flowRef = flowRef, pivot="Topics")
+data <- get_data(agencyID=dsd$agencyID, id = dsd$id, pivot="Topics")
 head(data)
 ```
 

@@ -10,7 +10,8 @@ list_dataflows(
   ...,
   language = "nl",
   cache_dir = tempdir(),
-  verbose = getOption("cbsopendata.verbose", FALSE)
+  verbose = getOption("cbsopendata.verbose", FALSE),
+  raw = FALSE
 )
 }
 \arguments{
@@ -25,6 +26,8 @@ list_dataflows(
 \item{cache_dir}{The directory to cache the request in, set to \code{NULL} to disable caching.}
 
 \item{verbose}{if \code{TRUE} print information about the dataflows.}
+
+\item{raw}{If \code{TRUE} return the raw data from the SDMX, otherwise the data is processed.}
 }
 \value{
 a data.frame with available dataflows
