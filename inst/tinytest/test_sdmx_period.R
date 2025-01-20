@@ -2,7 +2,7 @@ library(tinytest)
 
 period <- c("2020-01-01", "2020-W01", "2020-01", "2020-Q1", "2020-S1", "2020")
 
-sdmx_period_valid <- cbsopendata:::sdmx_period_valid
+sdmx_period_valid <- sdmxdata:::sdmx_period_valid
 
 expect_equal(
   sdmx_period_valid(period),

@@ -40,7 +40,7 @@ get_observations <- function(
     raw = FALSE,
     drop_first_columns = !raw,
     cache_dir = tempdir(),
-    verbose = getOption("cbsopendata.verbose", FALSE)
+    verbose = getOption("sdmxdata.verbose", FALSE)
   ){
 
   if (missing(flowRef) && (missing(agencyID) || missing(id))){

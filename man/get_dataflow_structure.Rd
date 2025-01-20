@@ -9,10 +9,10 @@ get_dataflow_structure(
   flowRef,
   id,
   version = "latest",
-  agencyID = getOption("cbsopendata.agencyID", "NL1"),
-  language = getOption("cbsopendata.language", "nl"),
+  agencyID = getOption("sdmxdata.agencyID", "NL1"),
+  language = getOption("sdmxdata.language", "nl"),
   cache_dir = tempdir(),
-  verbose = getOption("cbsopendata.verbose", FALSE)
+  verbose = getOption("sdmxdata.verbose", FALSE)
 )
 }
 \arguments{

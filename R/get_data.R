@@ -29,7 +29,7 @@ get_data <- function(
     language = NULL,
     cache_dir = tempdir(),
     pivot = NULL,
-    verbose = getOption("cbsopendata.verbose", FALSE)
+    verbose = getOption("sdmxdata.verbose", FALSE)
     ){
 
     has_pivot <- (length(pivot) > 0)

@@ -5,7 +5,7 @@ get_structure_from_json <- function(
     ...,
     cache_dir = tempdir(),
     cache_key = req$url,
-    verbose = getOption("cbsopendata.verbose", FALSE)
+    verbose = getOption("sdmxdata.verbose", FALSE)
     ){
 
   req <- req |>

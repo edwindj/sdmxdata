@@ -17,10 +17,10 @@ get_dataflow_structure <- function(
     flowRef,
     id,
     version = "latest",
-    agencyID = getOption("cbsopendata.agencyID", "NL1"),
-    language= getOption("cbsopendata.language", "nl"),
+    agencyID = getOption("sdmxdata.agencyID", "NL1"),
+    language= getOption("sdmxdata.language", "nl"),
     cache_dir = tempdir(),
-    verbose = getOption("cbsopendata.verbose", FALSE)
+    verbose = getOption("sdmxdata.verbose", FALSE)
   ){
   # get the information for just one dataflow
 

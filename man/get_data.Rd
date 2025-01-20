@@ -20,7 +20,7 @@ get_data(
   language = NULL,
   cache_dir = tempdir(),
   pivot = NULL,
-  verbose = getOption("cbsopendata.verbose", FALSE)
+  verbose = getOption("sdmxdata.verbose", FALSE)
 )
 }
 \arguments{

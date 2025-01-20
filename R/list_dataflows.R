@@ -16,7 +16,7 @@ list_dataflows <- function(
     ...,
     language = "nl",
     cache_dir = tempdir(),
-    verbose = getOption("cbsopendata.verbose", FALSE)
+    verbose = getOption("sdmxdata.verbose", FALSE)
 ){
 
   # path <- tempfile("sdmx", fileext = ".json")

@@ -8,8 +8,8 @@
 #
 
 library(shiny)
-library(cbsopendata)
-get_dataflow_structure <- cbsopendata:::get_dataflow_structure
+library(sdmxdata)
+get_dataflow_structure <- sdmxdata:::get_dataflow_structure
 
 library(DT)
 
