@@ -46,7 +46,7 @@
 <span>  <span class="va">agencyID</span>,</span>
 <span>  <span class="va">id</span>,</span>
 <span>  version <span class="op">=</span> <span class="st">"latest"</span>,</span>
-<span>  flowRef <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  ref <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  startPeriod <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  endPeriod <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  filter_on <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
@@ -83,8 +83,8 @@
 <dd><p>The version of the dataflow, default "latest"</p></dd>
 
 
-<dt id="arg-flowref">flowRef<a class="anchor" aria-label="anchor" href="#arg-flowref"></a></dt>
-<dd><p>The flow reference can be used in stead of agencyID, id and version</p></dd>
+<dt id="arg-ref">ref<a class="anchor" aria-label="anchor" href="#arg-ref"></a></dt>
+<dd><p>The dataflow reference can be used in stead of agencyID, id and version</p></dd>
 
 
 <dt id="arg-startperiod">startPeriod<a class="anchor" aria-label="anchor" href="#arg-startperiod"></a></dt>
@@ -149,10 +149,10 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="va">dfs</span> <span class="op">&lt;-</span> <span class="fu"><a href="list_dataflows.html">list_dataflows</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="va">flowRef</span> <span class="op">&lt;-</span> <span class="va">dfs</span><span class="op">$</span><span class="va">flowRef</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span></span></span>
+<span class="r-in"><span>  <span class="va">ref</span> <span class="op">&lt;-</span> <span class="va">dfs</span><span class="op">$</span><span class="va">ref</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="va">obs</span> <span class="op">&lt;-</span> <span class="fu">get_observations</span><span class="op">(</span></span></span>
-<span class="r-in"><span>    flowRef <span class="op">=</span> <span class="va">flowRef</span>,</span></span>
+<span class="r-in"><span>    ref <span class="op">=</span> <span class="va">ref</span>,</span></span>
 <span class="r-in"><span>    filter_on <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>      <span class="st">"RegioS"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"NL01"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>      <span class="st">"Perioden"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2024MM01"</span><span class="op">)</span></span></span>
