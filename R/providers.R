@@ -12,7 +12,15 @@ ILO,ILO,https://sdmx.ilo.org/rest,en,1.0.0
   data.table::fread() |>
   as.data.frame()
 
-get_dataclient <- function(
+#' Connect to a SDMX provider
+#'
+#' Connect to an SDMX provider
+#' @param provider character, one of the available providers
+#' @param language character, the language to use for the text used in the response.
+#' @param verbose logical, if `TRUE` print information about the dataflows.
+#' @return a SDMXDataClient object\
+#' @export
+get_provider <- function(
     provider,
     language = NULL,
     verbose = FALSE

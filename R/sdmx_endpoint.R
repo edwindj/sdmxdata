@@ -12,7 +12,11 @@ sdmx_endpoint <- function(x, ...){
 #' @export
 sdmx_endpoint.default <- function(x, ...){
   if (is.null(x)){
-    return(sdmx_endpoint.character("https://sdmx-api.beta.cbs.nl/rest"))
+    endpoint <- getOption("sdmxdata.endpoint", "https://sdmx-api.beta.cbs.nl/rest")
+    if (is.null(endpoint)){
+      stop("No endpoint provided, please provide an endpoint or set the default endpoint with options(sdmxdata.endpoint = 'http://example.com')")
+    }
+    return(sdmx_endpoint.character(endpoint))
   }
   stop("sdmx_endpoint() is not implemented for objects of class ", class(x))
 }
@@ -25,4 +29,10 @@ sdmx_endpoint.character <- function(x, ...){
 #' @export
 sdmx_endpoint.httr2_request <- function(x, ...){
   x
+}
+
+#' @export
+sdmx_endpoint.SDMXDataClient <- function(x, ...){
+  endpoint <- x$req$url
+  sdmx_endpoint.character(endpoint)
 }

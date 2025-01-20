@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
 # sdmxdata
 
 <!-- badges: start -->
+[![CRAN status](https://www.r-pkg.org/badges/version/sdmxdata)](https://CRAN.R-project.org/package=sdmxdata)
 [![R-CMD-check](https://github.com/edwindj/sdmxdata/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/edwindj/sdmxdata/actions/workflows/R-CMD-check.yaml)
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
@@ -42,7 +43,8 @@ To retrieve a list of tables:
 
 
 ```{r}
-dfs <- list_dataflows()
+CBSbeta <- sdmxdata::get_provider("NL1")
+dfs <- CBSbeta$list_dataflows()
 dfs[,1:5] |> 
   head()
 ```
@@ -53,21 +55,21 @@ To retrieve a dataflow structure:
 dataflow_ref <- dfs$ref[4]
 print(dataflow_ref)
 
-dsd <- get_dataflow_structure(ref = dataflow_ref)
+dsd <- CBSbeta$get_dataflow_structure(ref = dataflow_ref)
 dsd
 ```
 
 To retrieve data use `get_data`
 
 ```{r}
-data <- get_data(agencyID=dsd$agencyID, id = dsd$id, pivot="Topics")
+data <- CBSbeta$get_data(agencyID=dsd$agencyID, id = dsd$id, pivot="Topics")
 head(data)
 ```
 
 Or get the underlying observations with `get_observations`
 
 ```{r}
-obs <- get_observations(id="DF_37230ned", agencyID="NL1.CNVT")
+obs <- CBSbeta$get_observations(id="DF_37230ned", agencyID="NL1.CNVT")
 ```
 
 ```{r}
