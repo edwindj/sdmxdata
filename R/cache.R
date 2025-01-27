@@ -83,13 +83,13 @@ cache_json <- function(
 
     if (verbose){
       if (should_cache) {
-        message("[cache:add]: ", path)
+        message("[cache:add]: ", path |> dQuote())
       } else {
         message("[cache:disabled]")
       }
     }
   } else if (verbose){
-    message("[cached]: ",path,"'")
+    message("[cached]: ",path |> dQuote())
   }
 
   jsonlite::read_json(path, simplifyVector = simplifyVector, ...) |>
