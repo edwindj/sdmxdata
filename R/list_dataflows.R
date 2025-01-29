@@ -15,7 +15,7 @@ list_dataflows <- function(
     req = NULL,
     agencyID = NULL,
     ...,
-    language = "nl",
+    language = NULL,
     cache_dir = tempdir(),
     raw = FALSE,
     verbose = getOption("sdmxdata.verbose", FALSE)

@@ -32,7 +32,7 @@ sdmx_endpoint.httr2_request <- function(x, ...){
 }
 
 #' @export
-sdmx_endpoint.SDMXDataClient <- function(x, ...){
+sdmx_endpoint.SDMXProvider <- function(x, ...){
   endpoint <- x$req$url
   sdmx_endpoint.character(endpoint)
 }

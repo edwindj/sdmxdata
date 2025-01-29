@@ -49,16 +49,6 @@ get_dataflow_structure <- function(
     )
   }
 
-  # oc <- ObjectCache(
-  #   key = paste("dataflowinfo2", flowRef, sep = "_"),
-  #   cache_dir = cache_dir,
-  #   verbose = verbose
-  # )
-  #
-  # if (oc$is_cached()){
-  #   return(oc$get())
-  # }
-
   req <- sdmx_v2_1_structure_request(
     req = req,
     resource = "dataflow",
@@ -156,8 +146,10 @@ get_dataflow_structure <- function(
   codelist <- codelists[match(ref_codelist, codelists$ref),]
   dimensions$codes <- codelist$codes
 
+  #TODO check for concept roles, like GEO / VARIABLE
+
   dimensions <- dimensions |>
-    ensure(c("id", "name","description","codes","position", "type", "ref"))
+    ensure(c("id", "name","description","codes","position", "type", "ref", "role"))
 
   time_dimensions <- dimlist$timeDimensions[[1]]
   if (!is.null(time_dimensions)){
@@ -171,7 +163,7 @@ get_dataflow_structure <- function(
 
     time_dimensions <-
       time_dimensions |> ensure(
-        c("id", "name","description","codes","position", "type", "ref")
+        c("id", "name","description","codes","position", "type", "ref", "role")
       )
   }
 
@@ -226,8 +218,14 @@ get_dataflow_structure <- function(
 
   dimensions <- dimensions |>
     split(seq_len(nrow(dimensions))) |>
-    lapply(\(x) unlist(x, recursive = FALSE)) |>
-    stats::setNames(dimensions$id)
+    lapply(\(x) {
+      x <- x |>
+        unlist(recursive = FALSE)
+      x
+    }) |>
+    stats::setNames(dimensions$id) |>
+    structure(class="sdmx_dimensions")
+
 
   measure <- measure |>
     as.list()
@@ -324,7 +322,7 @@ print.dataflow_structure <- function(x, ...){
   #   deparse(width.cutoff = 500, nlines = 1)
 
   cmd <- sprintf(
-    'obs <- get_observations(id="%s", agencyID="%s")',
+    'obs <- <provider>$get_observations(id="%s", agencyID="%s")',
     x$id,
     x$agencyID
   )
@@ -338,7 +336,7 @@ print.dataflow_structure <- function(x, ...){
   #   deparse(width.cutoff = 500, nlines = 1)
 
   cmd <- sprintf(
-    'dat <- get_data(id="%s", agencyID="%s", pivot="%s")',
+    'dat <- <provider>$get_data(id="%s", agencyID="%s", pivot="%s")',
     x$id,
     x$agencyID,
     tail(x$dimensions, 1)[[1]]$id
@@ -350,5 +348,16 @@ print.dataflow_structure <- function(x, ...){
   cat("\nProperties:\n ", sep="")
   paste0("$", names(x), collapse = ", ") |> cat()
 
+  invisible(x)
+}
+
+#' @export
+print.sdmx_dimensions <- function(x, ...){
+  for (d in unclass(x)){
+    cat("$", d$id, ":", d$name |> dQuote(), " (", nrow(d$codes), " codes)\n", sep="")
+    cat("  ", "type: ", d$type,
+        ", position: ", d$position,
+       "\n", sep="")
+  }
   invisible(x)
 }

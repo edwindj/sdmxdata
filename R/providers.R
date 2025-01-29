@@ -8,6 +8,7 @@ ABS,AUSTRALIA,https://data.api.abs.gov.au/rest,en,2.0.0
 BIS,BIS,https://stats.bis.org/api/v1,en,2.0.0
 FAO,FAO,https://nsi-release-ro-statsuite.fao.org/rest,en,2.0.0
 ILO,ILO,https://sdmx.ilo.org/rest,en,1.0.0
+UN,United Nations,https://data.un.org/ws/rest,en,2.0.0
 " |>
   data.table::fread() |>
   as.data.frame()
@@ -18,7 +19,7 @@ ILO,ILO,https://sdmx.ilo.org/rest,en,1.0.0
 #' @param provider character, one of the available providers
 #' @param language character, the language to use for the text used in the response.
 #' @param verbose logical, if `TRUE` print information about the dataflows.
-#' @return a SDMXDataClient object\
+#' @return a SDMXProvider object\
 #' @export
 get_provider <- function(
     provider,
@@ -30,7 +31,7 @@ get_provider <- function(
   idx <- match(provider, PROVIDER_v2_1$id)
   provider <- PROVIDER_v2_1[idx,] |> as.list()
 
-  SDMXDataClient$new(
+  SDMXProvider$new(
     provider$endpoint,
     id = provider$id,
     name = provider$name,

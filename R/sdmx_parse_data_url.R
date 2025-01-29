@@ -1,5 +1,4 @@
 sdmx_parse_data_url <- function(x, resource = c("data", "metadata")){
-  httr2::url_parse(x)
   x <- utils::URLdecode(x)
   resource <- match.arg(resource)
 
@@ -22,6 +21,8 @@ sdmx_parse_data_url <- function(x, resource = c("data", "metadata")){
   names(parts) <- c("resource", "flowRef","key","providerRef")[seq_along(parts)]
 
   args <- c(parts, params)
+
+
 
   expr <- bquote(
     sdmx_v2_1_data_request(..(args)),

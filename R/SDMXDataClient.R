@@ -1,5 +1,5 @@
 #' @importFrom R6 R6Class
-SDMXDataClient <- R6::R6Class("SDMXDataClient",
+SDMXProvider <- R6::R6Class("SDMXProvider",
   public = list(
 
     req = NULL,
@@ -98,7 +98,9 @@ SDMXDataClient <- R6::R6Class("SDMXDataClient",
       filter_on = list(),
       pivot = NULL,
       ...,
-      language = NULL
+      language = self$language,
+      cache_dir = self$cache_dir,
+      verbose = self$verbose
     ){
       get_data(
         req = self$req,
@@ -107,15 +109,41 @@ SDMXDataClient <- R6::R6Class("SDMXDataClient",
         id = id,
         filter_on = filter_on,
         pivot = pivot,
-        language = language %||% self$language,
-        cache_dir = self$cache_dir,
-        verbose = self$verbose
+        language = language,
+        cache_dir = cache_dir,
+        verbose = verbose
       )
     }
   )
 )
 
-# cbsdata <- SDMXDataClient$new("https://sdmx-api.beta.cbs.nl/rest")
+#' @export
+print.SDMXProvider <- function(x, ...) {
+  cat("SDMXProvider ", x$id |> dQuote(), "\n")
+  cat("  name:", x$name |> dQuote(), "\n")
+  cat("  endpoint:", x$req$url |> dQuote(), "\n")
+  cat("  language: ", x$language |> dQuote(), "\n")
+  cat("  cache_dir: ", x$cache_dir |> dQuote(), "\n")
+  cat("  verbose: ", x$verbose, "\n")
+  cat("  version: ", x$version, "\n")
+  cat("\nproperties:",
+      "$%s" |>
+        sprintf(
+          c("id", "req", "name", "language", "cache_dir", "verbose", "version")
+        ) |>
+        paste(collapse = ", "), "\n"
+  )
+  cat("methods:",
+      "$%s()" |>
+        sprintf(
+          c("list_dataflows", "get_dataflow_structure", "get_observations", "get_data")
+        ) |>
+        paste(collapse = ", "), "\n"
+  )
+  invisible(x)
+}
+
+# cbsdata <- SDMXProvider$new("https://sdmx-api.beta.cbs.nl/rest")
 # dfs <- cbsdata$list_dataflows()
 #
 # cbsdata

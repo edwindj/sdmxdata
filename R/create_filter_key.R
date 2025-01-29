@@ -16,15 +16,31 @@ create_filter_key <- function(dims, filter_on){
 
   chk <- names(filter_on) %in% allowed
   if (!all(chk)){
-    stop("'filter_on' contains invalid dimension name(s): ",
+    warning("'filter_on' contains invalid dimension name(s): ",
          paste0("'", names(filter_on)[!chk], "'", collapse = ","),
          "\n  It must be one of the following dimension names: ", nms,
          call. = FALSE
     )
   }
 
-  # TODO check codes, generate a warning when a code is not found in the codelist
-  # of a dimension
+  # check if codes exist
+  for (id in names(filter_on)){
+    f <- filter_on[[id]]
+    if (!is.character(f)){
+      stop("The filter value for '", id, "' must be a character vector",
+           call. = FALSE)
+    }
+    dim <- dims[[id]] %||% list()
+    code <- dim$codes
+    if ( !is.null(code) && !all(f %in% code$id)){
+      warning("The filter value for '", id, "' contains unavailable code(s): ",
+              f[!f %in% code$id] |>
+                dQuote() |>
+                paste(collapse = ","),
+              call. = FALSE
+      )
+    }
+  }
 
   key <- lapply(allowed, function(id){
     paste(filter_on[[id]], collapse = "+")

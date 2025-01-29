@@ -14,7 +14,7 @@ get_provider(provider, language = NULL, verbose = FALSE)
 \item{verbose}{logical, if \code{TRUE} print information about the dataflows.}
 }
 \value{
-a SDMXDataClient object\
+a SDMXProvider object\
 }
 \description{
 Connect to an SDMX provider
