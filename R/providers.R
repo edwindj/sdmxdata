@@ -13,6 +13,8 @@ get_provider <- function(
     singleton = TRUE,
     verbose = FALSE
   ){
+  # to keep CRAN check happy
+  providers <- sdmxdata::providers
 
   provider <- match.arg(provider, choices = providers$id)
   idx <- match(provider, providers$id)
