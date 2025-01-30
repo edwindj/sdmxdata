@@ -21,8 +21,8 @@ SDMXProvider <- R6::R6Class("SDMXProvider",
       verbose = FALSE,
       version = "2.1"
     ) {
-      if (nchar(name) > 0 && !is.null(cache_dir)) {
-        cache_dir <- file.path(cache_dir, name)
+      if (nchar(id) > 0 && !is.null(cache_dir)) {
+        cache_dir <- file.path(cache_dir, id)
       }
       self$req <- httr2::request(endpoint)
       self$id <- id
@@ -56,7 +56,7 @@ SDMXProvider <- R6::R6Class("SDMXProvider",
       version = "latest",
       language = NULL
     ){
-      get_dataflow_structure(
+      dsd <- get_dataflow_structure(
         req = self$req,
         ref = ref,
         id = id,
@@ -66,6 +66,11 @@ SDMXProvider <- R6::R6Class("SDMXProvider",
         cache_dir = self$cache_dir,
         verbose = self$verbose
       )
+
+      attr(dsd, "call") <- sys.call()
+      attr(dsd, "provider") <- self$id
+
+      dsd
     },
 
     get_observations = function(

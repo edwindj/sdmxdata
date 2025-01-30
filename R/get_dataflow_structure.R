@@ -237,6 +237,8 @@ get_dataflow_structure <- function(
       stats::setNames(atts$id)
   }
 
+  call <- sys.call()
+
   dfi <- list(
     id          = dataflow$id,
     agencyID    = dataflow$agencyID,
@@ -251,7 +253,10 @@ get_dataflow_structure <- function(
     flowRef     = dataflow$flowRef,
     raw_sdmx    = raw
   ) |>
-  structure(class="dataflow_structure")
+  structure(
+    class = "dataflow_structure",
+    call = call
+  )
 
   dfi$default_selection <- get_default_selection(dfi)
 
@@ -360,4 +365,58 @@ print.sdmx_dimensions <- function(x, ...){
        "\n", sep="")
   }
   invisible(x)
+}
+
+process_call <- function(dsd){
+  call <- attr(dsd, "call")
+
+  if (is.null(call)){
+    return(NULL)
+  }
+
+  l <- list(call = call)
+
+  fun <- call[[1]]
+  if (as.character(fun[[1]]) == "$"){
+    provider_var <- fun[[2]]
+    l <- c(l, list(
+      obs = substitute(
+        obs <- provider$get_observations(id = id, agencyID = agencyID),
+        list(
+          provider = provider_var,
+          id = dsd$id,
+          agencyID = dsd$agencyID
+        )
+      ),
+      dat = substitute(
+        dat <- provider$get_data(id = id, agencyID = agencyID),
+        list(
+          provider = provider_var,
+          id = dsd$id,
+          agencyID = dsd$agencyID
+        )
+      )
+      )
+    )
+  } else {
+    l <- c(l, list(
+        obs = substitute(
+          get_observations(id = id, agencyID = agencyID),
+          list(
+            id = dsd$id,
+            agencyID = dsd$agencyID
+          )
+        ),
+        data = substitute(
+          get_data(id = id, agencyID = agencyID),
+          list(
+            id = dsd$id,
+            agencyID = dsd$agencyID
+          )
+        )
+      )
+    )
+  }
+
+  l
 }

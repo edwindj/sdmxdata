@@ -4,17 +4,19 @@
 \alias{get_provider}
 \title{Connect to a SDMX provider}
 \usage{
-get_provider(provider, language = NULL, verbose = FALSE)
+get_provider(provider, language = NULL, singleton = TRUE, verbose = FALSE)
 }
 \arguments{
 \item{provider}{character, one of the available providers}
 
 \item{language}{character, the language to use for the text used in the response.}
 
+\item{singleton}{logical, if \code{TRUE} return the same object if it already exists}
+
 \item{verbose}{logical, if \code{TRUE} print information about the dataflows.}
 }
 \value{
-a SDMXProvider object\
+a SDMXProvider object
 }
 \description{
 Connect to an SDMX provider

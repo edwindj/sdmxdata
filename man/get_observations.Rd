@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_observations.R
 \name{get_observations}
 \alias{get_observations}
-\title{Get data from a SDMX API}
+\title{Get observations from an SDMX provider}
 \usage{
 get_observations(
   req = NULL,
@@ -66,7 +66,13 @@ get_observations(
 \code{\link[=data.frame]{data.frame()}} or \code{\link[data.table:data.table]{data.table::data.table()}} depending on \code{as.data.table}
 }
 \description{
-Get data from an SDMX API
+Get observations from an SDMX provider. It retrieves the
+data from the SDMX provider and returns it as a data.frame.
+}
+\details{
+By default the dimension and attribute columns are recoded to
+factors with labels. This can be changed with the \code{dim_contents} and
+\code{attributes_contents} arguments.
 }
 \examples{
 if (interactive()) {

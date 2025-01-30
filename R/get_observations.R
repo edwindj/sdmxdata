@@ -1,6 +1,11 @@
-#' Get data from a SDMX API
+#' Get observations from an SDMX provider
 #'
-#' Get data from an SDMX API
+#' Get observations from an SDMX provider. It retrieves the
+#' data from the SDMX provider and returns it as a data.frame.
+#'
+#' By default the dimension and attribute columns are recoded to
+#' factors with labels. This can be changed with the `dim_contents` and
+#' `attributes_contents` arguments.
 #' @param req An endpoint
 #' @param agencyID The agency ID
 #' @param id The id of the dataflow
