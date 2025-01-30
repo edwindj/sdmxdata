@@ -41,7 +41,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_provider</span><span class="op">(</span><span class="va">provider</span>, language <span class="op">=</span> <span class="cn">NULL</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_provider</span><span class="op">(</span><span class="va">provider</span>, language <span class="op">=</span> <span class="cn">NULL</span>, singleton <span class="op">=</span> <span class="cn">TRUE</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -56,13 +56,17 @@
 <dd><p>character, the language to use for the text used in the response.</p></dd>
 
 
+<dt id="arg-singleton">singleton<a class="anchor" aria-label="anchor" href="#arg-singleton"></a></dt>
+<dd><p>logical, if <code>TRUE</code> return the same object if it already exists</p></dd>
+
+
 <dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
 <dd><p>logical, if <code>TRUE</code> print information about the dataflows.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>a SDMXDataClient object\</p>
+    <p>a SDMXProvider object</p>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
