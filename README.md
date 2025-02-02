@@ -33,7 +33,7 @@ library(sdmxdata)
 To retrieve a list of tables:
 
 ``` r
-CBSbeta <- sdmxdata::get_provider("NL1")
+CBSbeta <- sdmxdata::get_endpoint("NL1")
 dfs <- CBSbeta$list_dataflows()
 dfs[,1:5] |> 
   head()

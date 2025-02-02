@@ -12,7 +12,7 @@ SDMX_STRUCTURES <-
 #'
 #' Wrapper for the SDMX REST v2.1 interface for structured information
 #'
-#' @param req An endpoint or an httr2 request object
+#' @param endpoint An endpoint or an object that can be coerced to an endpoint
 #' @param resource The resource to request. One of "datastructure", "metadatastructure", "categoryscheme", "conceptscheme", "codelist", "hierarchicalcodelist", "organisationscheme", "agencyscheme", "dataproviderscheme", "dataconsumerscheme", "organisationunitscheme", "dataflow", "metadataflow", "reportingtaxonomy", "provisionagreement", "structureset", "process", "categorisation", "contentconstraint", "attachmentconstraint", "actualconstraint", "allowedconstraint", "structure", "transformationscheme", "rulesetscheme", "userdefinedoperatorscheme", "customtypescheme", "namepersonalisationscheme", "vtlmappingscheme"
 #' @param agencyID The agency ID to request
 #' @param resourceID The resource ID to request
@@ -26,19 +26,19 @@ SDMX_STRUCTURES <-
 #' @return a modified [httr2::request()] object
 #'@export
 sdmx_v2_1_structure_request <- function(
-    req = NULL,
+    endpoint = NULL,
     resource = "dataflow",
     agencyID = NULL,
     resourceID = NULL,
     version = NULL,
     itemID = NULL,
-    format = c("xml", "json"),
+    format = c("json", "xml"),
     language = NULL,
     ...,
     detail = c("full", "allstubs", "referencestubs", "allcompletestubs", "referencecompletestubs", "referencepartial"),
     references = c("none", "parents", "parentsandsiblings", "children", "descendants", "all")
 ){
-  req <- sdmx_endpoint(req)
+  endpoint <- sdmx_endpoint(endpoint)
   resource <- match.arg(resource, choices = SDMX_STRUCTURES)
 
   path <- c(
@@ -51,7 +51,7 @@ sdmx_v2_1_structure_request <- function(
     lapply(function(x) if (length(x)){paste(x, collapse = "+")}) |>
     paste(collapse = "/")
 
-  req <- req |> httr2::req_template("GET /{path}")
+  req <- endpoint$req |> httr2::req_template("GET /{path}")
 
   if (!is.null(language)){
     req <- req |>

@@ -5,17 +5,17 @@
 \title{Get sdmx category schemes}
 \usage{
 list_categoryschemes(
-  req = NULL,
+  endpoint = NULL,
   agencyID = NULL,
   ...,
   language = "nl",
-  cache_dir = tempdir(),
+  cache = TRUE,
   raw = FALSE,
   verbose = getOption("sdmxdata.verbose", FALSE)
 )
 }
 \arguments{
-\item{req}{A character string or endpoint for a given endpoint.}
+\item{endpoint}{an endpoint, url or \code{\link[httr2:request]{httr2::request()}} object.}
 
 \item{agencyID}{A character string from a given agencyID.}
 
@@ -23,11 +23,11 @@ list_categoryschemes(
 
 \item{language}{The language to use for the text used in the response.}
 
-\item{cache_dir}{The directory to cache the request in, set to \code{NULL} to disable caching.}
-
 \item{raw}{If \code{TRUE} return the raw data from the SDMX, otherwise the data is processed.}
 
 \item{verbose}{if \code{TRUE} print information about the dataflows.}
+
+\item{cache_dir}{The directory to cache the request in, set to \code{NULL} to disable caching.}
 }
 \value{
 a data.frame with available dataflows

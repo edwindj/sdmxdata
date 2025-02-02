@@ -1,7 +1,7 @@
 #' Get sdmx category schemes
 #'
 #' Get sdmx categoryschemes from a given endpoint.
-#' @param req A character string or endpoint for a given endpoint.
+#' @param endpoint an endpoint, url or [httr2::request()] object.
 #' @param agencyID A character string from a given agencyID.
 #' @param raw If `TRUE` return the raw data from the SDMX, otherwise the data is processed.
 #' @param ... saved for future use.
@@ -12,16 +12,16 @@
 #' @example example/list_dataflows.R
 #' @export
 list_categoryschemes <- function(
-    req = NULL,
+    endpoint = NULL,
     agencyID = NULL,
     ...,
     language = "nl",
-    cache_dir = tempdir(),
+    cache = TRUE,
     raw = FALSE,
     verbose = getOption("sdmxdata.verbose", FALSE)
 ){
-
-
+  endpoint <- sdmx_endpoint(endpoint)
+  language <- language %||% endpoint$language
   # path <- tempfile("sdmx", fileext = ".json")
 
   agencyID <- if (is.null(agencyID)){
@@ -32,7 +32,7 @@ list_categoryschemes <- function(
 
   req <-
     sdmx_v2_1_structure_request(
-    req = req,
+    endpoint = endpoint,
     resource = "categoryscheme",
     agencyID = agencyID,
     format = "json",
@@ -52,7 +52,7 @@ list_categoryschemes <- function(
     cache_json(
       simplifyVector = !raw,
       key = cache_key,
-      cache_dir = cache_dir,
+      cache_dir = if (cache) endpoint$cache_dir else NULL,
       verbose = verbose
     )
 

@@ -5,13 +5,13 @@
 \title{Retrieve sdmx structure}
 \usage{
 sdmx_v2_1_structure_request(
-  req = NULL,
+  endpoint = NULL,
   resource = "dataflow",
   agencyID = NULL,
   resourceID = NULL,
   version = NULL,
   itemID = NULL,
-  format = c("xml", "json"),
+  format = c("json", "xml"),
   language = NULL,
   ...,
   detail = c("full", "allstubs", "referencestubs", "allcompletestubs",
@@ -21,7 +21,7 @@ sdmx_v2_1_structure_request(
 )
 }
 \arguments{
-\item{req}{An endpoint or an httr2 request object}
+\item{endpoint}{An endpoint or an object that can be coerced to an endpoint}
 
 \item{resource}{The resource to request. One of "datastructure", "metadatastructure", "categoryscheme", "conceptscheme", "codelist", "hierarchicalcodelist", "organisationscheme", "agencyscheme", "dataproviderscheme", "dataconsumerscheme", "organisationunitscheme", "dataflow", "metadataflow", "reportingtaxonomy", "provisionagreement", "structureset", "process", "categorisation", "contentconstraint", "attachmentconstraint", "actualconstraint", "allowedconstraint", "structure", "transformationscheme", "rulesetscheme", "userdefinedoperatorscheme", "customtypescheme", "namepersonalisationscheme", "vtlmappingscheme"}
 

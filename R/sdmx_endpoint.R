@@ -3,7 +3,7 @@
 #' Returns the base request object
 #' @param x An endpoint or an httr2 request object
 #' @param ... saved for future use
-#' @return a [httr2::request()] object
+#' @return a [SDMXEndpoint] object
 #' @export
 sdmx_endpoint <- function(x, ...){
   UseMethod("sdmx_endpoint")
@@ -23,16 +23,18 @@ sdmx_endpoint.default <- function(x, ...){
 
 #' @export
 sdmx_endpoint.character <- function(x, ...){
-  httr2::request(x, ...)
+  endpoint <- SDMXEndpoint$new(url = x, ...)
+  endpoint
 }
 
 #' @export
 sdmx_endpoint.httr2_request <- function(x, ...){
-  x
+  endpoint <- SDMXEndpoint$new(url = x$url, ...)
+  endpoint$req <- x
+  endpoint
 }
 
 #' @export
-sdmx_endpoint.SDMXProvider <- function(x, ...){
-  endpoint <- x$req$url
-  sdmx_endpoint.character(endpoint)
+sdmx_endpoint.SDMXEndpoint <- function(x, ...){
+  x
 }

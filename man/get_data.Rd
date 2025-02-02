@@ -5,7 +5,7 @@
 \title{Retrieve data from a SDMX data API}
 \usage{
 get_data(
-  req = NULL,
+  endpoint = NULL,
   agencyID,
   id,
   version = "latest",
@@ -18,13 +18,13 @@ get_data(
   obs_value_numeric = TRUE,
   raw = FALSE,
   language = NULL,
-  cache_dir = tempdir(),
+  cache = TRUE,
   pivot = NULL,
   verbose = getOption("sdmxdata.verbose", FALSE)
 )
 }
 \arguments{
-\item{req}{An endpoint}
+\item{endpoint}{An endpoint, url or \code{\link[httr2:request]{httr2::request()}} object.}
 
 \item{agencyID}{The agency ID}
 
@@ -50,12 +50,10 @@ get_data(
 
 \item{language}{The language of the metadata}
 
-\item{cache_dir}{The directory to cache the accompanying  meta data, set to \code{NULL} to disable caching.}
+\item{cache}{if \code{TRUE} cache the accompanying  meta data.}
 
 \item{pivot}{\code{character} The name of the column to pivot the data on.
 If \code{NULL} (default) the data is returned in a long format.}
-
-\item{verbose}{if \code{TRUE} print information about the caching.}
 }
 \value{
 a data.frame

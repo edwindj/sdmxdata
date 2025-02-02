@@ -5,17 +5,16 @@
 \title{Get sdmx dataflows}
 \usage{
 list_dataflows(
-  req = NULL,
+  endpoint = NULL,
   agencyID = NULL,
   ...,
   language = NULL,
-  cache_dir = tempdir(),
   raw = FALSE,
   verbose = getOption("sdmxdata.verbose", FALSE)
 )
 }
 \arguments{
-\item{req}{A character string or endpoint for a given endpoint.}
+\item{endpoint}{A character string or endpoint for a given endpoint.}
 
 \item{agencyID}{A character string from a given agencyID.}
 
@@ -23,11 +22,11 @@ list_dataflows(
 
 \item{language}{The language to use for the text used in the response.}
 
-\item{cache_dir}{The directory to cache the request in, set to \code{NULL} to disable caching.}
-
 \item{raw}{If \code{TRUE} return the raw data from the SDMX, otherwise the data is processed.}
 
 \item{verbose}{if \code{TRUE} print information about the dataflows.}
+
+\item{cache_dir}{The directory to cache the request in, set to \code{NULL} to disable caching.}
 }
 \value{
 a data.frame with available dataflows

@@ -5,7 +5,7 @@
 \title{Request SDMX data using the SDMX REST API v2.1}
 \usage{
 sdmx_v2_1_data_request(
-  req = NULL,
+  endpoint = NULL,
   resource = c("data", "metadata"),
   flowRef = NULL,
   key = NULL,
@@ -23,7 +23,7 @@ sdmx_v2_1_data_request(
 )
 }
 \arguments{
-\item{req}{An endpoint or an httr2 request object pointing to an endpoint.}
+\item{endpoint}{An endpoint or an object that can be coerced to an endpoint}
 
 \item{resource}{The resource to request. Either "data" or "metadata"}
 

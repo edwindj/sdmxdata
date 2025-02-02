@@ -5,7 +5,7 @@
 \title{Get observations from an SDMX provider}
 \usage{
 get_observations(
-  req = NULL,
+  endpoint = NULL,
   agencyID,
   id,
   version = "latest",
@@ -14,19 +14,19 @@ get_observations(
   endPeriod = NULL,
   filter_on = list(),
   ...,
-  language = "en",
+  language = NULL,
   as.data.table = FALSE,
   dim_contents = c("label", "both", "id"),
   attributes_contents = c("label", "id", "both"),
   obs_value_numeric = TRUE,
   raw = FALSE,
   drop_first_columns = !raw,
-  cache_dir = tempdir(),
+  cache = TRUE,
   verbose = getOption("sdmxdata.verbose", FALSE)
 )
 }
 \arguments{
-\item{req}{An endpoint}
+\item{endpoint}{An endpoint, url or \code{\link[httr2:request]{httr2::request()}} object.}
 
 \item{agencyID}{The agency ID}
 
@@ -58,9 +58,7 @@ get_observations(
 
 \item{drop_first_columns}{Should the first columns be dropped? Default is \code{TRUE} (if not raw)}
 
-\item{cache_dir}{The directory to cache the accompanying  meta data, set to \code{NULL} to disable caching.}
-
-\item{verbose}{if \code{TRUE} print information about the caching.}
+\item{cache}{if \code{TRUE} cache the accompanying  meta data.}
 }
 \value{
 \code{\link[=data.frame]{data.frame()}} or \code{\link[data.table:data.table]{data.table::data.table()}} depending on \code{as.data.table}

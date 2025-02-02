@@ -1,7 +1,7 @@
 #' Get sdmx dataflows
 #'
 #' Get sdmx dataflows from a given endpoint.
-#' @param req A character string or endpoint for a given endpoint.
+#' @param endpoint A character string or endpoint for a given endpoint.
 #' @param agencyID A character string from a given agencyID.
 #' @param raw If `TRUE` return the raw data from the SDMX, otherwise the data is processed.
 #' @param ... saved for future use.
@@ -12,15 +12,17 @@
 #' @example example/list_dataflows.R
 #' @export
 list_dataflows <- function(
-    req = NULL,
+    endpoint = NULL,
     agencyID = NULL,
     ...,
     language = NULL,
-    cache_dir = tempdir(),
     raw = FALSE,
     verbose = getOption("sdmxdata.verbose", FALSE)
 ){
-
+  endpoint <- sdmx_endpoint(endpoint)
+  language <- language %||% endpoint$language
+  verbose <- verbose | endpoint$verbose
+  req <- endpoint$req
 
   # path <- tempfile("sdmx", fileext = ".json")
 
@@ -52,7 +54,7 @@ list_dataflows <- function(
     cache_json(
       simplifyVector = TRUE,
       key = cache_key,
-      cache_dir = cache_dir,
+      cache_dir = endpoint$cache_dir,
       verbose = verbose
     )
 

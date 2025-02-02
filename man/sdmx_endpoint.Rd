@@ -12,7 +12,7 @@ sdmx_endpoint(x, ...)
 \item{...}{saved for future use}
 }
 \value{
-a \code{\link[httr2:request]{httr2::request()}} object
+a \link{SDMXEndpoint} object
 }
 \description{
 Returns the base request object

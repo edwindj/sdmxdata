@@ -31,7 +31,7 @@ sdmx_parse_data_url <- function(x, resource = c("data", "metadata")){
 
   list(
     expr = expr,
-    args = c(list(req = endpoint), parts, params)
+    args = c(list(endpoint = endpoint), parts, params)
   )
 }
 

@@ -8,7 +8,7 @@
 #' will default to the latest version. If it is desirable to pin the reference of
 #' the dataflow to a specific version, the `ref` argument can be used. The `ref`
 #' argument can also be found in [list_dataflows()].
-#' @param req A character string with the request to the dataflow
+#' @param endpoint An endpoint or an object that can be coerced to an [SDMXEndpoint]
 #' @param ref A string with the flow reference, in the form of "agencyID:id(version)". Overrules
 #' the agencyID, id and version arguments.
 #' @param agencyID The agency ID of the dataflow
@@ -21,15 +21,21 @@
 #' @importFrom data.table as.data.table
 #' @export
 get_dataflow_structure <- function(
-    req = NULL,
+    endpoint = NULL,
     agencyID = getOption("sdmxdata.agencyID", NULL),
     id,
     version = "latest",
     ref,
-    language= getOption("sdmxdata.language", "en"),
-    cache_dir = tempdir(),
+    language= getOption("sdmxdata.language"),
+    cache = TRUE,
     verbose = getOption("sdmxdata.verbose", FALSE)
   ){
+
+  endpoint <- sdmx_endpoint(endpoint)
+  language <- language %||% endpoint$language
+  verbose <- verbose | endpoint$verbose
+  req <- endpoint$req
+
   # get the information for just one dataflow
   if (missing(ref) || is.null(ref)){
     eref <- list(
@@ -50,12 +56,13 @@ get_dataflow_structure <- function(
   }
 
   req <- sdmx_v2_1_structure_request(
-    req = req,
+    endpoint = endpoint,
     resource = "dataflow",
     agencyID = eref$agencyID,
     resourceID = eref$id,
     version = eref$version,
-    detail = "full",
+    detail = "referencepartial",
+    # detail = "full",
     references = "all",
     language = language
   )
@@ -67,7 +74,8 @@ get_dataflow_structure <- function(
       sprintf("%s_%s_%s", eref$id, eref$version, language),
       sep = "/"
     ),
-    verbose = verbose, cache_dir = cache_dir
+    verbose = verbose,
+    cache_dir = if (cache) endpoint$cache_dir else NULL
   )
 
   d <- raw$data
@@ -235,6 +243,37 @@ get_dataflow_structure <- function(
       split(seq_len(nrow(atts))) |>
       lapply(\(x) unlist(x, recursive = FALSE)) |>
       stats::setNames(atts$id)
+  }
+
+  # categorization
+  # cs <- d$categorySchemes
+  # unwrap <- function(cat){
+  #   cat <- cat$categories |>
+  #     lapply(\(x) x[x$rel == "self", ]$urn) |>
+  #     unlist()
+  #   cat
+  # }
+  # sapply(cs$name, \(x) x |> dQuote()) |> paste(collapse = ", ") |> cat()
+  # browser()
+
+  # apply constraints
+  if (
+    !is.null(constraints <- d$contentConstraints[1,]) &&
+    !is.null(cubeRegions <- constraints$cubeRegions[[1]]) &&
+    (cubeRegions$isIncluded == TRUE) &&
+    !is.null(keyValues <- cubeRegions$keyValues[[1]])
+  ){
+    for (i in seq_len(nrow(keyValues))){
+      id <- keyValues$id[i]
+      values <- keyValues$values[[i]]
+      if (!is.null(d <- dimensions[[id]])){
+        d$codes <- d$codes[d$codes$id %in% values,]
+        dimensions[[id]] <- d
+      } else if (!is.null(a <- atts[[id]])){
+        a$codes <- a$codes[a$codes$id %in% values,]
+        atts[[id]] <- a
+      }
+    }
   }
 
   call <- sys.call()

@@ -5,18 +5,18 @@
 \title{Get information about a dataflow}
 \usage{
 get_dataflow_structure(
-  req = NULL,
+  endpoint = NULL,
   agencyID = getOption("sdmxdata.agencyID", NULL),
   id,
   version = "latest",
   ref,
-  language = getOption("sdmxdata.language", "en"),
-  cache_dir = tempdir(),
+  language = getOption("sdmxdata.language"),
+  cache = TRUE,
   verbose = getOption("sdmxdata.verbose", FALSE)
 )
 }
 \arguments{
-\item{req}{A character string with the request to the dataflow}
+\item{endpoint}{An endpoint or an object that can be coerced to an \link{SDMXEndpoint}}
 
 \item{agencyID}{The agency ID of the dataflow}
 
@@ -29,9 +29,9 @@ the agencyID, id and version arguments.}
 
 \item{language}{The language of the metadata}
 
-\item{cache_dir}{The directory to cache the data in, set to \code{NULL} to disable caching.}
-
 \item{verbose}{print some information on the console}
+
+\item{cache_dir}{The directory to cache the data in, set to \code{NULL} to disable caching.}
 }
 \value{
 a list with the dataflow information

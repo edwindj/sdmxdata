@@ -1,14 +1,14 @@
 #' Connect to a SDMX provider
 #'
 #' Connect to an SDMX provider
-#' @param provider character, one of the available providers
+#' @param id character, id of one of the available `providers`.
 #' @param language character, the language to use for the text used in the response.
 #' @param singleton logical, if `TRUE` return the same object if it already exists
 #' @param verbose logical, if `TRUE` print information about the dataflows.
-#' @return a SDMXProvider object
+#' @return a SDMXEndpoint object
 #' @export
-get_provider <- function(
-    provider,
+get_endpoint <- function(
+    id,
     language = NULL,
     singleton = TRUE,
     verbose = FALSE
@@ -16,15 +16,15 @@ get_provider <- function(
   # to keep CRAN check happy
   providers <- sdmxdata::providers
 
-  provider <- match.arg(provider, choices = providers$id)
-  idx <- match(provider, providers$id)
+  id <- match.arg(id, choices = providers$id)
+  idx <- match(id, providers$id)
   provider <- providers[idx,] |> as.list()
 
   if (isTRUE(singleton) && exists(provider$id, envir = .providers)){
     return(get(provider$id, envir = .providers))
   }
 
-  prov <- SDMXProvider$new(
+  prov <- SDMXEndpoint$new(
     provider$endpoint,
     id = provider$id,
     name = provider$name,
@@ -33,6 +33,10 @@ get_provider <- function(
   )
 
   assign(provider$id, prov, envir = .providers)
+
+  hashed_endpoint <- gsub("[^[:alnum:]]", "_", provider$endpoint)
+  assign(hashed_endpoint, prov, envir = .providers)
+
   prov
 }
 

@@ -20,12 +20,17 @@ consume_sdmx_url <- function(x){
         strsplit(x, "\\+") |> unlist()
       })
   }
-  dsd <- get_dataflow_structure(req = s$args$req, agencyID = flwrf$agencyID, id = flwrf$id, version = flwrf$version)
+  dsd <- get_dataflow_structure(
+    endpoint = s$args$endpoint,
+    agencyID = flwrf$agencyID,
+    id = flwrf$id,
+    version = flwrf$version
+  )
   names(filter_on) <- names(dsd$dimensions)
 
   filter_on <- filter_on[sapply(filter_on, length) > 0]
 
-  args <- c(req = s$args$req, flwrf)
+  args <- c(endpoint = s$args$endpoint, flwrf)
 
   expr <- bquote(
     get_observations(..(args), filter_on = .(filter_on)),

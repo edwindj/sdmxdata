@@ -10,4 +10,4 @@ doc <- read_xml(
 
 
 # language stuff
-d <- sdmxdata:::xml_parse_structure(doc)
+# d <- sdmxdata:::xml_parse_structure(doc)

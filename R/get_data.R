@@ -15,7 +15,7 @@
 #' If `NULL` (default) the data is returned in a long format.
 #' @return a data.frame
 get_data <- function(
-    req = NULL,
+    endpoint = NULL,
     agencyID,
     id,
     version = "latest",
@@ -28,19 +28,23 @@ get_data <- function(
     obs_value_numeric = TRUE,
     raw = FALSE,
     language = NULL,
-    cache_dir = tempdir(),
+    cache = TRUE,
     pivot = NULL,
     verbose = getOption("sdmxdata.verbose", FALSE)
     ){
 
+  endpoint <- sdmx_endpoint(endpoint)
+  language <- language %||% endpoint$language
+  verbose <- verbose | endpoint$verbose
+  req <- endpoint$req
 
     dfi <- get_dataflow_structure(
-      req = req,
+      endpoint = endpoint,
       agencyID = agencyID,
       id = id,
       version = version,
       ref = ref,
-      cache_dir = cache_dir,
+      cache = cache,
       verbose = verbose,
       language = language
     )
@@ -65,7 +69,7 @@ get_data <- function(
     }
 
     obs <- get_observations(
-      req = req,
+      endpoint = endpoint,
       agencyID = agencyID,
       id = id,
       version = version,
@@ -74,7 +78,7 @@ get_data <- function(
       language = language,
       endPeriod = endPeriod,
       filter_on = filter_on,
-      cache_dir = cache_dir,
+      cache = cache,
       verbose = verbose,
       raw = TRUE
     )
