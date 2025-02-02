@@ -1,6 +1,6 @@
-## code to prepare `providers` dataset goes here
-providers <-
-"id,name,endpoint,language,json
+## code to prepare `endpoints` dataset goes here
+endpoints <-
+"id,name,url,language,json
 ESTAT,EUROSTAT,https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1,en,2.0.0
 LU1,STATEC,https://lustat.statec.lu/rest/,fr,2.0.0
 NL1,Centraal Bureau voor de Statistiek,https://sdmx-api.beta.cbs.nl/rest,nl,2.0.0
@@ -15,4 +15,4 @@ UN,UN,https://data.un.org/ws/rest,en,2.0.0
   as.data.frame()
 
 
-usethis::use_data(providers, overwrite = TRUE)
+usethis::use_data(endpoints, overwrite = TRUE)

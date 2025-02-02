@@ -2,12 +2,12 @@
 % Please edit documentation in R/get_endpoint.R
 \name{get_endpoint}
 \alias{get_endpoint}
-\title{Connect to a SDMX provider}
+\title{Connect to a SDMX endpoint}
 \usage{
 get_endpoint(id, language = NULL, singleton = TRUE, verbose = FALSE)
 }
 \arguments{
-\item{id}{character, id of one of the available \code{providers}.}
+\item{id}{character, id of one of the available \code{endpoints}.}
 
 \item{language}{character, the language to use for the text used in the response.}
 
@@ -19,5 +19,5 @@ get_endpoint(id, language = NULL, singleton = TRUE, verbose = FALSE)
 a SDMXEndpoint object
 }
 \description{
-Connect to an SDMX provider
+Connect to an SDMX endpoint
 }

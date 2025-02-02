@@ -1,7 +1,7 @@
-#' Connect to a SDMX provider
+#' Connect to a SDMX endpoint
 #'
-#' Connect to an SDMX provider
-#' @param id character, id of one of the available `providers`.
+#' Connect to an SDMX endpoint
+#' @param id character, id of one of the available `endpoints`.
 #' @param language character, the language to use for the text used in the response.
 #' @param singleton logical, if `TRUE` return the same object if it already exists
 #' @param verbose logical, if `TRUE` print information about the dataflows.
@@ -14,31 +14,31 @@ get_endpoint <- function(
     verbose = FALSE
   ){
   # to keep CRAN check happy
-  providers <- sdmxdata::providers
+  endpoints <- sdmxdata::endpoints
 
-  id <- match.arg(id, choices = providers$id)
-  idx <- match(id, providers$id)
-  provider <- providers[idx,] |> as.list()
+  id <- match.arg(id, choices = endpoints$id)
+  idx <- match(id, endpoints$id)
+  endpoint <- endpoints[idx,] |> as.list()
 
-  if (isTRUE(singleton) && exists(provider$id, envir = .providers)){
-    return(get(provider$id, envir = .providers))
+  if (isTRUE(singleton) && exists(endpoint$id, envir = .endpoints)){
+    return(get(endpoint$id, envir = .endpoints))
   }
 
-  prov <- SDMXEndpoint$new(
-    provider$endpoint,
-    id = provider$id,
-    name = provider$name,
-    language = language %||% provider$language,
+  endpoint <- SDMXEndpoint$new(
+    endpoint$url,
+    id = endpoint$id,
+    name = endpoint$name,
+    language = language %||% endpoint$language,
     verbose = verbose
   )
 
-  assign(provider$id, prov, envir = .providers)
+  assign(endpoint$id, endpoint, envir = .endpoints)
 
-  hashed_endpoint <- gsub("[^[:alnum:]]", "_", provider$endpoint)
-  assign(hashed_endpoint, prov, envir = .providers)
+  hashed_endpoint <- gsub("[^[:alnum:]]", "_", endpoint$url)
+  assign(hashed_endpoint, endpoint, envir = .endpoints)
 
-  prov
+  endpoint
 }
 
-# to store the singleton providers
-.providers <- new.env()
+# to store the singleton endpoints
+.endpoints <- new.env()

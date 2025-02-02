@@ -23,6 +23,7 @@ list_dataflows <- function(
   endpoint <- sdmx_endpoint(endpoint)
   language <- language %||% endpoint$language
   verbose <- verbose | endpoint$verbose
+  cache_dir <- if (cache) endpoint$cache_dir else NULL
   req <- endpoint$req
 
   # path <- tempfile("sdmx", fileext = ".json")
@@ -33,14 +34,17 @@ list_dataflows <- function(
     agencyID |> paste0(collapse = "+")
   }
 
-  req <-
-    sdmx_v2_1_structure_request(
-    req = req,
+  req <- sdmx_v2_1_structure_request(
+    endpoint = endpoint,
     resource = "dataflow",
     agencyID = agencyID,
     format = "json",
     language = language
   )
+
+  if (verbose){
+    print(req)
+  }
 
   cache_key <- "dataflows"
   if (!is.null(agencyID)){
@@ -55,7 +59,7 @@ list_dataflows <- function(
     cache_json(
       simplifyVector = TRUE,
       key = cache_key,
-      cache_dir = if (cache) endpoint$cache_dir else NULL,
+      cache_dir = cache_dir,
       verbose = verbose
     )
 

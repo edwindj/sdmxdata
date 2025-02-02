@@ -41,14 +41,18 @@ library(sdmxdata)
 
 To retrieve a list of tables:
 
-
 ```{r}
 CBSbeta <- sdmxdata::get_endpoint("NL1")
 dfs <- CBSbeta |> list_dataflows()
 dfs[,1:5] |> 
   head()
 ```
-
+```{r}
+OECD <- sdmxdata::get_endpoint("OECD")
+dfs_oecd <- OECD |> list_dataflows()
+dfs_oecd[,1:5] |> 
+  head()
+```
 To retrieve a dataflow structure:
 
 ```{r}

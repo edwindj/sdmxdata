@@ -32,8 +32,7 @@ list_categoryschemes <- function(
     agencyID |> paste0(collapse = "+")
   }
 
-  req <-
-    sdmx_v2_1_structure_request(
+  req <- sdmx_v2_1_structure_request(
     endpoint = endpoint,
     resource = "categoryscheme",
     agencyID = agencyID,
