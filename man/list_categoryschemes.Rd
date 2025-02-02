@@ -23,11 +23,11 @@ list_categoryschemes(
 
 \item{language}{The language to use for the text used in the response.}
 
+\item{cache}{if \code{TRUE} cache the result.}
+
 \item{raw}{If \code{TRUE} return the raw data from the SDMX, otherwise the data is processed.}
 
 \item{verbose}{if \code{TRUE} print information about the dataflows.}
-
-\item{cache_dir}{The directory to cache the request in, set to \code{NULL} to disable caching.}
 }
 \value{
 a data.frame with available dataflows

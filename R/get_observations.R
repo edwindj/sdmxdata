@@ -22,6 +22,7 @@
 #' @param language The language of the metadata
 #' @param drop_first_columns Should the first columns be dropped? Default is `TRUE` (if not raw)
 #' @param cache if `TRUE` cache the accompanying  meta data.
+#' @param verbose If `TRUE` print information about the request
 #' @param as.data.table If `TRUE` return a [data.table()], otherwise a [data.frame()]
 #' @return [data.frame()] or [data.table::data.table()] depending on `as.data.table`
 #' @example example/get_observations.R
@@ -65,9 +66,9 @@ get_observations <- function(
     agencyID = agencyID,
     id = id,
     version = version,
-    verbose = endpoint$verbose,
     cache = cache,
-    language = language
+    language = language,
+    verbose = verbose
   )
 
   # dims <- get_dimensions(dfi)
@@ -120,7 +121,8 @@ get_observations <- function(
     key = key,
     startPeriod = startPeriod,
     endPeriod = endPeriod,
-    ...
+    ...,
+    verbose = verbose
   )
 
   if (verbose){

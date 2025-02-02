@@ -29,9 +29,9 @@ the agencyID, id and version arguments.}
 
 \item{language}{The language of the metadata}
 
-\item{verbose}{print some information on the console}
+\item{cache}{logical, if \code{TRUE} cache the metadata}
 
-\item{cache_dir}{The directory to cache the data in, set to \code{NULL} to disable caching.}
+\item{verbose}{print some information on the console}
 }
 \value{
 a list with the dataflow information

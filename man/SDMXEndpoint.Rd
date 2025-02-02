@@ -31,11 +31,6 @@ Base class for SDMX endpoints
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-SDMXEndpoint-new}{\code{SDMXEndpoint$new()}}
-\item \href{#method-SDMXEndpoint-list_dataflows}{\code{SDMXEndpoint$list_dataflows()}}
-\item \href{#method-SDMXEndpoint-get_dataflow_structure}{\code{SDMXEndpoint$get_dataflow_structure()}}
-\item \href{#method-SDMXEndpoint-get_observations}{\code{SDMXEndpoint$get_observations()}}
-\item \href{#method-SDMXEndpoint-get_data}{\code{SDMXEndpoint$get_data()}}
-\item \href{#method-SDMXEndpoint-list_agencies}{\code{SDMXEndpoint$list_agencies()}}
 \item \href{#method-SDMXEndpoint-clone}{\code{SDMXEndpoint$clone()}}
 }
 }
@@ -72,110 +67,6 @@ create a new SDMXEndpoint object
 }
 \if{html}{\out{</div>}}
 }
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-SDMXEndpoint-list_dataflows"></a>}}
-\if{latex}{\out{\hypertarget{method-SDMXEndpoint-list_dataflows}{}}}
-\subsection{Method \code{list_dataflows()}}{
-list the dataflows of an endpoint
-Same as \code{\link[=list_dataflows]{list_dataflows()}}.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{SDMXEndpoint$list_dataflows(
-  agencyID = NULL,
-  ...,
-  raw = FALSE,
-  language = self$language,
-  verbose = self$verbose
-)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{agencyID}}{character, the agencyID to filter on}
-
-\item{\code{...}}{additional parameters to pass to the \code{\link[=list_dataflows]{list_dataflows()}} function}
-
-\item{\code{raw}}{logical, if \code{TRUE} return the raw SDMX json data.}
-
-\item{\code{language}}{character, the language to use for the text used in the response}
-
-\item{\code{verbose}}{logical, if \code{TRUE} print information about the dataflows}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-a \code{\link[=data.frame]{data.frame()}} with the dataflows,
-get the dataflow structure of an endpoint
-
-get the dataflow structure of an endpoint
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-SDMXEndpoint-get_dataflow_structure"></a>}}
-\if{latex}{\out{\hypertarget{method-SDMXEndpoint-get_dataflow_structure}{}}}
-\subsection{Method \code{get_dataflow_structure()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{SDMXEndpoint$get_dataflow_structure(
-  ref = NULL,
-  id = NULL,
-  agencyID = NULL,
-  version = "latest",
-  cache = (!is.null(self$cache_dir)),
-  language = self$language
-)}\if{html}{\out{</div>}}
-}
-
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-SDMXEndpoint-get_observations"></a>}}
-\if{latex}{\out{\hypertarget{method-SDMXEndpoint-get_observations}{}}}
-\subsection{Method \code{get_observations()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{SDMXEndpoint$get_observations(
-  agencyID = NULL,
-  id = NULL,
-  version = "latest",
-  ref = NULL,
-  filter_on = list(),
-  ...,
-  cache = (!is.null(self$cache_dir)),
-  language = self$language
-)}\if{html}{\out{</div>}}
-}
-
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-SDMXEndpoint-get_data"></a>}}
-\if{latex}{\out{\hypertarget{method-SDMXEndpoint-get_data}{}}}
-\subsection{Method \code{get_data()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{SDMXEndpoint$get_data(
-  agencyID = NULL,
-  id = NULL,
-  ref = NULL,
-  filter_on = list(),
-  pivot = NULL,
-  ...,
-  cache = (!is.null(self$cache_dir)),
-  language = self$language,
-  verbose = self$verbose
-)}\if{html}{\out{</div>}}
-}
-
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-SDMXEndpoint-list_agencies"></a>}}
-\if{latex}{\out{\hypertarget{method-SDMXEndpoint-list_agencies}{}}}
-\subsection{Method \code{list_agencies()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{SDMXEndpoint$list_agencies(
-  ...,
-  cache = (!is.null(self$cache_dir)),
-  raw = FALSE
-)}\if{html}{\out{</div>}}
-}
-
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-SDMXEndpoint-clone"></a>}}

@@ -6,7 +6,7 @@
 #' @param raw If `TRUE` return the raw data from the SDMX, otherwise the data is processed.
 #' @param ... saved for future use.
 #' @param language The language to use for the text used in the response.
-#' @param cache_dir The directory to cache the request in, set to `NULL` to disable caching.
+#' @param cache if `TRUE` cache the result.
 #' @param verbose if `TRUE` print information about the dataflows.
 #' @return a data.frame with available dataflows
 #' @example example/list_dataflows.R
@@ -22,6 +22,8 @@ list_categoryschemes <- function(
 ){
   endpoint <- sdmx_endpoint(endpoint)
   language <- language %||% endpoint$language
+  verbose <- verbose | endpoint$verbose
+  cache_dir <- if (cache) endpoint$cache_dir else NULL
   # path <- tempfile("sdmx", fileext = ".json")
 
   agencyID <- if (is.null(agencyID)){
@@ -52,7 +54,7 @@ list_categoryschemes <- function(
     cache_json(
       simplifyVector = !raw,
       key = cache_key,
-      cache_dir = if (cache) endpoint$cache_dir else NULL,
+      cache_dir = cache_dir,
       verbose = verbose
     )
 

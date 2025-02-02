@@ -16,7 +16,7 @@
 #' @param version The version of the dataflow, defaults to "latest"
 #' @param language The language of the metadata
 #' @param verbose print some information on the console
-#' @param cache_dir The directory to cache the data in, set to `NULL` to disable caching.
+#' @param cache logical, if `TRUE` cache the metadata
 #' @return a list with the dataflow information
 #' @importFrom data.table as.data.table
 #' @export
@@ -30,6 +30,8 @@ get_dataflow_structure <- function(
     cache = TRUE,
     verbose = getOption("sdmxdata.verbose", FALSE)
   ){
+
+  default_endpoint <- is.null(endpoint)
 
   endpoint <- sdmx_endpoint(endpoint)
   language <- language %||% endpoint$language
@@ -294,7 +296,8 @@ get_dataflow_structure <- function(
   ) |>
   structure(
     class = "dataflow_structure",
-    call = call
+    call = call,
+    default_endpoint = default_endpoint
   )
 
   dfi$default_selection <- get_default_selection(dfi)
@@ -361,12 +364,20 @@ print.dataflow_structure <- function(x, ...){
   cat("\n\n")
   cat("Get a default selection of the observations with:\n")
 
-  # def_sel <-
-  #   get_default_selection(x) |>
-  #   deparse(width.cutoff = 500, nlines = 1)
+  cll <- attr(x, "call")
+  default_endpoint <- isTRUE(attr(x, "default_endpoint"))
+
+  endpoint <- if (default_endpoint) {
+    ""
+  }
+  else {
+    ep <- cll[[2]] |> deparse(width.cutoff = 500, nlines = 1) |> paste(collapse = "")
+    sprintf("%s |> ", ep)
+  }
 
   cmd <- sprintf(
-    'obs <- <provider>$get_observations(id="%s", agencyID="%s")',
+    'obs <- %sget_observations(id="%s", agencyID="%s")',
+    endpoint,
     x$id,
     x$agencyID
   )
@@ -380,7 +391,8 @@ print.dataflow_structure <- function(x, ...){
   #   deparse(width.cutoff = 500, nlines = 1)
 
   cmd <- sprintf(
-    'dat <- <provider>$get_data(id="%s", agencyID="%s", pivot="%s")',
+    'dat <- %sget_data(id="%s", agencyID="%s", pivot="%s")',
+    endpoint,
     x$id,
     x$agencyID,
     tail(x$dimensions, 1)[[1]]$id
@@ -404,58 +416,4 @@ print.sdmx_dimensions <- function(x, ...){
        "\n", sep="")
   }
   invisible(x)
-}
-
-process_call <- function(dsd){
-  call <- attr(dsd, "call")
-
-  if (is.null(call)){
-    return(NULL)
-  }
-
-  l <- list(call = call)
-
-  fun <- call[[1]]
-  if (as.character(fun[[1]]) == "$"){
-    provider_var <- fun[[2]]
-    l <- c(l, list(
-      obs = substitute(
-        obs <- provider$get_observations(id = id, agencyID = agencyID),
-        list(
-          provider = provider_var,
-          id = dsd$id,
-          agencyID = dsd$agencyID
-        )
-      ),
-      dat = substitute(
-        dat <- provider$get_data(id = id, agencyID = agencyID),
-        list(
-          provider = provider_var,
-          id = dsd$id,
-          agencyID = dsd$agencyID
-        )
-      )
-      )
-    )
-  } else {
-    l <- c(l, list(
-        obs = substitute(
-          get_observations(id = id, agencyID = agencyID),
-          list(
-            id = dsd$id,
-            agencyID = dsd$agencyID
-          )
-        ),
-        data = substitute(
-          get_data(id = id, agencyID = agencyID),
-          list(
-            id = dsd$id,
-            agencyID = dsd$agencyID
-          )
-        )
-      )
-    )
-  }
-
-  l
 }

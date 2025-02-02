@@ -59,6 +59,8 @@ get_observations(
 \item{drop_first_columns}{Should the first columns be dropped? Default is \code{TRUE} (if not raw)}
 
 \item{cache}{if \code{TRUE} cache the accompanying  meta data.}
+
+\item{verbose}{If \code{TRUE} print information about the request}
 }
 \value{
 \code{\link[=data.frame]{data.frame()}} or \code{\link[data.table:data.table]{data.table::data.table()}} depending on \code{as.data.table}

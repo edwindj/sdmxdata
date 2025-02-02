@@ -56,134 +56,11 @@ SDMXEndpoint <- R6::R6Class("SDMXEndpoint",
       self$verbose <- verbose
       self$cache_dir <- cache_dir
 
-      self$req <- httr2::request(url)
-    },
-
-    #' @description list the dataflows of an endpoint
-    #' Same as [list_dataflows()].
-    #' @param agencyID character, the agencyID to filter on
-    #' @param language character, the language to use for the text used in the response
-    #' @param raw logical, if `TRUE` return the raw SDMX json data.
-    #' @param ... additional parameters to pass to the [list_dataflows()] function
-    #' @param verbose logical, if `TRUE` print information about the dataflows
-    #' @return a [data.frame()] with the dataflows,
-    list_dataflows = function(
-      agencyID = NULL,
-      ...,
-      raw = FALSE,
-      language = self$language,
-      verbose = self$verbose
-    ) {
-      list_dataflows(
-        endpoint = self,
-        agencyID = agencyID,
-        language = language,
-        raw = raw,
-        ...,
-        verbose = verbose
-      )
-    },
-
-    #' get the dataflow structure of an endpoint
-    #'
-    #' get the dataflow structure of an endpoint
-    #' @inheritParams get_dataflow_structure
-    get_dataflow_structure = function(
-      ref = NULL,
-      id = NULL,
-      agencyID = NULL,
-      version = "latest",
-      cache = (!is.null(self$cache_dir)),
-      language = self$language
-    ){
-      dsd <- get_dataflow_structure(
-        endpoint = self,
-        ref = ref,
-        id = id,
-        cache = cache,
-        agencyID = agencyID,
-        version = version,
-        language = language %||% self$language,
-        verbose = self$verbose
-      )
-
-      attr(dsd, "call") <- sys.call()
-      attr(dsd, "provider") <- self$id
-
-      dsd
-    },
-
-    #' get the observations of an endpoint
-    #'
-    #' get the observations of an endpoint
-    #' @inheritParams get_observations
-    get_observations = function(
-      agencyID = NULL,
-      id = NULL,
-      version = "latest",
-      ref = NULL,
-      filter_on = list(),
-      ...,
-      cache = (!is.null(self$cache_dir)),
-      language = self$language
-    ) {
-      get_observations(
-        endpoint = self,
-        ref = ref,
-        agencyID = agencyID,
-        id = id,
-        version = version,
-        filter_on = filter_on,
-        ...,
-        cache = cache,
-        verbose = self$verbose
-      )
-    },
-
-    #' get the data of an endpoint
-    #'
-    #' get the data of an endpoint
-    #' @inheritParams get_data
-    get_data = function(
-      agencyID = NULL,
-      id = NULL,
-      ref = NULL,
-      filter_on = list(),
-      pivot = NULL,
-      ...,
-      cache = (!is.null(self$cache_dir)),
-      language = self$language,
-      verbose = self$verbose
-    ){
-      get_data(
-        endpoint = self,
-        ref = ref,
-        agencyID = agencyID,
-        id = id,
-        filter_on = filter_on,
-        pivot = pivot,
-        language = language,
-        verbose = verbose
-      )
-    },
-
-    #' list the agencies of an endpoint
-    #'
-    #' list the agencies of an endpoint
-    #' @inheritParams list_agencies
-    list_agencies = function(
-      ...,
-      cache = (!is.null(self$cache_dir)),
-      raw = FALSE
-    ) {
-      list_agencies(
-        endpoint = self,
-        language = self$language,
-        ...,
-        raw = raw,
-        cache = cache,
-        verbose = self$verbose
-      )
+      req <- httr2::request(url)
+      if (!is.null(language)){
+        req <- req |> httr2::req_headers("Accept-Language" = language)
+      }
+      self$req <- req
     }
   )
 )
@@ -204,15 +81,15 @@ print.SDMXEndpoint <- function(x, ...) {
         ) |>
         paste(collapse = ", "), "\n"
   )
-  cat("methods:",
-      "$%s()" |>
-        sprintf(
-          c("list_dataflows", "get_dataflow_structure", "get_observations",
-            "get_data"
-          )
-        ) |>
-        paste(collapse = ", "), "\n"
-  )
+  # cat("methods:",
+  #     "$%s()" |>
+  #       sprintf(
+  #         c("list_dataflows", "get_dataflow_structure", "get_observations",
+  #           "get_data"
+  #         )
+  #       ) |>
+  #       paste(collapse = ", "), "\n"
+  # )
   invisible(x)
 }
 

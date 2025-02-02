@@ -34,7 +34,7 @@ To retrieve a list of tables:
 
 ``` r
 CBSbeta <- sdmxdata::get_endpoint("NL1")
-dfs <- CBSbeta$list_dataflows()
+dfs <- CBSbeta |> list_dataflows()
 dfs[,1:5] |> 
   head()
 #>   agencyID             id version
@@ -67,7 +67,7 @@ dataflow_ref <- dfs$ref[4]
 print(dataflow_ref)
 #> [1] "NL1.CNVT:DF_37230ned(1.0)"
 
-dsd <- CBSbeta$get_dataflow_structure(ref = dataflow_ref)
+dsd <- CBSbeta |> get_dataflow_structure(ref = dataflow_ref)
 dsd
 #> Dataflow: [NL1.CNVT:DF_37230ned(1.0)]
 #>   "Bevolkingsontwikkeling; regio per maand"
@@ -77,9 +77,9 @@ dsd
 #>   "RegioS", "Perioden", "Topics", "OBS_VALUE", "OBS_STATUS", "UNIT_MEASURE", "UNIT_MULT"
 #> 
 #> Get a default selection of the observations with:
-#>   obs <- get_observations(id="DF_37230ned", agencyID="NL1.CNVT")
+#>   obs <- CBSbeta |> get_observations(id="DF_37230ned", agencyID="NL1.CNVT")
 #> Get a default selection of the data with:
-#>   dat <- get_data(id="DF_37230ned", agencyID="NL1.CNVT", pivot="Topics")
+#>   dat <- CBSbeta |> get_data(id="DF_37230ned", agencyID="NL1.CNVT", pivot="Topics")
 #> 
 #> 
 #> Properties:
@@ -89,7 +89,7 @@ dsd
 To retrieve data use `get_data`
 
 ``` r
-data <- CBSbeta$get_data(agencyID=dsd$agencyID, id = dsd$id, pivot="Topics")
+data <- CBSbeta |> get_data(agencyID=dsd$agencyID, id = dsd$id, pivot="Topics")
 #> 
 #> * `filter_on` argument not specified, using default selection:
 #>    filter_on = list(
@@ -166,7 +166,7 @@ head(data)
 Or get the underlying observations with `get_observations`
 
 ``` r
-obs <- CBSbeta$get_observations(id="DF_37230ned", agencyID="NL1.CNVT")
+obs <- CBSbeta |> get_observations(id="DF_37230ned", agencyID="NL1.CNVT")
 #> 
 #> * `filter_on` argument not specified, using default selection:
 #>    filter_on = list(

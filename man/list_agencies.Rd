@@ -4,16 +4,22 @@
 \alias{list_agencies}
 \title{list the agencies of an endpoint}
 \usage{
-list_agencies(endpoint = NULL, language = NULL, raw = FALSE, cache = TRUE)
+list_agencies(
+  endpoint = NULL,
+  language = NULL,
+  raw = FALSE,
+  cache = TRUE,
+  verbose = getOption("sdmxdata.verbose", FALSE)
+)
 }
 \arguments{
-\item{endpoint}{an endpoint, url or an \code{\link[httr2:request]{httr2::request()}} object}
+\item{endpoint}{an endpoint, url or an \code{\link[httr2:request]{httr2::request()}} object.}
 
-\item{language}{the language to return the data in}
+\item{language}{the language to return the data in.}
 
-\item{raw}{if \code{TRUE} return the raw data}
+\item{raw}{if \code{TRUE} return the raw data.}
 
-\item{cache_dir}{the directory to cache the data in, set to \code{NULL} to disable caching}
+\item{cache}{if \code{TRUE} cache the list of agencies.}
 
 \item{verbose}{if \code{TRUE} print information about the caching.}
 }

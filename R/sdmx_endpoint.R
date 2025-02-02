@@ -16,7 +16,7 @@ sdmx_endpoint.default <- function(x, ...){
     if (is.null(endpoint)){
       stop("No endpoint provided, please provide an endpoint or set the default endpoint with options(sdmxdata.endpoint = 'http://example.com')")
     }
-    return(sdmx_endpoint.character(endpoint))
+    return(sdmx_endpoint(endpoint))
   }
   stop("sdmx_endpoint() is not implemented for objects of class ", class(x))
 }

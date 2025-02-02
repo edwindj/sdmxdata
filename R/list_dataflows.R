@@ -1,12 +1,12 @@
-#' Get sdmx dataflows
+#' List available sdmx dataflows
 #'
-#' Get sdmx dataflows from a given endpoint.
+#' List the sdmx dataflows from a given endpoint.
 #' @param endpoint A character string or endpoint for a given endpoint.
 #' @param agencyID A character string from a given agencyID.
 #' @param raw If `TRUE` return the raw data from the SDMX, otherwise the data is processed.
 #' @param ... saved for future use.
 #' @param language The language to use for the text used in the response.
-#' @param cache_dir The directory to cache the request in, set to `NULL` to disable caching.
+#' @param cache if `TRUE` cache the list of dataflows
 #' @param verbose if `TRUE` print information about the dataflows.
 #' @return a data.frame with available dataflows
 #' @example example/list_dataflows.R
@@ -16,6 +16,7 @@ list_dataflows <- function(
     agencyID = NULL,
     ...,
     language = NULL,
+    cache = TRUE,
     raw = FALSE,
     verbose = getOption("sdmxdata.verbose", FALSE)
 ){
@@ -54,17 +55,17 @@ list_dataflows <- function(
     cache_json(
       simplifyVector = TRUE,
       key = cache_key,
-      cache_dir = endpoint$cache_dir,
+      cache_dir = if (cache) endpoint$cache_dir else NULL,
       verbose = verbose
     )
 
   was_cached <- isTRUE(attr(res, "was_cached"))
 
+  # "raw" option returns the full response of the SDMX v2.1 API
   if (isTRUE(raw)){
     return(res)
   }
 
-  # TODO provide a "raw" option that returns the full response of the SDMX v2.1 API
   dataflows <- res$data$dataflows
 
   # we add ref to the dataflows for convenience, to be used as a reference to a

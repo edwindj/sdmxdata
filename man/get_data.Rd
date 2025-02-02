@@ -54,6 +54,8 @@ get_data(
 
 \item{pivot}{\code{character} The name of the column to pivot the data on.
 If \code{NULL} (default) the data is returned in a long format.}
+
+\item{verbose}{If \code{TRUE} print information about the request}
 }
 \value{
 a data.frame
