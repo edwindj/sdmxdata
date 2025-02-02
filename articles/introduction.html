@@ -71,9 +71,6 @@
 <p>To retrieve a list of tables:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dfs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/list_dataflows.html">list_dataflows</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Available dataflows: 85</span></span>
-<span><span class="co">#&gt; Agencies: "NL1", "NL1.CNVT", "NL1_CA", "NL1_DOUT", "PT"</span></span>
-<span><span class="co">#&gt; Content languages: "nl", "en"</span></span>
 <span><span class="va">dfs</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   agencyID             id version</span></span>
@@ -113,9 +110,9 @@
 <span><span class="co">#&gt;   "RegioS", "Perioden", "Topics", "OBS_VALUE", "OBS_STATUS", "UNIT_MEASURE", "UNIT_MULT"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Get a default selection of the observations with:</span></span>
-<span><span class="co">#&gt;   obs &lt;- &lt;provider&gt;$get_observations(id="DF_37230ned", agencyID="NL1.CNVT")</span></span>
+<span><span class="co">#&gt;   obs &lt;- get_observations(id="DF_37230ned", agencyID="NL1.CNVT")</span></span>
 <span><span class="co">#&gt; Get a default selection of the data with:</span></span>
-<span><span class="co">#&gt;   dat &lt;- &lt;provider&gt;$get_data(id="DF_37230ned", agencyID="NL1.CNVT", pivot="Topics")</span></span>
+<span><span class="co">#&gt;   dat &lt;- get_data(id="DF_37230ned", agencyID="NL1.CNVT", pivot="Topics")</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Properties:</span></span>
