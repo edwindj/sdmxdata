@@ -45,7 +45,7 @@ create a new SDMXEndpoint object
   id = gsub("\\\\W+", "_", url),
   name = url,
   language = NULL,
-  cache_dir = tempdir(),
+  cache_dir = file.path(tempdir(), "sdmxdata", id),
   verbose = getOption("sdmxdata.verbose", FALSE)
 )}\if{html}{\out{</div>}}
 }

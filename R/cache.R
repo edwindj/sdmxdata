@@ -60,12 +60,12 @@ cache_json <- function(
     key = req$url,
     simplifyVector = TRUE,
     ...,
-    cache_dir = tempdir(),
+    cache_dir = file.path(tempdir(), "sdmxdata"),
     verbose = getOption("sdmxdata.verbose", FALSE)
   ){
 
   should_cache <- !is.null(cache_dir)
-  cache_dir <- if (should_cache) cache_dir else tempdir()
+  cache_dir <- if (should_cache) cache_dir else file.path(tempdir(), "sdmxdata")
 
   path <- cache_path(key, fileext = ".json", dir = cache_dir)
 

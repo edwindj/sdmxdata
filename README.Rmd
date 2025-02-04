@@ -21,7 +21,20 @@ knitr::opts_chunk$set(
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
-Work in progress, not to be used for production work.
+## Introduction
+
+_Work in progress, not to be used for production work_
+
+Why `sdmxdata`? The package is designed to provide a simple interface to
+retrieve and select data from open statistical data providers that support the SDMX v2.1 API. 
+
+It focusses on:
+
+- retrieving lists of dataflows, agencies and categories
+- retrieving information of one dataflow
+- retrieving and selecting data from a dataflow
+
+It does not implement a full fledged SDMX metadata model or data model. For that, you can use [`rsdmx`](https://CRAN.R-project.org/package=rsdmx).
 
 ## Installation
 

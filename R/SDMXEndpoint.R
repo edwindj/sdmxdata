@@ -43,12 +43,9 @@ SDMXEndpoint <- R6::R6Class("SDMXEndpoint",
       id = gsub("\\W+", "_", url),
       name = url,
       language = NULL,
-      cache_dir = tempdir(),
+      cache_dir = file.path(tempdir(), "sdmxdata", id),
       verbose = getOption("sdmxdata.verbose", FALSE)
     ) {
-      if (nchar(id) > 0 && !is.null(cache_dir)) {
-        cache_dir <- file.path(cache_dir, "sdmxdata", id)
-      }
       self$url <- url
       self$id <- id
       self$name <- name
