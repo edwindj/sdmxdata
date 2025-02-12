@@ -21,3 +21,16 @@ a SDMXEndpoint object
 \description{
 Connect to an SDMX endpoint
 }
+\examples{
+data("endpoints")
+endpoints[, 1:3]
+
+OECD <- get_endpoint("OECD")
+OECD$verbose <- TRUE
+list_oecd <- OECD |> list_dataflows(cache=TRUE)
+}
+\seealso{
+Other SDMX endpoints: 
+\code{\link{sdmx_endpoint}()}
+}
+\concept{SDMX endpoints}

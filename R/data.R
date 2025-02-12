@@ -6,4 +6,5 @@
 #' * `name` - the name of agency of the endpoint
 #' * `url` - the url of the endpoint
 #' * `language` - the default language of the endpoint
+#' @example example/endpoints.R
 "endpoints"

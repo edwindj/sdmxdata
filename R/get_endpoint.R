@@ -6,6 +6,8 @@
 #' @param singleton logical, if `TRUE` return the same object if it already exists
 #' @param verbose logical, if `TRUE` print information about the dataflows.
 #' @return a SDMXEndpoint object
+#' @example example/endpoints.R
+#' @family SDMX endpoints
 #' @export
 get_endpoint <- function(
     id,

@@ -19,4 +19,12 @@ endpoints
 \description{
 A data.frame with several endpoints for sdmx data
 }
+\examples{
+data("endpoints")
+endpoints[, 1:3]
+
+OECD <- get_endpoint("OECD")
+OECD$verbose <- TRUE
+list_oecd <- OECD |> list_dataflows(cache=TRUE)
+}
 \keyword{datasets}

@@ -1,10 +1,9 @@
 Package: sdmxdata
-Title: Statistics Netherlands (CBS) Open Data SDMX API Client
+Title: Open Data SDMX API Client
 Version: 0.1.9000
 Authors@R: c(
    person("Edwin", "de Jonge", email="edwindjonge@gmail.com", role = c("aut","cre"),comment =c(ORCID="0000-0002-6580-4718")))
-Description: The data and meta data from Statistics
-    Netherlands (<https://www.cbs.nl>) can be browsed and downloaded. The client uses
+Description: The data and meta data from various statistical agencies such as OECD and Statistics Netherlands can be browsed and downloaded. The client uses
     the open data SDMX API of Statistics Netherlands.
 License: MIT + file LICENSE
 Encoding: UTF-8
@@ -17,7 +16,6 @@ Suggests:
 Imports: 
     httr2,
     data.table,
-    xml2,
     jsonlite,
     R6
 URL: https://edwindj.github.io/sdmxdata/

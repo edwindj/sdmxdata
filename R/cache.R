@@ -18,41 +18,41 @@ cache_path <- function(ref, fileext = ".xml", dir = tempdir()){
   path
 }
 
-cache_xml <- function(
-    req,
-    cache_dir = tempdir(),
-    verbose = getOption("sdmxdata.verbose", FALSE)
-  ){
-  should_cache <- !is.null(cache_dir)
-
-  cache_dir <- if (should_cache) cache_dir else tempdir()
-
-  path <- cache_path(req$url, fileext = ".xml", dir = cache_dir)
-
-  on.exit({
-    if (!should_cache){
-      unlink(path)
-    }
-  })
-
-  in_cache <- file.exists(path) && should_cache
-  if (!in_cache){
-    resp <- req |>
-      httr2::req_perform(path = path)
-    if (verbose){
-      message("[cache:add]: ", dQuote(path))
-    }
-
-    # TODO log response when failing, adding debugging
-  } else {
-    if (verbose){
-      message("[cached:]", dQuote(path))
-    }
-  }
-
-  doc <- xml2::read_xml(path)
-  doc
-}
+# cache_xml <- function(
+#     req,
+#     cache_dir = tempdir(),
+#     verbose = getOption("sdmxdata.verbose", FALSE)
+#   ){
+#   should_cache <- !is.null(cache_dir)
+#
+#   cache_dir <- if (should_cache) cache_dir else tempdir()
+#
+#   path <- cache_path(req$url, fileext = ".xml", dir = cache_dir)
+#
+#   on.exit({
+#     if (!should_cache){
+#       unlink(path)
+#     }
+#   })
+#
+#   in_cache <- file.exists(path) && should_cache
+#   if (!in_cache){
+#     resp <- req |>
+#       httr2::req_perform(path = path)
+#     if (verbose){
+#       message("[cache:add]: ", dQuote(path))
+#     }
+#
+#     # TODO log response when failing, adding debugging
+#   } else {
+#     if (verbose){
+#       message("[cached:]", dQuote(path))
+#     }
+#   }
+#
+#   doc <- xml2::read_xml(path)
+#   doc
+# }
 
 # returns path to json file
 cache_json <- function(

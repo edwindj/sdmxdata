@@ -22,9 +22,19 @@ support the SDMX v2.1 API.
 
 It focusses on:
 
-- retrieving lists of dataflows, agencies and categories
-- retrieving information of one dataflow
-- retrieving and selecting data from a dataflow
+- retrieving lists of dataflows: `list_dataflows`, for getting an
+  overview of the available tables (dataflow) at a data provider,
+  including their descriptions.
+
+- retrieving the structure of a dataflow: `get_dataflow_structure`, for
+  getting detailed information the structure and metadata of a dataflow.
+
+- retrieving data: `get_data` and `get_observations` for selecting and
+  retrieving data from a dataflow. Both functions allow for easy
+  filtering on dimensions, reporting periods, and other metadata.
+
+- retrieving lists of agencies and subagencies: `list_agencies`, for
+  getting an overview of the agencies
 
 It does not implement a full fledged SDMX metadata model or data model.
 For that, you can use
