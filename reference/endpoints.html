@@ -52,6 +52,46 @@
 <li><p><code>language</code> - the default language of the endpoint</p></li>
 </ul></div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"endpoints"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">endpoints</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      id                               name</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 ESTAT                           EUROSTAT</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   LU1                             STATEC</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   NL1 Centraal Bureau voor de Statistiek</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  OECD                               OECD</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5   ABS                          AUSTRALIA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6   BIS                                BIS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7   FAO                                FAO</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8   ILO                                ILO</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9    UN                                 UN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                        url</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                           https://lustat.statec.lu/rest/</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                        https://sdmx-api.beta.cbs.nl/rest</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                        https://sdmx.oecd.org/public/rest</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                         https://data.api.abs.gov.au/rest</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6                             https://stats.bis.org/api/v1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7            https://nsi-release-ro-statsuite.fao.org/rest</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8                                https://sdmx.ilo.org/rest</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9                              https://data.un.org/ws/rest</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">OECD</span> <span class="op">&lt;-</span> <span class="fu"><a href="get_endpoint.html">get_endpoint</a></span><span class="op">(</span><span class="st">"OECD"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">OECD</span><span class="op">$</span><span class="va">verbose</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span><span class="va">list_oecd</span> <span class="op">&lt;-</span> <span class="va">OECD</span> <span class="op">|&gt;</span> <span class="fu"><a href="list_dataflows.html">list_dataflows</a></span><span class="op">(</span>cache<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">&lt;sdmx_v2_1_structure_request/httr2_request&gt;</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">GET</span> https://sdmx.oecd.org/public/rest/dataflow</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Headers:</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Accept-Language</span>: "en"</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">accept</span>: "application/vnd.sdmx.structure+json;version=1.0;"</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Body</span>: empty</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [cache:add]: “/tmp/Rtmpf0HmJD/sdmxdata/OECD/sdmxdata/dataflows_en.json”</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Available dataflows: 1351</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Agencies: “ESTAT”, “OECD.CFE.EDS”, “OECD.CFE.RDG”, “OECD.CFE.SMEE”, “OECD.CFE.TOU”, “OECD.CTP.TAV”, “OECD.CTP.TPS”, “OECD.DAF”, “OECD.DAF.CM”, “OECD.DAF.COMP”, “OECD.DAF.INV”, “OECD.DCD.FSD”, “OECD.DEV.EMEA”, “OECD.DEV.LAC”, “OECD.DEV.NPG”, “OECD.ECO.GCRD”, “OECD.ECO.MAD”, “OECD.ECO.MPD”, “OECD.EDU.IMEP”, “OECD.ELS.HD”, “OECD.ELS.IMD”, “OECD.ELS.JAI”, “OECD.ELS.SAE”, “OECD.ELS.SPD”, “OECD.ENV.EEI”, “OECD.ENV.EPI”, “OECD.GOV.GIP”, “OECD.GOV.PSI”, “OECD.ITF”, “OECD.SDD.NAD”, “OECD.SDD.NAD.SEEA”, “OECD.SDD.SDPS”, “OECD.SDD.STES”, “OECD.SDD.TPS”, “OECD.STI.DEP”, “OECD.STI.PIE”, “OECD.STI.STP”, “OECD.TAD.ADM”, “OECD.TAD.ARP”, “OECD.TAD.ATM”, “OECD.TAD.TPD”, “OECD.WISE.CWB”, “OECD.WISE.INE”, “OECD.WISE.RSB”, “OECD.WISE.WDP”</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Content languages: “en”, “fr”</span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

@@ -5,14 +5,14 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Statistics Netherlands (CBS) Open Data SDMX API Client • sdmxdata</title>
+<title>Open Data SDMX API Client • sdmxdata</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Statistics Netherlands (CBS) Open Data SDMX API Client">
-<meta name="description" content="The data and meta data from Statistics Netherlands (&lt;https://www.cbs.nl&gt;) can be browsed and downloaded. The client uses the open data SDMX API of Statistics Netherlands.">
-<meta property="og:description" content="The data and meta data from Statistics Netherlands (&lt;https://www.cbs.nl&gt;) can be browsed and downloaded. The client uses the open data SDMX API of Statistics Netherlands.">
+<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Open Data SDMX API Client">
+<meta name="description" content="The data and meta data from various statistical agencies such as OECD and Statistics Netherlands can be browsed and downloaded. The client uses the open data SDMX API of Statistics Netherlands.">
+<meta property="og:description" content="The data and meta data from various statistical agencies such as OECD and Statistics Netherlands can be browsed and downloaded. The client uses the open data SDMX API of Statistics Netherlands.">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -62,9 +62,10 @@
 <p>Why <code>sdmxdata</code>? The package is designed to provide a simple interface to retrieve and select data from open statistical data providers that support the SDMX v2.1 API.</p>
 <p>It focusses on:</p>
 <ul>
-<li>retrieving lists of dataflows, agencies and categories</li>
-<li>retrieving information of one dataflow</li>
-<li>retrieving and selecting data from a dataflow</li>
+<li><p>retrieving lists of dataflows: <code>list_dataflows</code>, for getting an overview of the available tables (dataflow) at a data provider, including their descriptions.</p></li>
+<li><p>retrieving the structure of a dataflow: <code>get_dataflow_structure</code>, for getting detailed information the structure and metadata of a dataflow.</p></li>
+<li><p>retrieving data: <code>get_data</code> and <code>get_observations</code> for selecting and retrieving data from a dataflow. Both functions allow for easy filtering on dimensions, reporting periods, and other metadata.</p></li>
+<li><p>retrieving lists of agencies and subagencies: <code>list_agencies</code>, for getting an overview of the agencies</p></li>
 </ul>
 <p>It does not implement a full fledged SDMX metadata model or data model. For that, you can use <a href="https://CRAN.R-project.org/package=rsdmx" class="external-link"><code>rsdmx</code></a>.</p>
 </div>
