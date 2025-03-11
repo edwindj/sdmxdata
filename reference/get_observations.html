@@ -53,6 +53,7 @@ data from the SDMX provider and returns it as a data.frame.</p>
 <span>  startPeriod <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  endPeriod <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  filter_on <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  use_factor <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  <span class="va">...</span>,</span>
 <span>  language <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  as.data.table <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -102,6 +103,10 @@ data from the SDMX provider and returns it as a data.frame.</p>
 <dd><p>A named list of filters to apply to the data, if not specified or <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>, it is the default selection, set to <code>NULL</code> to select all.</p></dd>
 
 
+<dt id="arg-use-factor">use_factor<a class="anchor" aria-label="anchor" href="#arg-use-factor"></a></dt>
+<dd><p>if <code>TRUE</code> then dimension and attributes columns are factors, otherwise character</p></dd>
+
+
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Additional parameters to pass to the request</p></dd>
 
@@ -144,7 +149,7 @@ data from the SDMX provider and returns it as a data.frame.</p>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p><code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> or <code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code> depending on <code>as.data.table</code></p>
+    <p><code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> or <code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table::data.table()</a></code> depending on <code>as.data.table</code></p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
