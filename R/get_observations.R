@@ -11,6 +11,7 @@
 #' @param filter_on A named list of filters to apply to the data, if not specified or `list()`, it is the default selection, set to `NULL` to select all.
 #' @param ... Additional parameters to pass to the request
 #' @param dim_contents The contents of the dimension columns, either "label", "id" or "both"
+#' @param use_factor if `TRUE` then dimension and attributes columns are factors, otherwise character
 #' @param attributes_contents The contents of the attribute columns, either "label", "id" or "both"
 #' @param obs_value_numeric Should the OBS_VALUE column be coerced to numeric? Default is `TRUE`
 #' @param raw If `TRUE` return the raw data.frame from the SDMX, otherwise the data.frame is processed
@@ -31,6 +32,7 @@ get_observations <- function(
     startPeriod = NULL,
     endPeriod = NULL,
     filter_on = list(),
+    use_factor = TRUE,
     ...,
     language = "en",
     as.data.table = FALSE,
@@ -167,8 +169,12 @@ get_observations <- function(
         id    = code$id,
         code$id
       )
-      df[[id]] <- df[[id]] |>
+      f <- df[[id]] |>
         factor(levels = code$id, labels=labels)
+      if (!isTRUE(use_factor)){
+        f <- as.character(f)
+      }
+      df[[id]] <- f
     }
   }
 

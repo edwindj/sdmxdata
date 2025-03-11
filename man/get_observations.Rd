@@ -13,6 +13,7 @@ get_observations(
   startPeriod = NULL,
   endPeriod = NULL,
   filter_on = list(),
+  use_factor = TRUE,
   ...,
   language = "en",
   as.data.table = FALSE,
@@ -41,6 +42,8 @@ get_observations(
 \item{endPeriod}{The end period for which the data should be returned, works only for dataflows with an explicit time dimension.}
 
 \item{filter_on}{A named list of filters to apply to the data, if not specified or \code{list()}, it is the default selection, set to \code{NULL} to select all.}
+
+\item{use_factor}{if \code{TRUE} then dimension and attributes columns are factors, otherwise character}
 
 \item{...}{Additional parameters to pass to the request}
 

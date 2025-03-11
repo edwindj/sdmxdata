@@ -39,6 +39,12 @@ list_dataflows <- function(
     language = language
   )
 
+  if (isTRUE(verbose)){
+    print(
+      list(request = req)
+    )
+  }
+
   cache_key <- "dataflows"
   if (!is.null(agencyID)){
     cache_key <- paste0(cache_key, "_", agencyID)
@@ -61,6 +67,8 @@ list_dataflows <- function(
   if (isTRUE(raw)){
     return(res)
   }
+
+  # browser()
 
   # TODO provide a "raw" option that returns the full response of the SDMX v2.1 API
   dataflows <- res$data$dataflows

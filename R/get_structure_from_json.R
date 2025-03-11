@@ -9,7 +9,8 @@ get_structure_from_json <- function(
     ){
 
   req <- req |>
-    httr2::req_headers(accept = "application/vnd.sdmx.structure+json;version=1.0;urn=true")
+    # httr2::req_headers(accept = "application/json")
+   httr2::req_headers(accept = "application/vnd.sdmx.structure+json;version=1.0;urn=true")
 
   res <- cache_json(req, key = cache_key, cache_dir = cache_dir, verbose = verbose)
   res
