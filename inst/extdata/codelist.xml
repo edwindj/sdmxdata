@@ -27704,7 +27704,7 @@ The Other Services Division excludes units mainly engaged in providing buildings
               <common:AnnotationText xml:lang="en">5830</common:AnnotationText>
             </common:Annotation>
           </common:Annotations>
-          <common:Name xml:lang="en">Internet Service Providers, Web Search Portals and Data Processing Services</common:Name>
+          <common:Name xml:lang="en">Internet Service endpoints, Web Search Portals and Data Processing Services</common:Name>
           <structure:Parent>
             <Ref id="J" />
           </structure:Parent>
@@ -29768,7 +29768,7 @@ The Other Services Division excludes units mainly engaged in providing buildings
               <common:AnnotationText xml:lang="en">5840</common:AnnotationText>
             </common:Annotation>
           </common:Annotations>
-          <common:Name xml:lang="en">Internet Service Providers and Web Search Portals</common:Name>
+          <common:Name xml:lang="en">Internet Service endpoints and Web Search Portals</common:Name>
           <structure:Parent>
             <Ref id="59" />
           </structure:Parent>
@@ -41536,7 +41536,7 @@ Travel guide book publishing (except internet)</common:AnnotationText>
 Units mainly engaged in
 (a) publishing directories and mailing lists exclusively on the internet are included in Class 5700 Internet Publishing and Broadcasting;
 (b) printing directories and mailing lists without publishing are included in Class 1611 Printing;
-(c) operating web search portals (search engines) are included in Class 5910 Internet Service Providers and Web Search Portals; and
+(c) operating web search portals (search engines) are included in Class 5910 Internet Service endpoints and Web Search Portals; and
 (d) publishing computer software are included in Class 5420 Software Publishing.
 
 Primary Activities
@@ -41874,7 +41874,7 @@ Subscription television broadcasting service</common:AnnotationText>
               <common:AnnotationType>CONTEXT</common:AnnotationType>
               <common:AnnotationText xml:lang="en">Exclusions/References
 Units mainly engaged in
-(a) providing internet access and operating web search portals (search engines) are included in Class 5910 Internet Service Providers and Web Search Portals;
+(a) providing internet access and operating web search portals (search engines) are included in Class 5910 Internet Service endpoints and Web Search Portals;
 (b) providing internet streaming services are included in Class 5921 Data Processing and Web Hosting Services;
 (c) publishing newspapers, periodicals, books and other information products using traditional methods (e.g. print) as well as the internet are included in the appropriate classes of Subdivision 54 Publishing (except Internet and Music Publishing) according to the type of product published; and
 (d) operating units of stock brokerages, travel reservation systems, purchasing services, and similar activities using the internet rather than traditional methods are included in classes according to their primary activity.
@@ -42011,7 +42011,7 @@ Voice Over Internet Protocol (VoIP) Provision (Software-based)
 Web search portal operation</common:AnnotationText>
             </common:Annotation>
           </common:Annotations>
-          <common:Name xml:lang="en">Internet Service Providers and Web Search Portals</common:Name>
+          <common:Name xml:lang="en">Internet Service endpoints and Web Search Portals</common:Name>
           <common:Description xml:lang="en">This class consists of units mainly engaged in providing internet access services. Also included are units which provide web search portals used to search the internet.</common:Description>
           <structure:Parent>
             <Ref id="591" />

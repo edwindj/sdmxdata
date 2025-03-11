@@ -3,7 +3,7 @@ get_structure_from_json <- function(
     req,
     simplifyVector = TRUE,
     ...,
-    cache_dir = tempdir(),
+    cache_dir = file.path(tempdir(), "sdmxdata"),
     cache_key = req$url,
     verbose = getOption("sdmxdata.verbose", FALSE)
     ){

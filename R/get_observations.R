@@ -1,7 +1,12 @@
-#' Get data from a SDMX API
+#' Get observations from an SDMX provider
 #'
-#' Get data from an SDMX API
-#' @param req An endpoint
+#' Get observations from an SDMX provider. It retrieves the
+#' data from the SDMX provider and returns it as a data.frame.
+#'
+#' By default the dimension and attribute columns are recoded to
+#' factors with labels. This can be changed with the `dim_contents` and
+#' `attributes_contents` arguments.
+#' @param endpoint An endpoint, url or [httr2::request()] object.
 #' @param agencyID The agency ID
 #' @param id The id of the dataflow
 #' @param version The version of the dataflow, default "latest"
@@ -17,14 +22,14 @@
 #' @param raw If `TRUE` return the raw data.frame from the SDMX, otherwise the data.frame is processed
 #' @param language The language of the metadata
 #' @param drop_first_columns Should the first columns be dropped? Default is `TRUE` (if not raw)
-#' @param cache_dir The directory to cache the accompanying  meta data, set to `NULL` to disable caching.
-#' @param verbose if `TRUE` print information about the caching.
+#' @param cache if `TRUE` cache the accompanying  meta data.
+#' @param verbose If `TRUE` print information about the request
 #' @param as.data.table If `TRUE` return a [data.table()], otherwise a [data.frame()]
 #' @return [data.frame()] or [data.table::data.table()] depending on `as.data.table`
 #' @example example/get_observations.R
 #' @export
 get_observations <- function(
-    req  = NULL,
+    endpoint  = NULL,
     agencyID,
     id,
     version = "latest",
@@ -34,16 +39,21 @@ get_observations <- function(
     filter_on = list(),
     use_factor = TRUE,
     ...,
-    language = "en",
+    language = NULL,
     as.data.table = FALSE,
     dim_contents = c("label", "both", "id"),
     attributes_contents = c("label", "id", "both"),
     obs_value_numeric = TRUE,
     raw = FALSE,
     drop_first_columns = !raw,
-    cache_dir = tempdir(),
+    cache = TRUE,
     verbose = getOption("sdmxdata.verbose", FALSE)
   ){
+
+  endpoint <- sdmx_endpoint(endpoint)
+  language <- language %||% endpoint$language
+  verbose <- verbose | endpoint$verbose
+  req <- endpoint$req
 
   if (missing(ref) && (missing(agencyID) || missing(id))){
     stop("Either `ref` or `agencyID` and `id` should be specified.", call. = FALSE)
@@ -53,14 +63,14 @@ get_observations <- function(
   attributes_contents <- match.arg(attributes_contents)
 
   dfi <- get_dataflow_structure(
-    req = req,
+    endpoint = endpoint,
     ref = ref,
     agencyID = agencyID,
     id = id,
     version = version,
-    verbose = verbose,
-    cache_dir = cache_dir,
-    language = language
+    cache = cache,
+    language = language,
+    verbose = verbose
   )
 
   # dims <- get_dimensions(dfi)
@@ -107,13 +117,14 @@ get_observations <- function(
   }
 
   req <- sdmx_v2_1_data_request(
-    req = req,
+    endpoint = endpoint,
     resource = "data",
     flowRef = dfi$flowRef,
     key = key,
     startPeriod = startPeriod,
     endPeriod = endPeriod,
-    ...
+    ...,
+    verbose = verbose
   )
 
   if (verbose){

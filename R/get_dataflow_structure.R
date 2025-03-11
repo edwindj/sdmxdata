@@ -8,7 +8,7 @@
 #' will default to the latest version. If it is desirable to pin the reference of
 #' the dataflow to a specific version, the `ref` argument can be used. The `ref`
 #' argument can also be found in [list_dataflows()].
-#' @param req A character string with the request to the dataflow
+#' @param endpoint An endpoint or an object that can be coerced to an [SDMXEndpoint]
 #' @param ref A string with the flow reference, in the form of "agencyID:id(version)". Overrules
 #' the agencyID, id and version arguments.
 #' @param agencyID The agency ID of the dataflow
@@ -16,20 +16,28 @@
 #' @param version The version of the dataflow, defaults to "latest"
 #' @param language The language of the metadata
 #' @param verbose print some information on the console
-#' @param cache_dir The directory to cache the data in, set to `NULL` to disable caching.
+#' @param cache logical, if `TRUE` cache the metadata
 #' @return a list with the dataflow information
 #' @importFrom data.table as.data.table
 #' @export
 get_dataflow_structure <- function(
-    req = NULL,
+    endpoint = NULL,
     agencyID = getOption("sdmxdata.agencyID", NULL),
     id,
     version = "latest",
     ref,
-    language= getOption("sdmxdata.language", "en"),
-    cache_dir = tempdir(),
+    language= getOption("sdmxdata.language"),
+    cache = TRUE,
     verbose = getOption("sdmxdata.verbose", FALSE)
   ){
+
+  default_endpoint <- is.null(endpoint)
+
+  endpoint <- sdmx_endpoint(endpoint)
+  language <- language %||% endpoint$language
+  verbose <- verbose | endpoint$verbose
+  req <- endpoint$req
+
   # get the information for just one dataflow
   if (missing(ref) || is.null(ref)){
     eref <- list(
@@ -49,23 +57,14 @@ get_dataflow_structure <- function(
     )
   }
 
-  # oc <- ObjectCache(
-  #   key = paste("dataflowinfo2", flowRef, sep = "_"),
-  #   cache_dir = cache_dir,
-  #   verbose = verbose
-  # )
-  #
-  # if (oc$is_cached()){
-  #   return(oc$get())
-  # }
-
   req <- sdmx_v2_1_structure_request(
-    req = req,
+    endpoint = endpoint,
     resource = "dataflow",
     agencyID = eref$agencyID,
     resourceID = eref$id,
     version = eref$version,
-    detail = "full",
+    detail = "referencepartial",
+    # detail = "full",
     references = "all",
     language = language
   )
@@ -77,7 +76,8 @@ get_dataflow_structure <- function(
       sprintf("%s_%s_%s", eref$id, eref$version, language),
       sep = "/"
     ),
-    verbose = verbose, cache_dir = cache_dir
+    verbose = verbose,
+    cache_dir = if (cache) endpoint$cache_dir else NULL
   )
 
   d <- raw$data
@@ -156,8 +156,10 @@ get_dataflow_structure <- function(
   codelist <- codelists[match(ref_codelist, codelists$ref),]
   dimensions$codes <- codelist$codes
 
+  #TODO check for concept roles, like GEO / VARIABLE
+
   dimensions <- dimensions |>
-    ensure(c("id", "name","description","codes","position", "type", "ref"))
+    ensure(c("id", "name","description","codes","position", "type", "ref", "role"))
 
   time_dimensions <- dimlist$timeDimensions[[1]]
   if (!is.null(time_dimensions)){
@@ -171,7 +173,7 @@ get_dataflow_structure <- function(
 
     time_dimensions <-
       time_dimensions |> ensure(
-        c("id", "name","description","codes","position", "type", "ref")
+        c("id", "name","description","codes","position", "type", "ref", "role")
       )
   }
 
@@ -226,8 +228,14 @@ get_dataflow_structure <- function(
 
   dimensions <- dimensions |>
     split(seq_len(nrow(dimensions))) |>
-    lapply(\(x) unlist(x, recursive = FALSE)) |>
-    stats::setNames(dimensions$id)
+    lapply(\(x) {
+      x <- x |>
+        unlist(recursive = FALSE)
+      x
+    }) |>
+    stats::setNames(dimensions$id) |>
+    structure(class="sdmx_dimensions")
+
 
   measure <- measure |>
     as.list()
@@ -238,6 +246,39 @@ get_dataflow_structure <- function(
       lapply(\(x) unlist(x, recursive = FALSE)) |>
       stats::setNames(atts$id)
   }
+
+  # categorization
+  # cs <- d$categorySchemes
+  # unwrap <- function(cat){
+  #   cat <- cat$categories |>
+  #     lapply(\(x) x[x$rel == "self", ]$urn) |>
+  #     unlist()
+  #   cat
+  # }
+  # sapply(cs$name, \(x) x |> dQuote()) |> paste(collapse = ", ") |> cat()
+  # browser()
+
+  # apply constraints
+  if (
+    !is.null(constraints <- d$contentConstraints[1,]) &&
+    !is.null(cubeRegions <- constraints$cubeRegions[[1]]) &&
+    (cubeRegions$isIncluded == TRUE) &&
+    !is.null(keyValues <- cubeRegions$keyValues[[1]])
+  ){
+    for (i in seq_len(nrow(keyValues))){
+      id <- keyValues$id[i]
+      values <- keyValues$values[[i]]
+      if (!is.null(d <- dimensions[[id]])){
+        d$codes <- d$codes[d$codes$id %in% values,]
+        dimensions[[id]] <- d
+      } else if (!is.null(a <- atts[[id]])){
+        a$codes <- a$codes[a$codes$id %in% values,]
+        atts[[id]] <- a
+      }
+    }
+  }
+
+  call <- sys.call()
 
   dfi <- list(
     id          = dataflow$id,
@@ -253,7 +294,11 @@ get_dataflow_structure <- function(
     flowRef     = dataflow$flowRef,
     raw_sdmx    = raw
   ) |>
-  structure(class="dataflow_structure")
+  structure(
+    class = "dataflow_structure",
+    call = call,
+    default_endpoint = default_endpoint
+  )
 
   dfi$default_selection <- get_default_selection(dfi)
 
@@ -319,12 +364,20 @@ print.dataflow_structure <- function(x, ...){
   cat("\n\n")
   cat("Get a default selection of the observations with:\n")
 
-  # def_sel <-
-  #   get_default_selection(x) |>
-  #   deparse(width.cutoff = 500, nlines = 1)
+  cll <- attr(x, "call")
+  default_endpoint <- isTRUE(attr(x, "default_endpoint"))
+
+  endpoint <- if (default_endpoint) {
+    ""
+  }
+  else {
+    ep <- cll[[2]] |> deparse(width.cutoff = 500, nlines = 1) |> paste(collapse = "")
+    sprintf("%s |> ", ep)
+  }
 
   cmd <- sprintf(
-    'obs <- get_observations(id="%s", agencyID="%s")',
+    'obs <- %sget_observations(id="%s", agencyID="%s")',
+    endpoint,
     x$id,
     x$agencyID
   )
@@ -338,7 +391,8 @@ print.dataflow_structure <- function(x, ...){
   #   deparse(width.cutoff = 500, nlines = 1)
 
   cmd <- sprintf(
-    'dat <- get_data(id="%s", agencyID="%s", pivot="%s")',
+    'dat <- %sget_data(id="%s", agencyID="%s", pivot="%s")',
+    endpoint,
     x$id,
     x$agencyID,
     tail(x$dimensions, 1)[[1]]$id
@@ -350,5 +404,16 @@ print.dataflow_structure <- function(x, ...){
   cat("\nProperties:\n ", sep="")
   paste0("$", names(x), collapse = ", ") |> cat()
 
+  invisible(x)
+}
+
+#' @export
+print.sdmx_dimensions <- function(x, ...){
+  for (d in unclass(x)){
+    cat("$", d$id, ":", d$name |> dQuote(), " (", nrow(d$codes), " codes)\n", sep="")
+    cat("  ", "type: ", d$type,
+        ", position: ", d$position,
+       "\n", sep="")
+  }
   invisible(x)
 }

@@ -1,21 +1,21 @@
-#' List available sdmx dataflows
+#' Get sdmx category schemes
 #'
-#' List the sdmx dataflows from a given endpoint.
-#' @param endpoint A character string or endpoint for a given endpoint.
+#' Get sdmx categoryschemes from a given endpoint.
+#' @param endpoint an endpoint, url or [httr2::request()] object.
 #' @param agencyID A character string from a given agencyID.
 #' @param raw If `TRUE` return the raw data from the SDMX, otherwise the data is processed.
 #' @param ... saved for future use.
 #' @param language The language to use for the text used in the response.
-#' @param cache if `TRUE` cache the list of dataflows
+#' @param cache if `TRUE` cache the result.
 #' @param verbose if `TRUE` print information about the dataflows.
 #' @return a data.frame with available dataflows
 #' @example example/list_dataflows.R
 #' @export
-list_dataflows <- function(
+list_categoryschemes <- function(
     endpoint = NULL,
     agencyID = NULL,
     ...,
-    language = NULL,
+    language = "nl",
     cache = TRUE,
     raw = FALSE,
     verbose = getOption("sdmxdata.verbose", FALSE)
@@ -24,8 +24,6 @@ list_dataflows <- function(
   language <- language %||% endpoint$language
   verbose <- verbose | endpoint$verbose
   cache_dir <- if (cache) endpoint$cache_dir else NULL
-  req <- endpoint$req
-
   # path <- tempfile("sdmx", fileext = ".json")
 
   agencyID <- if (is.null(agencyID)){
@@ -36,17 +34,13 @@ list_dataflows <- function(
 
   req <- sdmx_v2_1_structure_request(
     endpoint = endpoint,
-    resource = "dataflow",
+    resource = "categoryscheme",
     agencyID = agencyID,
     format = "json",
     language = language
   )
 
-  if (verbose){
-    print(req)
-  }
-
-  cache_key <- "dataflows"
+  cache_key <- "categoryschemes"
   if (!is.null(agencyID)){
     cache_key <- paste0(cache_key, "_", agencyID)
   }
@@ -57,7 +51,7 @@ list_dataflows <- function(
 
   res <- req |>
     cache_json(
-      simplifyVector = TRUE,
+      simplifyVector = !raw,
       key = cache_key,
       cache_dir = cache_dir,
       verbose = verbose
@@ -65,20 +59,19 @@ list_dataflows <- function(
 
   was_cached <- isTRUE(attr(res, "was_cached"))
 
-  # "raw" option returns the full response of the SDMX v2.1 API
   if (isTRUE(raw)){
     return(res)
   }
-
-  dataflows <- res$data$dataflows
+  # TODO provide a "raw" option that returns the full response of the SDMX v2.1 API
+  categoryschemes <- res$data$categorySchemes
 
   # we add ref to the dataflows for convenience, to be used as a reference to a
   # dataflow
-  dataflows$ref <- with(dataflows, {
+  categoryschemes$ref <- with(categoryschemes, {
       sprintf("%s:%s(%s)", agencyID, id, version)
   })
 
-  dataflows <- dataflows |>
+  categoryschemes <- categoryschemes |>
     ensure(c("agencyID", "id", "version", "name", "description", "ref"))
 
   # we add ref to the dataflows for convenience, to be used as a flowRef
@@ -90,16 +83,15 @@ list_dataflows <- function(
 
 if (verbose || (!was_cached && missing(verbose))){
   message(
-"Available dataflows: ", nrow(dataflows), "\n",
-"Agencies: ", unique(dataflows$agencyID) |> dQuote() |> paste(collapse = ", "), "\n",
+"Available category schemes: ", nrow(categoryschemes), "\n",
+"Agencies: ", unique(categoryschemes$agencyID) |> dQuote() |> paste(collapse = ", "), "\n",
 "Content languages: ", contentLanguages |> dQuote() |> paste(collapse = ", ")
 )
 }
 
-  dataflows |>
+  categoryschemes |>
     structure(
-      contentLanguages = contentLanguages,
-      class = c("sdmx_v2_1_dataflows", class(dataflows))
+      contentLanguages = contentLanguages
     )
 }
 
