@@ -6,10 +6,9 @@ if (interactive()) {
   obs <- get_observations(
     ref = ref,
     filter_on = list(
-      "RegioS" = c("NL01"),
-      "Perioden" = c("2024MM01")
+      "Perioden" = c("2009JJ00")
     )
   )
 
-  obs
+  str(obs)
 }
