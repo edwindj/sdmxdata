@@ -39,6 +39,6 @@ as.data.table.sdmx_v2_1_data_request <- function(
     )
   }
 
-  d <- data.table::fread(file = path)
+  d <- data.table::fread(file = path, colClasses = "character")
   d
 }
