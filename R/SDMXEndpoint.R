@@ -1,8 +1,14 @@
 #' @title Base class for SDMX endpoints
 #'
 #' @description
+#' Create a:
+#' - a known endpoint from `endpoints` use [get_endpoint()].
+#' - unlisted SDMX 2.1 REST endpoint use [sdmx_endpoint()].
+#' - a new SDMX endpoint use `SDMXEndpoint$new()`.
+#' @description
 #' Base class for SDMX endpoints
 #' @importFrom R6 R6Class
+#' @family SDMX endpoints
 #' @export
 SDMXEndpoint <- R6::R6Class("SDMXEndpoint",
   public = list(
@@ -31,7 +37,7 @@ SDMXEndpoint <- R6::R6Class("SDMXEndpoint",
     #' @field language character, the language to use for the text used in the response
     language = NULL,
 
-    #' @description create a new SDMXEndpoint object
+    #' @description create a new SDMXEndpoint object, see also [sdmx_endpoint()]
     #' @param url character, the url of the endpoint
     #' @param id character, the id of the endpoint
     #' @param name character, the name of the endpoint

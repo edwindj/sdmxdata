@@ -31,6 +31,7 @@ list_oecd <- OECD |> list_dataflows(cache=TRUE)
 }
 \seealso{
 Other SDMX endpoints: 
+\code{\link{SDMXEndpoint}},
 \code{\link{sdmx_endpoint}()}
 }
 \concept{SDMX endpoints}

@@ -36,7 +36,7 @@ a data.frame with available dataflows
 Get sdmx categoryschemes from a given endpoint.
 }
 \examples{
-dfs <- list_dataflows()
+dfs <- list_dataflows(verbose = TRUE)
 
 head(dfs)
 }

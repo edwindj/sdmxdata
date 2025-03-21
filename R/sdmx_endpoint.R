@@ -1,6 +1,6 @@
-#' Returns the base request object
+#' Create a new SDMX endpoint
 #'
-#' Returns the base request object
+#' Create an endpoint from an url or httr2 request object
 #' @param x An endpoint or an httr2 request object
 #' @param ... saved for future use
 #' @param id character, the id of the endpoint

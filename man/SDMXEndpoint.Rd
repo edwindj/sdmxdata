@@ -4,8 +4,21 @@
 \alias{SDMXEndpoint}
 \title{Base class for SDMX endpoints}
 \description{
+Create a:
+\itemize{
+\item a known endpoint from \code{endpoints} use \code{\link[=get_endpoint]{get_endpoint()}}.
+\item unlisted SDMX 2.1 REST endpoint use \code{\link[=sdmx_endpoint]{sdmx_endpoint()}}.
+\item a new SDMX endpoint use \code{SDMXEndpoint$new()}.
+}
+
 Base class for SDMX endpoints
 }
+\seealso{
+Other SDMX endpoints: 
+\code{\link{get_endpoint}()},
+\code{\link{sdmx_endpoint}()}
+}
+\concept{SDMX endpoints}
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
@@ -38,7 +51,7 @@ Base class for SDMX endpoints
 \if{html}{\out{<a id="method-SDMXEndpoint-new"></a>}}
 \if{latex}{\out{\hypertarget{method-SDMXEndpoint-new}{}}}
 \subsection{Method \code{new()}}{
-create a new SDMXEndpoint object
+create a new SDMXEndpoint object, see also \code{\link[=sdmx_endpoint]{sdmx_endpoint()}}
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{SDMXEndpoint$new(
   url,
