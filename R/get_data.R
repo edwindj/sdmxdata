@@ -60,6 +60,9 @@ get_data <- function(
     has_pivot <- (length(pivot) > 0)
     # check before retrieving the data, to reduce frustration :-)
     if (has_pivot) {
+      if (length(pivot) > 1){
+        stop("`pivot` support a single value, not: ", pivot |> dQuote() |> paste(collapse = ", "))
+      }
       chk <- pivot %in% dims
       if (!all(chk)){
         stop("* 'pivot'=",pivot[!chk] |> dQuote() |> paste(collapse = ", "),
@@ -84,6 +87,13 @@ get_data <- function(
     )
 
     data.table::setDT(obs)
+    if (obs_value_numeric){
+      value <- dfi$measure$id
+      obs[[value]] <-
+        as.numeric(obs[[value]]) |>
+        suppressWarnings()
+    }
+
 
     # pivot if asked for
     if (has_pivot) {
@@ -96,12 +106,11 @@ get_data <- function(
           stats::as.formula()
 
       for (pv in pivot){
-        obs[[pv]] <- sprintf("%s:%s", pv, obs[[pv]])
+        obs[[pv]] <- factor(obs[[pv]], levels = dfi$dimensions[[pv]]$codes$id)
       }
 
       measure <- dfi$measure$id
       dta <- data.table::dcast(obs, f, value.var = measure)
-      data.table::setDF(dta)
     } else {
       dta <- obs[, c(dims, dfi$measure$id), with = FALSE]
     }

@@ -39,7 +39,8 @@ list_dataflows <- function(
     resource = "dataflow",
     agencyID = agencyID,
     format = "json",
-    detail = "allstubs",
+    # maybe this is too restrictive
+    # detail = "allstubs",
     language = language
   )
 
