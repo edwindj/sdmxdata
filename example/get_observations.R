@@ -1,4 +1,5 @@
-if (interactive()) {
+dfs <- list_dataflows()
+ref <- dfs$ref[4]
 
   dfs <- list_dataflows()
   ref <- dfs$ref[4]
@@ -10,5 +11,5 @@ if (interactive()) {
     )
   )
 
-  str(obs)
-}
+obs
+

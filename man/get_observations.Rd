@@ -78,7 +78,8 @@ factors with labels. This can be changed with the \code{dim_contents} and
 \code{attributes_contents} arguments.
 }
 \examples{
-if (interactive()) {
+dfs <- list_dataflows()
+ref <- dfs$ref[4]
 
   dfs <- list_dataflows()
   ref <- dfs$ref[4]
@@ -90,6 +91,6 @@ if (interactive()) {
     )
   )
 
-  str(obs)
-}
+obs
+
 }

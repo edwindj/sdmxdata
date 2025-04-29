@@ -1,3 +1,3 @@
-dfs <- list_dataflows()
+dfs <- list_dataflows(verbose = TRUE)
 
 head(dfs)

@@ -4,7 +4,7 @@
 \alias{sdmx_endpoint}
 \alias{sdmx_endpoint.character}
 \alias{sdmx_endpoint.httr2_request}
-\title{Returns the base request object}
+\title{Create a new SDMX endpoint}
 \usage{
 sdmx_endpoint(x, ...)
 
@@ -39,10 +39,11 @@ sdmx_endpoint(x, ...)
 a \link{SDMXEndpoint} object
 }
 \description{
-Returns the base request object
+Create an endpoint from an url or httr2 request object
 }
 \seealso{
 Other SDMX endpoints: 
+\code{\link{SDMXEndpoint}},
 \code{\link{get_endpoint}()}
 }
 \concept{SDMX endpoints}

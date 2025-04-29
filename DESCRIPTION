@@ -2,7 +2,8 @@ Package: sdmxdata
 Title: Open Data SDMX API Client
 Version: 0.2.9000
 Authors@R: c(
-   person("Edwin", "de Jonge", email="edwindjonge@gmail.com", role = c("aut","cre"),comment =c(ORCID="0000-0002-6580-4718")))
+   person("Edwin", "de Jonge", email="edwindjonge@gmail.com", role = c("aut","cre"),comment =c(ORCID="0000-0002-6580-4718")),
+   person("Roelof", "Waaijman", role = c("ctb")))
 Description: The data and meta data from various statistical agencies such as OECD and Statistics Netherlands can be browsed and downloaded. The client uses
     the open data SDMX API of Statistics Netherlands.
 License: MIT + file LICENSE
