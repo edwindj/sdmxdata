@@ -69,6 +69,10 @@ get_dataflow_structure <- function(
     language = language
   )
 
+  if (verbose){
+    print(req)
+  }
+
   raw <- req |> get_structure_from_json(
     cache_key = paste(
       "dataflow",
