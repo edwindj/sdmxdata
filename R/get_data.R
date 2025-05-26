@@ -132,7 +132,6 @@ get_data <- function(
       }
     }
 
-
     # add labels to the columns
     clmn <- dfi$columns$name |> stats::setNames(dfi$columns$id)
 
@@ -140,7 +139,7 @@ get_data <- function(
       d <- dfi$dimensions[[pivot]]
       if (!is.null(d)){
         code <- d$codes
-        code_id <- sprintf("%s:%s", pivot, code$id)
+        code_id <- sprintf("%s", code$id)
         clmn <- c(clmn, code$name |> stats::setNames(code_id))
       }
     }
