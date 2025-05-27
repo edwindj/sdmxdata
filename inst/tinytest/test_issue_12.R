@@ -1,6 +1,9 @@
 library(tinytest)
 
 library(sdmxdata)
+
+exit_if_not(requireNamespace("cbsodataR"))
+
 library(cbsodataR)
 
 # data ophalen cbsodataR

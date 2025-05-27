@@ -49,7 +49,7 @@ get_observations(
 
 \item{language}{The language of the metadata}
 
-\item{as.data.table}{If \code{TRUE} return a \code{\link[=data.table]{data.table()}}, otherwise a \code{\link[=data.frame]{data.frame()}}}
+\item{as.data.table}{If \code{TRUE} return a \code{\link[data.table:data.table]{data.table::data.table()}}, otherwise a \code{\link[=data.frame]{data.frame()}}}
 
 \item{dim_contents}{The contents of the dimension columns, either "label", "id" or "both"}
 

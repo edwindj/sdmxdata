@@ -22,5 +22,5 @@ Imports:
 URL: https://edwindj.github.io/sdmxdata/
 VignetteBuilder: knitr
 Depends: 
-    R (>= 3.5)
+    R (>= 4.2.0)
 LazyData: true

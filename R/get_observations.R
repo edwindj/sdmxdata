@@ -24,7 +24,7 @@
 #' @param drop_first_columns Should the first columns be dropped? Default is `TRUE` (if not raw)
 #' @param cache if `TRUE` cache the accompanying  meta data.
 #' @param verbose If `TRUE` print information about the request
-#' @param as.data.table If `TRUE` return a [data.table()], otherwise a [data.frame()]
+#' @param as.data.table If `TRUE` return a [data.table::data.table()], otherwise a [data.frame()]
 #' @return [data.frame()] or [data.table::data.table()] depending on `as.data.table`
 #' @example example/get_observations.R
 #' @export
