@@ -34,7 +34,7 @@ get_dataflow_structure <- function(
   default_endpoint <- is.null(endpoint)
 
   endpoint <- sdmx_endpoint(endpoint)
-  language <- language %||% endpoint$language
+  language <- language %||% endpoint$language %||% "en"
   verbose <- verbose | endpoint$verbose
   req <- endpoint$req
 

@@ -92,8 +92,15 @@ cache_json <- function(
     message("[cached]: ",path |> dQuote())
   }
 
-  jsonlite::read_json(path, simplifyVector = simplifyVector, ...) |>
-    structure(
-      was_cached = (in_cache & should_cache)
-    )
+  tryCatch({
+    json <- jsonlite::read_json(path, simplifyVector = simplifyVector, ...)
+    },
+    error = function(e){
+      # invalid json, so rename it otherwise it causes the next calls to fail,
+      # and we want to keep it for debugging purposes
+      txt <- sub("\\.json", ".txt", path) |> normalizePath()
+      file.rename(path, txt)
+      stop("Invalid json detected, use `verbose=TRUE` to see the url.\n Result in: ", sQuote(txt), call. = FALSE)
+    })
+    json
 }
