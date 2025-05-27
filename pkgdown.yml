@@ -3,7 +3,7 @@ pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
   introduction: introduction.html
-last_built: 2025-05-27T14:03Z
+last_built: 2025-05-27T14:42Z
 urls:
   reference: https://edwindj.github.io/sdmxdata/reference
   article: https://edwindj.github.io/sdmxdata/articles

@@ -123,33 +123,26 @@
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; * `filter_on` argument not specified, using default selection:</span></span>
 <span><span class="co">#&gt;    filter_on = list(</span></span>
-<span><span class="co">#&gt;   Perioden = c("2003JJ00", "2004JJ00", "2005JJ00", "2006JJ00", "2007JJ00", "2008JJ00", "2009JJ00"),</span></span>
-<span><span class="co">#&gt;   Topics = c("TotaleBevolking_1", "k_0Tot20Jaar_2", "k_20Tot65Jaar_3", "k_65JaarOfOuder_4", "k_0Tot20Jaar_5", "k_20Tot65Jaar_6", "k_65JaarOfOuder_7", "DemografischeDruk_8", "Levendgeborenen_9", "TotaalVruchtbaarheidscijfer_10", "Overledenen_11", "LevensverwachtingMannen_12", "LevensverwachtingVrouwen_13", "Immigratie_14", "EmigratieInclSaldoAdmCorrecties_15", "MigratiesaldoInclSaldoAdmCorr_16")</span></span>
+<span><span class="co">#&gt;   Perioden = c("2024MM01", "2024MM02", "2024MM03", "2024MM04", "2024MM05", "2024MM06", "2024MM07", "2024MM08", "2024MM09", "2024MM10", "2024MM11", "2024MM12", "2024JJ00"),</span></span>
+<span><span class="co">#&gt;   RegioS = "NL01"</span></span>
 <span><span class="co">#&gt;    )</span></span>
 <span><span class="co">#&gt; *  To select all data, set `filter_on` to `NULL`.</span></span></code></pre></div>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">obs</span><span class="op">)</span></span>
-<span><span class="co">#&gt;                                    Topics Perioden  OBS_VALUE UNIT_MEASURE</span></span>
-<span><span class="co">#&gt; 1                      Demografische druk     2004      0.624     absoluut</span></span>
-<span><span class="co">#&gt; 2                        65 jaar of ouder     2006     14.200            %</span></span>
-<span><span class="co">#&gt; 3                             Overledenen     2005 145188.000     absoluut</span></span>
-<span><span class="co">#&gt; 4                           0 tot 20 jaar     2005     24.500            %</span></span>
-<span><span class="co">#&gt; 5 Emigratie (incl. saldo adm. correcties)     2007  91274.000     absoluut</span></span>
-<span><span class="co">#&gt; 6                        65 jaar of ouder     2009     14.700            %</span></span>
-<span><span class="co">#&gt;   UNIT_MULT          OBS_MISSING</span></span>
-<span><span class="co">#&gt; 1  Eenheden het cijfer is bekend</span></span>
-<span><span class="co">#&gt; 2  Eenheden het cijfer is bekend</span></span>
-<span><span class="co">#&gt; 3  Eenheden het cijfer is bekend</span></span>
-<span><span class="co">#&gt; 4  Eenheden het cijfer is bekend</span></span>
-<span><span class="co">#&gt; 5  Eenheden het cijfer is bekend</span></span>
-<span><span class="co">#&gt; 6  Eenheden het cijfer is bekend</span></span>
-<span><span class="co">#&gt;                                                     DECIMALS OBS_STATUS</span></span>
-<span><span class="co">#&gt; 1                               het cijfer heeft 3 decimalen Definitief</span></span>
-<span><span class="co">#&gt; 2                                het cijfer heeft 1 decimaal Definitief</span></span>
-<span><span class="co">#&gt; 3 het cijfer heeft 0 decimalen of  of de waarde is een tekst Definitief</span></span>
-<span><span class="co">#&gt; 4                                het cijfer heeft 1 decimaal Definitief</span></span>
-<span><span class="co">#&gt; 5 het cijfer heeft 0 decimalen of  of de waarde is een tekst Definitief</span></span>
-<span><span class="co">#&gt; 6                                het cijfer heeft 1 decimaal Definitief</span></span></code></pre></div>
+<span><span class="co">#&gt;      RegioS Perioden                                 Topics OBS_VALUE</span></span>
+<span><span class="co">#&gt; 1 Nederland     2024 Bevolking aan het begin van de periode  17942942</span></span>
+<span><span class="co">#&gt; 2 Nederland     2024                Levend geboren kinderen    165404</span></span>
+<span><span class="co">#&gt; 3 Nederland     2024                            Overledenen    171945</span></span>
+<span><span class="co">#&gt; 4 Nederland     2024                       Totale vestiging   1116236</span></span>
+<span><span class="co">#&gt; 5 Nederland     2024   Vestiging vanuit een andere gemeente    802164</span></span>
+<span><span class="co">#&gt; 6 Nederland     2024                             Immigratie    314072</span></span>
+<span><span class="co">#&gt;   OBS_STATUS UNIT_MEASURE UNIT_MULT          OBS_MISSING</span></span>
+<span><span class="co">#&gt; 1  Voorlopig       aantal  Eenheden het cijfer is bekend</span></span>
+<span><span class="co">#&gt; 2  Voorlopig       aantal  Eenheden het cijfer is bekend</span></span>
+<span><span class="co">#&gt; 3  Voorlopig       aantal  Eenheden het cijfer is bekend</span></span>
+<span><span class="co">#&gt; 4  Voorlopig       aantal  Eenheden het cijfer is bekend</span></span>
+<span><span class="co">#&gt; 5  Voorlopig       aantal  Eenheden het cijfer is bekend</span></span>
+<span><span class="co">#&gt; 6  Voorlopig       aantal  Eenheden het cijfer is bekend</span></span></code></pre></div>
 </div>
   </main>
 </div>
