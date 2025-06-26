@@ -19,9 +19,7 @@ sdmx_parse_data_url <- function(x, resource = c("data", "metadata"), verbose = F
     c(resource, ( strsplit(path, "/") |> unlist() )) |>
     as.list()
 
-  if (resource == "data"){
-    names(parts) <- c("resource", "flowRef","key","providerRef")[seq_along(parts)]
-  }
+  names(parts) <- c("resource", "flowRef","key","providerRef")[seq_along(parts)]
 
   if (!is.null(parts$flowRef)){
     args <- parts$flowRef |> strsplit(",") |> unlist() |> as.list()
