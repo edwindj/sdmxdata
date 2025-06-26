@@ -73,3 +73,9 @@ is useful feature when the data has multiple measures or when the data is to
 presented as a time series.
 }
 }
+\seealso{
+Other retrieve data: 
+\code{\link{get_observations}()},
+\code{\link{get_observations_from_url}()}
+}
+\concept{retrieve data}

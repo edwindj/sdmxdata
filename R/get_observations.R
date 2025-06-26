@@ -27,6 +27,7 @@
 #' @param as.data.table If `TRUE` return a [data.table::data.table()], otherwise a [data.frame()]
 #' @return [data.frame()] or [data.table::data.table()] depending on `as.data.table`
 #' @example example/get_observations.R
+#' @family retrieve data
 #' @export
 get_observations <- function(
     endpoint  = NULL,

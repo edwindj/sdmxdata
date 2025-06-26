@@ -9,10 +9,11 @@
 #' @return when `return_query = FALSE` a data.frame with the observations, i.e.
 #' same output as [get_observations()]. Otherwise a list with the query object
 #' and the parameters
-#' @example example/get_observations_by_url.R
+#' @example example/get_observations_from_url.R
+#' @family retrieve data
 #' @export
-get_observations_by_url <- function(url, return_query = FALSE, verbose = FALSE){
-  res <- sdmx_parse_data_url(url, verbose = verbose)
+get_observations_from_url <- function(url, return_query = FALSE, verbose = FALSE){
+  res <- consume_sdmx_url(url, verbose = verbose)
 
   if (isTRUE(return_query)){
     return(res)

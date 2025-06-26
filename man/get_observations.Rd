@@ -94,3 +94,9 @@ ref <- dfs$ref[4]
 obs
 
 }
+\seealso{
+Other retrieve data: 
+\code{\link{get_data}()},
+\code{\link{get_observations_from_url}()}
+}
+\concept{retrieve data}

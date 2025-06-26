@@ -241,7 +241,7 @@ Use a URL to retrieve data:
 ``` r
 url <- "https://sdmx.oecd.org/public/rest/data/OECD.TAD.ARP,DSD_FISH_PROD@DF_FISH_AQUA,1.0/.A.._T.T?startPeriod=2010&dimensionAtObservation=AllDimensions"
 
-obs <- get_observations_by_url(url)
+obs <- get_observations_from_url(url)
 #> Retrieving data using the following statement:
 #>   get_observations(endpoint = "https://sdmx.oecd.org/public/rest", 
 #>       agencyID = "OECD.TAD.ARP", id = "DSD_FISH_PROD@DF_FISH_AQUA", 
@@ -275,7 +275,7 @@ Or return just the `sdmxdata::get_observations` command that would be
 used to retrieve the data:
 
 ``` r
-query <- get_observations_by_url(url, return_query = TRUE)
+query <- get_observations_from_url(url, return_query = TRUE)
 query
 #> $expr
 #> get_observations(endpoint = "https://sdmx.oecd.org/public/rest", 

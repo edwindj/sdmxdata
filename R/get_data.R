@@ -11,6 +11,7 @@
 #' @export
 #' @importFrom utils tail
 #' @inheritParams get_observations
+#' @family retrieve data
 #' @param pivot `character` The name of the column to pivot the data on.
 #' If `NULL` (default) the data is returned in a long format.
 #' @return a data.frame

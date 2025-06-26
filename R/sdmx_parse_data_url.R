@@ -13,7 +13,7 @@ sdmx_parse_data_url <- function(x, resource = c("data", "metadata"), verbose = F
   query <- sub("[^?]*\\??", "", x1[2])
 
   params <- parse_url_query(query)
-  params$dimensionAtObservation <- NULL
+  #params$dimensionAtObservation <- NULL
 
   parts <-
     c(resource, ( strsplit(path, "/") |> unlist() )) |>
@@ -21,45 +21,46 @@ sdmx_parse_data_url <- function(x, resource = c("data", "metadata"), verbose = F
 
   names(parts) <- c("resource", "flowRef","key","providerRef")[seq_along(parts)]
 
-  if (!is.null(parts$flowRef)){
-    args <- parts$flowRef |> strsplit(",") |> unlist() |> as.list()
-    names(args) <- c("agencyID", "id", "version")[seq_along(args)]
-    #TODO add language?
-    args$verbose <- verbose
+  # if (!is.null(parts$flowRef)){
+  #   args <- parts$flowRef |> strsplit(",") |> unlist() |> as.list()
+  #   names(args) <- c("agencyID", "id", "version")[seq_along(args)]
+  #   #TODO add language?
+  #   args$verbose <- verbose
+  #
+  #   if (!is.null(parts$key)){
+  #     dfs <- bquote(
+  #       get_dataflow_structure(
+  #         endpoint = .(endpoint),
+  #         ..(args)
+  #       ),
+  #       splice = TRUE
+  #     ) |> eval()
+  #
+  #     id <- dfs$columns$id
+  #     filter_on <-
+  #       parts$key |>
+  #       strsplit("\\.") |>
+  #       unlist() |>
+  #       lapply(\(x){
+  #         strsplit(x, "\\+") |> unlist()
+  #       })
+  #     names(filter_on) <- id[seq_along(filter_on)]
+  #     args$filter_on <- filter_on[sapply(filter_on, length) > 0]
+  #   } else {
+  #     args["filter_on"] = list(NULL)
+  #   }
+  # }
 
-    if (!is.null(parts$key)){
-      dfs <- bquote(
-        get_dataflow_structure(
-          endpoint = .(endpoint),
-          ..(args)
-        ),
-        splice = TRUE
-      ) |> eval()
+  # args <- c(args, params)
+  # expr <- bquote(
+  #   get_observations(endpoint = .(endpoint), ..(args)),
+  #   splice = TRUE
+  # )
 
-      id <- dfs$columns$id
-      filter_on <-
-        parts$key |>
-        strsplit("\\.") |>
-        unlist() |>
-        lapply(\(x){
-          strsplit(x, "\\+") |> unlist()
-        })
-      names(filter_on) <- id[seq_along(filter_on)]
-      args$filter_on <- filter_on[sapply(filter_on, length) > 0]
-    } else {
-      args["filter_on"] = list(NULL)
-    }
-  }
-
-  args <- c(args, params)
-  expr <- bquote(
-    get_observations(endpoint = .(endpoint), ..(args)),
-    splice = TRUE
-  )
-
-  list(
-    expr = expr,
-    args = c(list(endpoint = endpoint), args)
+  c(
+    list(endpoint = endpoint),
+    parts,
+    params
   )
 }
 
