@@ -246,7 +246,7 @@
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">url</span> <span class="op">&lt;-</span> <span class="st">"https://sdmx.oecd.org/public/rest/data/OECD.TAD.ARP,DSD_FISH_PROD@DF_FISH_AQUA,1.0/.A.._T.T?startPeriod=2010&amp;dimensionAtObservation=AllDimensions"</span></span>
 <span></span>
-<span><span class="va">obs</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_observations_by_url.html">get_observations_by_url</a></span><span class="op">(</span><span class="va">url</span><span class="op">)</span></span>
+<span><span class="va">obs</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_observations_from_url.html">get_observations_from_url</a></span><span class="op">(</span><span class="va">url</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Retrieving data using the following statement:</span></span>
 <span><span class="co">#&gt;   get_observations(endpoint = "https://sdmx.oecd.org/public/rest", </span></span>
 <span><span class="co">#&gt;       agencyID = "OECD.TAD.ARP", id = "DSD_FISH_PROD@DF_FISH_AQUA", </span></span>
@@ -276,7 +276,7 @@
 <span><span class="co">#&gt; 6 Live weight     &lt;NA&gt;</span></span></code></pre></div>
 <p>Or return just the <code><a href="reference/get_observations.html">sdmxdata::get_observations</a></code> command that would be used to retrieve the data:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">query</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_observations_by_url.html">get_observations_by_url</a></span><span class="op">(</span><span class="va">url</span>, return_query <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">query</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_observations_from_url.html">get_observations_from_url</a></span><span class="op">(</span><span class="va">url</span>, return_query <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">query</span></span>
 <span><span class="co">#&gt; $expr</span></span>
 <span><span class="co">#&gt; get_observations(endpoint = "https://sdmx.oecd.org/public/rest", </span></span>

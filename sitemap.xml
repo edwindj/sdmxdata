@@ -10,13 +10,14 @@
 <url><loc>https://edwindj.github.io/sdmxdata/reference/SDMXEndpoint.html</loc></url>
 <url><loc>https://edwindj.github.io/sdmxdata/reference/as.data.frame.sdmx_v2_1_data_request.html</loc></url>
 <url><loc>https://edwindj.github.io/sdmxdata/reference/as.data.table.sdmx_v2_1_data_request.html</loc></url>
+<url><loc>https://edwindj.github.io/sdmxdata/reference/data_request_from_url.html</loc></url>
 <url><loc>https://edwindj.github.io/sdmxdata/reference/download_to.html</loc></url>
 <url><loc>https://edwindj.github.io/sdmxdata/reference/endpoints.html</loc></url>
 <url><loc>https://edwindj.github.io/sdmxdata/reference/get_data.html</loc></url>
 <url><loc>https://edwindj.github.io/sdmxdata/reference/get_dataflow_structure.html</loc></url>
 <url><loc>https://edwindj.github.io/sdmxdata/reference/get_endpoint.html</loc></url>
 <url><loc>https://edwindj.github.io/sdmxdata/reference/get_observations.html</loc></url>
-<url><loc>https://edwindj.github.io/sdmxdata/reference/get_observations_by_url.html</loc></url>
+<url><loc>https://edwindj.github.io/sdmxdata/reference/get_observations_from_url.html</loc></url>
 <url><loc>https://edwindj.github.io/sdmxdata/reference/index.html</loc></url>
 <url><loc>https://edwindj.github.io/sdmxdata/reference/list_agencies.html</loc></url>
 <url><loc>https://edwindj.github.io/sdmxdata/reference/list_categoryschemes.html</loc></url>
