@@ -1,8 +1,9 @@
 library(tinytest)
 
 q <- "https://sdmx-api.beta.cbs.nl/rest/data/NL1,DF_TESTSET_X01,1.0/?startPeriod=2010&endPeriod=2011"
+q <- "https://sdmx-api.beta.cbs.nl/rest/data/NL1.CNVT,DF_85929NED,1.0/..2022JJ00+2023JJ00?dimensionAtObservation=AllDimensions"
 
-sdmx_parse_data_url <- sdmxdata:::sdmx_parse_data_url
+# sdmx_parse_data_url <- sdmxdata:::sdmx_parse_data_url
 
 u <- httr2::url_parse(q)
 res <- sdmx_parse_data_url(q)
