@@ -217,17 +217,17 @@
 <span><span class="co">#&gt; *  To select all data, set `filter_on` to `NULL`.</span></span></code></pre></div>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">obs</span><span class="op">)</span></span>
-<span><span class="co">#&gt;      RegioS Perioden                                 Topics   OBS_VALUE</span></span>
-<span><span class="co">#&gt; 1 Nederland     2024 Bevolking aan het einde van de periode 18045532.00</span></span>
-<span><span class="co">#&gt; 2 Nederland     2024        Bevolkingsgroei sinds 1 januari   102590.00</span></span>
-<span><span class="co">#&gt; 3 Nederland     2024              Bevolkingsgroei, relatief        0.57</span></span>
-<span><span class="co">#&gt; 4 Nederland     2024                        Bevolkingsgroei   102590.00</span></span>
-<span><span class="co">#&gt; 5 Nederland     2024                     Overige correcties        0.00</span></span>
-<span><span class="co">#&gt; 6 Nederland     2024    Emigratie inclusief adm. correcties   204941.00</span></span>
+<span><span class="co">#&gt;      RegioS Perioden                                 Topics OBS_VALUE</span></span>
+<span><span class="co">#&gt; 1 Nederland     2024 Bevolking aan het begin van de periode  17942942</span></span>
+<span><span class="co">#&gt; 2 Nederland     2024                Levend geboren kinderen    165404</span></span>
+<span><span class="co">#&gt; 3 Nederland     2024                            Overledenen    171945</span></span>
+<span><span class="co">#&gt; 4 Nederland     2024                       Totale vestiging   1116236</span></span>
+<span><span class="co">#&gt; 5 Nederland     2024   Vestiging vanuit een andere gemeente    802164</span></span>
+<span><span class="co">#&gt; 6 Nederland     2024                             Immigratie    314072</span></span>
 <span><span class="co">#&gt;   OBS_STATUS UNIT_MEASURE UNIT_MULT          OBS_MISSING</span></span>
 <span><span class="co">#&gt; 1  Voorlopig       aantal  Eenheden het cijfer is bekend</span></span>
 <span><span class="co">#&gt; 2  Voorlopig       aantal  Eenheden het cijfer is bekend</span></span>
-<span><span class="co">#&gt; 3  Voorlopig            %  Eenheden het cijfer is bekend</span></span>
+<span><span class="co">#&gt; 3  Voorlopig       aantal  Eenheden het cijfer is bekend</span></span>
 <span><span class="co">#&gt; 4  Voorlopig       aantal  Eenheden het cijfer is bekend</span></span>
 <span><span class="co">#&gt; 5  Voorlopig       aantal  Eenheden het cijfer is bekend</span></span>
 <span><span class="co">#&gt; 6  Voorlopig       aantal  Eenheden het cijfer is bekend</span></span></code></pre></div>
@@ -242,6 +242,77 @@
 <span><span class="co">#&gt; 4 EDUC                   CBS (Onderwijs)        &lt;NA&gt; NL1.EDUC</span></span>
 <span><span class="co">#&gt; 5 INCO      CBS (Inkomen en bestedingen)        &lt;NA&gt; NL1.INCO</span></span>
 <span><span class="co">#&gt; 6 HOUS             CBS (Bouwen en wonen)        &lt;NA&gt; NL1.HOUS</span></span></code></pre></div>
+<p>Use a URL to retrieve data:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">url</span> <span class="op">&lt;-</span> <span class="st">"https://sdmx.oecd.org/public/rest/data/OECD.TAD.ARP,DSD_FISH_PROD@DF_FISH_AQUA,1.0/.A.._T.T?startPeriod=2010&amp;dimensionAtObservation=AllDimensions"</span></span>
+<span></span>
+<span><span class="va">obs</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_observations_by_url.html">get_observations_by_url</a></span><span class="op">(</span><span class="va">url</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Retrieving data using the following statement:</span></span>
+<span><span class="co">#&gt;   get_observations(endpoint = "https://sdmx.oecd.org/public/rest", </span></span>
+<span><span class="co">#&gt;       agencyID = "OECD.TAD.ARP", id = "DSD_FISH_PROD@DF_FISH_AQUA", </span></span>
+<span><span class="co">#&gt;       version = "1.0", verbose = FALSE, filter_on = list(FREQ = "A", </span></span>
+<span><span class="co">#&gt;           SPECIES = "_T", UNIT_MEASURE = "T"), startPeriod = "2010")</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">obs</span><span class="op">)</span></span>
+<span><span class="co">#&gt;    REF_AREA   FREQ                MEASURE SPECIES UNIT_MEASURE TIME_PERIOD</span></span>
+<span><span class="co">#&gt; 1 Argentina Annual Aquaculture production   Total       Tonnes        2016</span></span>
+<span><span class="co">#&gt; 2 Argentina Annual Aquaculture production   Total       Tonnes        2017</span></span>
+<span><span class="co">#&gt; 3 Argentina Annual Aquaculture production   Total       Tonnes        2018</span></span>
+<span><span class="co">#&gt; 4 Australia Annual Aquaculture production   Total       Tonnes        2015</span></span>
+<span><span class="co">#&gt; 5 Australia Annual Aquaculture production   Total       Tonnes        2016</span></span>
+<span><span class="co">#&gt; 6 Australia Annual Aquaculture production   Total       Tonnes        2017</span></span>
+<span><span class="co">#&gt;   OBS_VALUE OBS_STATUS                 CONF_STATUS UNIT_MULT DECIMALS</span></span>
+<span><span class="co">#&gt; 1  3673.485       &lt;NA&gt; Free (free for publication)     Units     Zero</span></span>
+<span><span class="co">#&gt; 2  3567.760       &lt;NA&gt; Free (free for publication)     Units     Zero</span></span>
+<span><span class="co">#&gt; 3  3205.310       &lt;NA&gt; Free (free for publication)     Units     Zero</span></span>
+<span><span class="co">#&gt; 4 83074.900       &lt;NA&gt; Free (free for publication)     Units     Zero</span></span>
+<span><span class="co">#&gt; 5 91596.891       &lt;NA&gt; Free (free for publication)     Units     Zero</span></span>
+<span><span class="co">#&gt; 6 85335.483       &lt;NA&gt; Free (free for publication)     Units     Zero</span></span>
+<span><span class="co">#&gt;    CONVENTION CURRENCY</span></span>
+<span><span class="co">#&gt; 1 Live weight     &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 2 Live weight     &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 3 Live weight     &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 4 Live weight     &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 5 Live weight     &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 6 Live weight     &lt;NA&gt;</span></span></code></pre></div>
+<p>Or return just the <code><a href="reference/get_observations.html">sdmxdata::get_observations</a></code> command that would be used to retrieve the data:</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">query</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_observations_by_url.html">get_observations_by_url</a></span><span class="op">(</span><span class="va">url</span>, return_query <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">query</span></span>
+<span><span class="co">#&gt; $expr</span></span>
+<span><span class="co">#&gt; get_observations(endpoint = "https://sdmx.oecd.org/public/rest", </span></span>
+<span><span class="co">#&gt;     agencyID = "OECD.TAD.ARP", id = "DSD_FISH_PROD@DF_FISH_AQUA", </span></span>
+<span><span class="co">#&gt;     version = "1.0", verbose = FALSE, filter_on = list(FREQ = "A", </span></span>
+<span><span class="co">#&gt;         SPECIES = "_T", UNIT_MEASURE = "T"), startPeriod = "2010")</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $args</span></span>
+<span><span class="co">#&gt; $args$endpoint</span></span>
+<span><span class="co">#&gt; [1] "https://sdmx.oecd.org/public/rest"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $args$agencyID</span></span>
+<span><span class="co">#&gt; [1] "OECD.TAD.ARP"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $args$id</span></span>
+<span><span class="co">#&gt; [1] "DSD_FISH_PROD@DF_FISH_AQUA"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $args$version</span></span>
+<span><span class="co">#&gt; [1] "1.0"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $args$verbose</span></span>
+<span><span class="co">#&gt; [1] FALSE</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $args$filter_on</span></span>
+<span><span class="co">#&gt; $args$filter_on$FREQ</span></span>
+<span><span class="co">#&gt; [1] "A"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $args$filter_on$SPECIES</span></span>
+<span><span class="co">#&gt; [1] "_T"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $args$filter_on$UNIT_MEASURE</span></span>
+<span><span class="co">#&gt; [1] "T"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $args$startPeriod</span></span>
+<span><span class="co">#&gt; [1] "2010"</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="license">
