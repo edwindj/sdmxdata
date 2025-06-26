@@ -24,9 +24,9 @@ sdmx_parse_data_url <- function(x, resource = c("data", "metadata"), verbose = F
   }
 
   if (!is.null(parts$flowRef)){
-    args <- parts$flowRef |> strsplit(",") |> unlist()
+    args <- parts$flowRef |> strsplit(",") |> unlist() |> as.list()
     names(args) <- c("agencyID", "id", "version")[seq_along(args)]
-    args <- c(args, params)
+    #TODO add language?
     args$verbose <- verbose
 
     if (!is.null(parts$key)){
@@ -53,6 +53,7 @@ sdmx_parse_data_url <- function(x, resource = c("data", "metadata"), verbose = F
     }
   }
 
+  args <- c(args, params)
   expr <- bquote(
     get_observations(endpoint = .(endpoint), ..(args)),
     splice = TRUE

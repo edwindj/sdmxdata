@@ -206,17 +206,17 @@ obs <- CBSbeta |> get_observations(id="DF_37230ned", agencyID="NL1.CNVT")
 
 ``` r
 head(obs)
-#>      RegioS Perioden                                 Topics   OBS_VALUE
-#> 1 Nederland     2024 Bevolking aan het einde van de periode 18045532.00
-#> 2 Nederland     2024        Bevolkingsgroei sinds 1 januari   102590.00
-#> 3 Nederland     2024              Bevolkingsgroei, relatief        0.57
-#> 4 Nederland     2024                        Bevolkingsgroei   102590.00
-#> 5 Nederland     2024                     Overige correcties        0.00
-#> 6 Nederland     2024    Emigratie inclusief adm. correcties   204941.00
+#>      RegioS Perioden                                 Topics OBS_VALUE
+#> 1 Nederland     2024 Bevolking aan het begin van de periode  17942942
+#> 2 Nederland     2024                Levend geboren kinderen    165404
+#> 3 Nederland     2024                            Overledenen    171945
+#> 4 Nederland     2024                       Totale vestiging   1116236
+#> 5 Nederland     2024   Vestiging vanuit een andere gemeente    802164
+#> 6 Nederland     2024                             Immigratie    314072
 #>   OBS_STATUS UNIT_MEASURE UNIT_MULT          OBS_MISSING
 #> 1  Voorlopig       aantal  Eenheden het cijfer is bekend
 #> 2  Voorlopig       aantal  Eenheden het cijfer is bekend
-#> 3  Voorlopig            %  Eenheden het cijfer is bekend
+#> 3  Voorlopig       aantal  Eenheden het cijfer is bekend
 #> 4  Voorlopig       aantal  Eenheden het cijfer is bekend
 #> 5  Voorlopig       aantal  Eenheden het cijfer is bekend
 #> 6  Voorlopig       aantal  Eenheden het cijfer is bekend
@@ -234,4 +234,82 @@ head(agencies)
 #> 4 EDUC                   CBS (Onderwijs)        <NA> NL1.EDUC
 #> 5 INCO      CBS (Inkomen en bestedingen)        <NA> NL1.INCO
 #> 6 HOUS             CBS (Bouwen en wonen)        <NA> NL1.HOUS
+```
+
+Use a URL to retrieve data:
+
+``` r
+url <- "https://sdmx.oecd.org/public/rest/data/OECD.TAD.ARP,DSD_FISH_PROD@DF_FISH_AQUA,1.0/.A.._T.T?startPeriod=2010&dimensionAtObservation=AllDimensions"
+
+obs <- get_observations_by_url(url)
+#> Retrieving data using the following statement:
+#>   get_observations(endpoint = "https://sdmx.oecd.org/public/rest", 
+#>       agencyID = "OECD.TAD.ARP", id = "DSD_FISH_PROD@DF_FISH_AQUA", 
+#>       version = "1.0", verbose = FALSE, filter_on = list(FREQ = "A", 
+#>           SPECIES = "_T", UNIT_MEASURE = "T"), startPeriod = "2010")
+head(obs)
+#>    REF_AREA   FREQ                MEASURE SPECIES UNIT_MEASURE TIME_PERIOD
+#> 1 Argentina Annual Aquaculture production   Total       Tonnes        2016
+#> 2 Argentina Annual Aquaculture production   Total       Tonnes        2017
+#> 3 Argentina Annual Aquaculture production   Total       Tonnes        2018
+#> 4 Australia Annual Aquaculture production   Total       Tonnes        2015
+#> 5 Australia Annual Aquaculture production   Total       Tonnes        2016
+#> 6 Australia Annual Aquaculture production   Total       Tonnes        2017
+#>   OBS_VALUE OBS_STATUS                 CONF_STATUS UNIT_MULT DECIMALS
+#> 1  3673.485       <NA> Free (free for publication)     Units     Zero
+#> 2  3567.760       <NA> Free (free for publication)     Units     Zero
+#> 3  3205.310       <NA> Free (free for publication)     Units     Zero
+#> 4 83074.900       <NA> Free (free for publication)     Units     Zero
+#> 5 91596.891       <NA> Free (free for publication)     Units     Zero
+#> 6 85335.483       <NA> Free (free for publication)     Units     Zero
+#>    CONVENTION CURRENCY
+#> 1 Live weight     <NA>
+#> 2 Live weight     <NA>
+#> 3 Live weight     <NA>
+#> 4 Live weight     <NA>
+#> 5 Live weight     <NA>
+#> 6 Live weight     <NA>
+```
+
+Or return just the `sdmxdata::get_observations` command that would be
+used to retrieve the data:
+
+``` r
+query <- get_observations_by_url(url, return_query = TRUE)
+query
+#> $expr
+#> get_observations(endpoint = "https://sdmx.oecd.org/public/rest", 
+#>     agencyID = "OECD.TAD.ARP", id = "DSD_FISH_PROD@DF_FISH_AQUA", 
+#>     version = "1.0", verbose = FALSE, filter_on = list(FREQ = "A", 
+#>         SPECIES = "_T", UNIT_MEASURE = "T"), startPeriod = "2010")
+#> 
+#> $args
+#> $args$endpoint
+#> [1] "https://sdmx.oecd.org/public/rest"
+#> 
+#> $args$agencyID
+#> [1] "OECD.TAD.ARP"
+#> 
+#> $args$id
+#> [1] "DSD_FISH_PROD@DF_FISH_AQUA"
+#> 
+#> $args$version
+#> [1] "1.0"
+#> 
+#> $args$verbose
+#> [1] FALSE
+#> 
+#> $args$filter_on
+#> $args$filter_on$FREQ
+#> [1] "A"
+#> 
+#> $args$filter_on$SPECIES
+#> [1] "_T"
+#> 
+#> $args$filter_on$UNIT_MEASURE
+#> [1] "T"
+#> 
+#> 
+#> $args$startPeriod
+#> [1] "2010"
 ```

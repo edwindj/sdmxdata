@@ -109,3 +109,17 @@ agencies <- CBSbeta |> list_agencies()
 head(agencies)
 ```
 
+Use a URL to retrieve data:
+
+```{r}
+url <- "https://sdmx.oecd.org/public/rest/data/OECD.TAD.ARP,DSD_FISH_PROD@DF_FISH_AQUA,1.0/.A.._T.T?startPeriod=2010&dimensionAtObservation=AllDimensions"
+
+obs <- get_observations_by_url(url)
+head(obs)
+```
+
+Or return just the `sdmxdata::get_observations` command that would be used to retrieve the data:
+```{r}
+query <- get_observations_by_url(url, return_query = TRUE)
+query
+```

@@ -1,6 +1,6 @@
 # retrieve an external url pointing to sdmx data
 
-url <- "https://sdmx-api.beta.cbs.nl/rest/data/NL1.CNVT,DF_85929NED,1.0/..2022JJ00+2023JJ00?dimensionAtObservation=AllDimensions"
+url <- "https://sdmx.oecd.org/public/rest/data/OECD.TAD.ARP,DSD_FISH_PROD@DF_FISH_AQUA,1.0/.A.._T.T?startPeriod=2010&dimensionAtObservation=AllDimensions"
 
 obs <- get_observations_by_url(url)
 head(obs)
