@@ -8,7 +8,8 @@ ref <- dfs$ref[4]
     ref = ref,
     filter_on = list(
       "Perioden" = c("2009JJ00")
-    )
+    ),
+    verbose = TRUE
   )
 
 obs

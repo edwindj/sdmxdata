@@ -1,7 +1,7 @@
 #' Get observations from an SDMX provider
 #'
 #' Get observations from an SDMX provider. It retrieves the
-#' data from the SDMX provider and returns it as a data.frame.
+#' data from the SDMX provider and returns it as a `data.frame`.
 #'
 #' By default the dimension and attribute columns are recoded to
 #' factors with labels. This can be changed with the `dim_contents` and
@@ -10,7 +10,7 @@
 #' @param agencyID The agency ID
 #' @param id The id of the dataflow
 #' @param version The version of the dataflow, default "latest"
-#' @param ref The dataflow reference can be used in stead of agencyID, id and version
+#' @param ref The dataflow reference can be used in stead of `agencyID`, `id` and `version`
 #' @param startPeriod The start period for which the data should be returned, works only for dataflows with an explicit time dimension.
 #' @param endPeriod The end period for which the data should be returned, works only for dataflows with an explicit time dimension.
 #' @param filter_on A named list of filters to apply to the data, if not specified or `list()`, it is the default selection, set to `NULL` to select all.

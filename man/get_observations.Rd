@@ -35,7 +35,7 @@ get_observations(
 
 \item{version}{The version of the dataflow, default "latest"}
 
-\item{ref}{The dataflow reference can be used in stead of agencyID, id and version}
+\item{ref}{The dataflow reference can be used in stead of \code{agencyID}, \code{id} and \code{version}}
 
 \item{startPeriod}{The start period for which the data should be returned, works only for dataflows with an explicit time dimension.}
 
@@ -70,7 +70,7 @@ get_observations(
 }
 \description{
 Get observations from an SDMX provider. It retrieves the
-data from the SDMX provider and returns it as a data.frame.
+data from the SDMX provider and returns it as a \code{data.frame}.
 }
 \details{
 By default the dimension and attribute columns are recoded to
@@ -88,7 +88,8 @@ ref <- dfs$ref[4]
     ref = ref,
     filter_on = list(
       "Perioden" = c("2009JJ00")
-    )
+    ),
+    verbose = TRUE
   )
 
 obs

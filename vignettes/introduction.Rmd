@@ -27,7 +27,7 @@ To retrieve a list of tables:
 
 
 ```{r}
-dfs <- list_dataflows()
+dfs <- list_dataflows(cache=FALSE)
 dfs[, 1:5] |> 
   head()
 ```
@@ -49,4 +49,6 @@ obs <-   obs <- get_observations(id="DF_37230ned", agencyID="NL1.CNVT")
 ```{r}
 head(obs)
 ```
+
+
 

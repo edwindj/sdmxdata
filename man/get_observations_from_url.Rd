@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_observations_from_url.R
 \name{get_observations_from_url}
 \alias{get_observations_from_url}
-\title{Get observations using data-explorer url}
+\title{Get observations using a data-explorer url}
 \usage{
 get_observations_from_url(url, return_query = FALSE, verbose = FALSE)
 }

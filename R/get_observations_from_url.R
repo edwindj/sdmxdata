@@ -1,4 +1,4 @@
-#' Get observations using data-explorer url
+#' Get observations using a data-explorer url
 #'
 #' Retrieve observations using the url from the data-explorer. The url given
 #' will be parsed and translated into a [get_observations()] call, to get you started.
@@ -19,9 +19,10 @@ get_observations_from_url <- function(url, return_query = FALSE, verbose = FALSE
     return(res)
   }
 
-  message("Retrieving data using the following statement:\n",
-          paste0("  ", res$expr |> deparse() |> paste(collapse = "\n  "))
-  )
+    message("Retrieving data using the following statement:\n",
+            paste0("  ", res$expr |> deparse() |> paste(collapse = "\n  "))
+    )
+
 
   obs <- eval(res$expr)
   obs

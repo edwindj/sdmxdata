@@ -32,7 +32,7 @@ get_data(
 
 \item{version}{The version of the dataflow, default "latest"}
 
-\item{ref}{The dataflow reference can be used in stead of agencyID, id and version}
+\item{ref}{The dataflow reference can be used in stead of \code{agencyID}, \code{id} and \code{version}}
 
 \item{startPeriod}{The start period for which the data should be returned, works only for dataflows with an explicit time dimension.}
 
